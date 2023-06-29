@@ -55,7 +55,7 @@ class ProductServiceApplicationTests {
 				  .contentType(MediaType.APPLICATION_JSON)
 				  .content(interestRequestString))
 				.andExpect(status().isAccepted());
-		Assertions.assertEquals(1, interestRepository.findAll().size());
+		Assertions.assertEquals(2, interestRepository.findAll().size());
 	}
 
 	@Test
