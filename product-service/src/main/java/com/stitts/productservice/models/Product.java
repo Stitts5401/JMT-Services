@@ -1,15 +1,19 @@
-package com.stitts.productservice.dto;
+package com.stitts.productservice.models;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@Builder
+@Document(value = "Interest")
 @AllArgsConstructor
 @NoArgsConstructor
-public class InterestRequest {
+@Builder
+@Data
+public class Product {
+    private String id;
     private String name;
     private String description;
     private String email;
