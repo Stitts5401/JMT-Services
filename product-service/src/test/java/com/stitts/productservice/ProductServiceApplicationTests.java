@@ -2,9 +2,9 @@ package com.stitts.productservice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
-import com.stitts.productservice.dto.InterestRequest;
-import com.stitts.productservice.models.Interest;
-import com.stitts.productservice.repository.InterestRepository;
+import com.stitts.productservice.dto.ProductRequest;
+import com.stitts.productservice.models.Product;
+import com.stitts.productservice.repository.ProductRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +38,7 @@ class ProductServiceApplicationTests {
 	@Autowired
 	private ObjectMapper objectMapper;
 	@Autowired
-	private InterestRepository interestRepository;
+	private ProductRepository interestRepository;
 
 	@DynamicPropertySource
 	static void setProperties(DynamicPropertyRegistry dynamicPropertyRegistry ){
@@ -48,8 +48,8 @@ class ProductServiceApplicationTests {
 	@Test
 	void shouldCreateInterestRequest() throws Exception {
 
-		InterestRequest interestRequest = getInterestRequest();
-		String interestRequestString = objectMapper.writeValueAsString(interestRequest);
+		ProductRequest productRequest = getInterestRequest();
+		String interestRequestString = objectMapper.writeValueAsString(productRequest);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/interest")
 				  .contentType(MediaType.APPLICATION_JSON)
@@ -61,8 +61,8 @@ class ProductServiceApplicationTests {
 	@Test
 	void shouldGetInterestRequest() throws Exception {
 
-		InterestRequest interestRequest = getInterestRequest();
-		String interestRequestString = objectMapper.writeValueAsString(interestRequest);
+		ProductRequest productRequest = getInterestRequest();
+		String interestRequestString = objectMapper.writeValueAsString(productRequest);
 
 		mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/interest")
 						.contentType(MediaType.APPLICATION_JSON)
@@ -75,14 +75,14 @@ class ProductServiceApplicationTests {
 		MockHttpServletResponse mvcResultResponse = mvcResult.getResponse();
 
 		CollectionType listType =
-				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Interest.class);
-		List<Interest> asList = objectMapper.readValue(
+				objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Product.class);
+		List<Product> asList = objectMapper.readValue(
 				mvcResultResponse.getContentAsString(), listType);
 		Assertions.assertEquals( asList.get(0),  interestRepository.findAll().get(0));
 	}
 
-	private InterestRequest getInterestRequest() {
-		return InterestRequest.builder()
+	private ProductRequest getInterestRequest() {
+		return ProductRequest.builder()
 				.name("John")
 				.description("Interested in you.")
 				.email("john@aol1q23.com")

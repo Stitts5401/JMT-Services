@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class InterestRequest {
+public class ProductRequest {
     private String name;
     private String description;
     private String email;

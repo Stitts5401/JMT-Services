@@ -7,12 +7,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(value = "Interest")
+@Document(value = "Product")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Data
-public class Interest {
+public class Product {
     private String id;
     private String name;
     private String description;
