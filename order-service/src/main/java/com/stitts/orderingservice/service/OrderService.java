@@ -3,13 +3,14 @@ package com.stitts.orderingservice.service;
 import com.stitts.orderingservice.dto.InventoryResponse;
 import com.stitts.orderingservice.dto.OrderLineItemsDto;
 import com.stitts.orderingservice.dto.OrderRequest;
+import com.stitts.orderingservice.event.OrderPlacedEvent;
 import com.stitts.orderingservice.models.Order;
 import com.stitts.orderingservice.models.OrderLineItems;
 import com.stitts.orderingservice.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.sleuth.Span;
 import org.springframework.cloud.sleuth.Tracer;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -23,6 +24,7 @@ import java.util.UUID;
 @Transactional
 public class OrderService {
 
+    private final KafkaTemplate<String, OrderPlacedEvent> kafkaTemplate;
     private final OrderRepository orderRepository;
     private final WebClient.Builder webClientBuilder;
     private final Tracer tracer;
@@ -60,6 +62,8 @@ public class OrderService {
             }
 
             orderRepository.save(order);
+
+            kafkaTemplate.send("notificationTopic", new OrderPlacedEvent(order.getOrderNumber()));
             return "Order Placed Successfully";
 
         } finally {
