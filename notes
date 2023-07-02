@@ -1,6 +1,7 @@
 KEYCLOAK:
 
 docker run -p 8181:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:21.1.2 start-dev
+docker run -d -p 9411:9411 openzipkin/zipkin
 
 http://localhost:*****/actuator/health
 http://localhost:DEFAULTPORT/zipkin/
