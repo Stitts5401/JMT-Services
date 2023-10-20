@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -14,14 +14,14 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-    /** User zone index. */
-    @GetMapping("/account-profile.html")
-    public Mono<String> userIndex() {
-        return Mono.just("account-profile");
+    /** User zone home. */
+    @GetMapping(value = "/account-profile")
+    public Mono<String> userhome() {
+        return Mono.just("/user/account-profile");
     }
-    /** Administration zone index. */
-    @GetMapping("/admin/account-profile.html")
-    public Mono<String> adminIndex() {
+    /** Administration zone home. */
+    @GetMapping("/admin/account-profile")
+    public Mono<String> adminhome() {
         return Mono.just("/admin/account-profile");
     }
     @GetMapping("/{email}")
