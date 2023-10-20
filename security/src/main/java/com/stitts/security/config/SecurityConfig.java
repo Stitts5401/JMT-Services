@@ -31,14 +31,12 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity http) {
         final RedirectServerLogoutSuccessHandler logoutSuccessHandler = new RedirectServerLogoutSuccessHandler();
-        final RoleBasedAuthenticationSuccessHandler authenticationSuccessHandler = new RoleBasedAuthenticationSuccessHandler();
         final RedirectServerAuthenticationFailureHandler authenticationFailureHandler = new RedirectServerAuthenticationFailureHandler("/login");
 
         logoutSuccessHandler.setLogoutSuccessUrl(URI.create("/home"));
 
         return http
-                .formLogin().loginPage("/login")
-                .authenticationSuccessHandler(authenticationSuccessHandler).authenticationFailureHandler(authenticationFailureHandler)
+                .formLogin().loginPage("/login").authenticationFailureHandler(authenticationFailureHandler)
                 .authenticationManager(reactiveAuthenticationManager())
                 .and()
                 .logout().logoutSuccessHandler(logoutSuccessHandler)
