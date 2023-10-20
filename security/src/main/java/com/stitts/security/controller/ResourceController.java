@@ -11,7 +11,7 @@ import java.util.Locale;
 public class ResourceController {
     @RequestMapping("/")
     public Mono<String> root(Locale locale) {
-        return Mono.just("redirect:/home");
+        return Mono.just("/home");
     }
     /** Home page. */
     @RequestMapping("/home")

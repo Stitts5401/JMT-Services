@@ -6,18 +6,20 @@ import com.stitts.security.exceptions.UserNotFoundException;
 import com.stitts.security.repository.RoleRepository;
 import com.stitts.security.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.HashSet;
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     public Mono<User> findByEmail(String email) {
+        log.info("findByEmail: " + email);
         return userRepository.findByEmail(email)
                 .switchIfEmpty(Mono.error(new UserNotFoundException("User not found with email: " + email)));
     }
@@ -32,12 +34,15 @@ public class UserService {
         return userRepository.deleteById(id);
     }
     public Mono<User> findUserWithRolesByEmail(String email) {
-        return userRepository.findByEmail(email)
+
+        return findByEmail(email)
                 .flatMap(user -> {
-                    return roleRepository.findRolesByUserId(user.getId())
+                    Mono<User> userMono = roleRepository.findRolesByUserId(user.getId())
                             .collectList()
-                            .doOnNext(user::setRoles)  // Given the setRoles method you provided
+                            .doOnNext(user::setRoles)
                             .thenReturn(user);
+                    log.info("User Service details: "+ user.toString());
+                    return userMono;
                 });
     }
 

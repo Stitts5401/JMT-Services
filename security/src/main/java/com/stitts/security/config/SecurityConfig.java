@@ -12,16 +12,13 @@ import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationFailureHandler;
-import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
-import org.springframework.session.data.redis.config.annotation.web.server.EnableRedisWebSession;
 
 import java.net.URI;
 
 @Configuration
 @EnableWebFluxSecurity
 @EnableReactiveMethodSecurity
-@EnableRedisWebSession
 public class SecurityConfig {
 
     private final CustomReactiveUserDetailsService customReactiveUserDetailsService;
@@ -34,7 +31,7 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(final ServerHttpSecurity http) {
         final RedirectServerLogoutSuccessHandler logoutSuccessHandler = new RedirectServerLogoutSuccessHandler();
-        final RoleBasedAuthenticationSuccessHandler  authenticationSuccessHandler = new RoleBasedAuthenticationSuccessHandler();
+        final RoleBasedAuthenticationSuccessHandler authenticationSuccessHandler = new RoleBasedAuthenticationSuccessHandler();
         final RedirectServerAuthenticationFailureHandler authenticationFailureHandler = new RedirectServerAuthenticationFailureHandler("/login");
 
         logoutSuccessHandler.setLogoutSuccessUrl(URI.create("/home"));
@@ -49,7 +46,7 @@ public class SecurityConfig {
                 // Authorization Configuration
                 .authorizeExchange()
                 // Explicitly permit access to static resources and certain routes
-                .pathMatchers("/static/**", "/login-error", "/login", "/home", "/error", "/about").permitAll()
+                .pathMatchers("/static/**", "/login-error", "/login", "/loginProcess", "/home", "/error", "/about").permitAll()
                 // Specific role-based matchers
                 .pathMatchers("/admin/**").hasRole("ADMIN")
                 .pathMatchers("/user/**").hasRole("USER")
@@ -62,7 +59,6 @@ public class SecurityConfig {
                 .and()
                 .build();
     }
-
     @Bean
     public ReactiveAuthenticationManager reactiveAuthenticationManager() {
         UserDetailsRepositoryReactiveAuthenticationManager authenticationManager =

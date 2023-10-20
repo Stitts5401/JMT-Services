@@ -2,6 +2,7 @@ package com.stitts.security.entity;
 import com.stitts.security.entity.Role;
 import com.stitts.security.entity.User;
 import lombok.Getter;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
+@ToString
 public class CustomUserDetails implements UserDetails {
     private final User user;
     public CustomUserDetails(User user) {

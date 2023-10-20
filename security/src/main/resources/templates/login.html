@@ -40,12 +40,10 @@
 									<p class="mb-0">New here?<a href="sign-up.html"> Create an account</a></p>
 
 									<!-- Form START -->
-									<form class="mt-4 text-start" method="post" th:action="@{/login}">
+									<form class="mt-4 text-start" method="post" th:action="@{/loginProcess}">
 										<!-- Errors -->
-										<div th:if="${loginError}" class="alert alert-danger" role="alert">Invalid
-											username and password.</div>
-										<div th:if="${notFound}" class="alert alert-success" role="alert">You
-											have been logged out.</div>
+										<div th:if="${loginError}" class="alert alert-danger" role="alert">Invalid Credentials</div>
+										<div th:if="${notFound}" class="alert alert-danger" role="alert">User not found</div>
 
 										<!-- Email -->
 										<div class="mb-3">
