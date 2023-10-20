@@ -15,7 +15,7 @@ public class CustomReactiveUserDetailsService implements ReactiveUserDetailsServ
 
     @Override
     public Mono<UserDetails> findByUsername(String username) {
-        return userService.findByEmail(username)
+        return userService.findUserWithRolesByEmail(username)
                 .map(CustomUserDetails::new);
     }
 

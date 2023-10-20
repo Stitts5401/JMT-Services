@@ -11,25 +11,25 @@ import java.util.Locale;
 public class ResourceController {
     @RequestMapping("/")
     public Mono<String> root(Locale locale) {
-        return Mono.just("redirect:/index.html");
+        return Mono.just("redirect:/home");
     }
     /** Home page. */
-    @RequestMapping("/index.html")
-    public Mono<String> index() {
-        return Mono.just("index");
+    @RequestMapping("/home")
+    public Mono<String> home() {
+        return Mono.just("home");
     }
     /** Sign in page. */
-    @RequestMapping("/sign-up.html")
+    @RequestMapping("/sign-up")
     public Mono<String> signUp() {
         return Mono.just("sign-up");
     }
     /** Simulation of an exception. */
-    @RequestMapping("/simulateError.html")
+    @RequestMapping("/simulateError")
     public void simulateError() {
         throw new RuntimeException("This is a simulated error message");
     }
     /** Error page. */
-    @RequestMapping("/error.html")
+    @RequestMapping("/error")
     public Mono<String> forbidden() {
         return Mono.just("error");
     }
