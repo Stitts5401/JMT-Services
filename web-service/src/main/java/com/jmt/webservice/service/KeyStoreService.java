@@ -1,5 +1,6 @@
 package com.jmt.webservice.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
@@ -11,9 +12,13 @@ public class KeyStoreService {
 
     private static final String KEYSTORE_TYPE = "PKCS12";
     private static final String KEYSTORE_PATH = "classpath:jwt.p12"; // Assuming you've put jwt.p12 in resources folder
-    private static final String KEYSTORE_PASSWORD = "your_keystore_password";
+
     private static final String KEY_ALIAS = "jwtkey";
-    private static final String KEY_PASSWORD = "your_key_password";
+    @Value("${keystore.password}")
+    private String KEYSTORE_PASSWORD;
+
+    @Value("${key.password}")
+    private String KEY_PASSWORD;
 
     public Key getJwtSigningKey() {
         try {
