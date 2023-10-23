@@ -3,9 +3,9 @@ package com.jmt.webservice.service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.InputStream;
 import java.security.Key;
 import java.security.KeyStore;
-import java.io.InputStream;
 
 @Service
 public class KeyStoreService {
