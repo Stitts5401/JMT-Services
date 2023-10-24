@@ -2,56 +2,72 @@ package com.jmt.webservice.service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.security.Key;
+import java.util.Date;
 import java.util.List;
+import java.util.function.Function;
 
 @Service
 public class JwtTokenUtil {
 
-    @Autowired
-    private KeyStoreService keyStoreService;
-
-    private Key SECRET_KEY;
-
-    @PostConstruct
-    public void init() {
-        this.SECRET_KEY = keyStoreService.getJwtSigningKey();
-    }
-    public String getUsernameFromToken(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-    public Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
+    @Value("${application.security.jwt.secret-key}")
+    private String secretKey;
+    @Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;
+    @Value("${application.security.jwt.refresh-token.expiration}")
+    private long refreshExpiration;
+    private Key getSignInKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        return Keys.hmacShaKeyFor(keyBytes);
     }
 
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
     public String decodeRoleFromJwt(String token) {
-        List<String> roles = getRolesFromToken(token);
-        // Example logic: if multiple roles, pick the "highest" or return first for simplicity
-        return roles.isEmpty() ? "USER" : roles.get(0);
+        Claims claims = extractAllClaims(token);
+        return claims.get("role", String.class);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
     }
 
     public String determineRedirectPathBasedOnRole(String role) {
-        switch(role) {
-            case "ADMIN":
-                return "/admin/dashboard";
-            case "USER":
-                return "/user/home";
-            case "CONTRACTOR":
-                return "/contractor/overview";
-            case "CREATOR":
-                return "/creator/workspace";
-            default:
-                return "/login";  // Or some default path
-        }
+        return switch (role) {
+            case "ADMIN" -> "/admin/dashboard";
+            case "USER" -> "/user/home";
+            case "CONTRACTOR" -> "/contractor/overview";
+            case "CREATOR" -> "/creator/workspace";
+            default -> "/login";  // Or some default path
+        };
     }
-
-    public List<String> getRolesFromToken(String token) {
-        Claims claims = extractAllClaims(token);
-        return claims.get("roles", List.class);
+    public Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignInKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
     }
 
 }

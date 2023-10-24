@@ -1,24 +1,22 @@
 ---
 version: '3'
 services:
-  ## MySQL Docker Compose Config
-#  postgres-order:
-#    container_name: postgres-order
-#    image: postgres
-#    environment:
-#      POSTGRES_DB: order-service
-#      POSTGRES_USER: ptechie
-#      POSTGRES_PASSWORD: password
-#      PGDATA: /data/postgres
-#    volumes:
-#      - ./postgres-order:/data/postgres
-#    expose:
-#      - "5431"
-#    ports:
-#      - "5431:5431"
-#    command: -p 5431
-#    restart: unless-stopped
-#
+
+  mysql:
+    image: mysql:latest
+    container_name: JMT_SQL_Container
+    environment:
+      MYSQL_ROOT_PASSWORD: new_password
+      MYSQL_DATABASE: jmt
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: ADMIN1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./database_export.sql:/docker-entrypoint-initdb.d/database_export.sql
+
+
+  #
 #  postgres-inventory:
 #    container_name: postgres-inventory
 #    image: postgres

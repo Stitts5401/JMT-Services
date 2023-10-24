@@ -1,7 +1,6 @@
 package main;
 
 import com.jmt.webservice.WebServiceApplication;
-import com.jmt.webservice.controller.LoginController;
 import com.jmt.webservice.model.LoginForm;
 import com.jmt.webservice.service.WebService;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 import static org.mockito.ArgumentMatchers.any;
