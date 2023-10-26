@@ -1,6 +1,6 @@
 package com.stitts.apigateway.auditing;
 
-import com.stitts.apigateway.config.security.ReactiveUserDetails;
+import com.stitts.apigateway.entity.ReactiveUserDetails;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.ReactiveAuditorAware;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

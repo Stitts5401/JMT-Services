@@ -40,7 +40,7 @@
 									<p class="mb-0">New here?<a href="sign-up.html"> Create an account</a></p>
 
 									<!-- Form START -->
-									<form class="mt-4 text-start" method="post" th:action="@{/verify-login}">
+									<form class="form-signin mt-4 text-start" method="post" th:action="@{/login}">
 										<!-- Errors -->
 										<div th:if="${loginError}" class="alert alert-danger" role="alert">Invalid Credentials</div>
 										<div th:if="${notFound}" class="alert alert-danger" role="alert">User not found</div>
@@ -58,6 +58,10 @@
 											<span class="position-absolute top-50 end-0 translate-middle-y p-0 mt-3">
                                                 <i class="fakepasswordicon fas fa-eye-slash cursor-pointer p-2"></i>
                                             </span>
+										</div>
+										<div class="mb-3">
+											<input type="checkbox" id="remember" name="remember" class="form-check-input">
+											<label for="remember" class="form-check-label">Remember me</label>
 										</div>
 										<!-- Button -->
 										<div><button type="submit" class="btn btn-primary w-100 mb-0">Login</button></div>

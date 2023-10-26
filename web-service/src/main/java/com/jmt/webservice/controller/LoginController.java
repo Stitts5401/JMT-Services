@@ -1,26 +1,39 @@
 package com.jmt.webservice.controller;
 
 import com.jmt.webservice.model.LoginForm;
-import com.jmt.webservice.service.WebService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
+@RequestMapping("/")
 public class LoginController {
-
-    private final WebService webService;
-
-    public LoginController(WebService webService) {
-        this.webService = webService;
+    /** Home page. */
+    @RequestMapping("/")
+    public Mono<String> root() {
+        return Mono.just("home");
+    }    /** Home page. */
+    @RequestMapping("/home")
+    public Mono<String> home() {
+        return Mono.just("home");
     }
-
+    /** Sign in page. */
+    @RequestMapping("/sign-up")
+    public Mono<String> signUp() {
+        return Mono.just("sign-up");
+    }
+    /** Simulation of an exception. */
+    @RequestMapping("/simulateError")
+    public void simulateError() {
+        throw new RuntimeException("This is a simulated error message");
+    }
     @GetMapping("/login")
     public Mono<String> login(ServerWebExchange exchange, Model model) {
         return exchange.getSession().flatMap(session -> {
@@ -32,22 +45,9 @@ public class LoginController {
                 model.addAttribute("loginError", true);
                 session.getAttributes().remove("loginError");
             }
-            return Mono.just("login"); // assuming "login" is the name of your login view
+            return Mono.just("login");
         });
     }
-
-    @GetMapping("/login-error")
-    public Mono<String> loginError(Model model) {
-        model.addAttribute("loginError", Boolean.TRUE);
-        return Mono.just("/login-error");
-    }
-    @PostMapping("/verify-login")
-    public Mono<String> loginUser(@ModelAttribute LoginForm loginForm, Model model, ServerWebExchange exchange) {
-        //call webservice to authenticate user
-        return webService.authenticateAndRedirect(loginForm, model, exchange);
-    }
-
-
 }
 
 

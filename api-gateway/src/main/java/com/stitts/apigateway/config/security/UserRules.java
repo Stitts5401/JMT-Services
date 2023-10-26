@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Getter
 @RequiredArgsConstructor
-
 public enum UserRules {
 
   USER(Collections.emptySet()),
@@ -37,7 +37,6 @@ public enum UserRules {
 
   ;
 
-  @Getter
   private final Set<Permission> permissions;
 
   public List<SimpleGrantedAuthority> getAuthorities() {

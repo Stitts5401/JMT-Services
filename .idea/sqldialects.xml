@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
+    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java/com/stitts/apigateway/repository/RoleRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java/com/stitts/apigateway/repository/TokenRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java/com/stitts/apigateway/repository/UserRepository.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/database_export.sql" dialect="MySQL" />
   </component>
 </project>

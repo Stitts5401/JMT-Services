@@ -1,9 +1,11 @@
 package com.stitts.apigateway.config.security;
 
+import com.stitts.apigateway.entity.ReactiveUserDetails;
 import com.stitts.apigateway.model.ChangePasswordRequest;
 import com.stitts.apigateway.exception.UserNotFoundException;
 import com.stitts.apigateway.repository.RoleRepository;
 import com.stitts.apigateway.repository.UserRepository;
+import com.stitts.apigateway.repository.TokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Primary;
@@ -24,13 +26,15 @@ public class CustomUserDetailsService implements ReactiveUserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
+    private final TokenRepository tokenRepository;
     private PasswordEncoder passwordEncoder;
     @Override
     public Mono<UserDetails> findByUsername(String username) {
         return findUserWithRolesByEmail(username)
                 .log()
-                .map(user -> (UserDetails) user)
-                .doOnNext(customUserDetails -> log.info("Fetched user details: {}", customUserDetails));
+                .map(user -> (UserDetails) user)  // Casting is fine if ReactiveUserDetails implements UserDetails
+                .doOnNext(customUserDetails -> log.info("Fetched user details: {}", customUserDetails))
+                .doOnError(throwable -> log.error("Error fetching user details: {}", throwable.getMessage()));
     }
     public Mono<ReactiveUserDetails> findUserByUsername(String email) {
         log.info("findByEmail: " + email);
@@ -51,12 +55,29 @@ public class CustomUserDetailsService implements ReactiveUserDetailsService {
         return findUserByUsername(email)
                 .log()
                 .flatMap(user -> roleRepository.findRolesByUserId(user.getId())
+                        //TODO: Handle exception in UI
+                        .switchIfEmpty(Mono.error(new IllegalStateException("No roles assigned to user")))
                         .flatMap( role -> {
                             user.setRole(role);
                             return Mono.just(user);
+                        }).flatMap(user1 -> tokenRepository.findTokenByUserId(user.getId()))
+                        //TODO: Handle exception in UI)
+                        .flatMap( token -> {
+                            if (token == null) {
+                                return Mono.just(user);
+                            }
+                            user.setToken(token);
+                            return Mono.just(user);
                         })
-                .doOnNext(userObject -> log.info("User Service details: {}", user))
+                                .onErrorResume( throwable -> {
+                                    log.error("Error fetching user details: {}", throwable.getMessage());
+                                    return Mono.error(throwable);
+                                })
+                .doOnNext(userObject -> log.info("User Service details: {}", userObject))
                 );
+    }
+    public Mono<ReactiveUserDetails> findTokensByUserId(String email) {
+        return null;
     }
     public Mono<Void> changePassword(ChangePasswordRequest request, Principal connectedUser) {
         var user = (ReactiveUserDetails) ((UsernamePasswordAuthenticationToken) connectedUser).getPrincipal();

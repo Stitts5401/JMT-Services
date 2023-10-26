@@ -1,14 +1,10 @@
 package com.stitts.apigateway.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class ChangePasswordRequest {
-
     private String currentPassword;
     private String newPassword;
     private String confirmationPassword;
