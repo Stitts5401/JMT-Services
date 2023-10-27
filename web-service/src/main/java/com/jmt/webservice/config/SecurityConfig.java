@@ -64,7 +64,7 @@ public class SecurityConfig {
                 .logoutSuccessHandler(logoutSuccessHandler)
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(new CustomAuthenticationEntryPoint())
+                //.authenticationEntryPoint(new CustomAuthenticationEntryPoint())
                 .and()
                 .build();
     }

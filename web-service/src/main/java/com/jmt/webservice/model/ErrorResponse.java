@@ -1,12 +1,15 @@
 package com.jmt.webservice.model;
 
-import lombok.Builder;
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.*;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 
 @Data
-@Builder
+@NoArgsConstructor
 public class ErrorResponse {
+    @JsonProperty("message")
     private String message;
+    @JsonProperty("details")
     private String details;
 }

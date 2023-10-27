@@ -6,11 +6,12 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 
 
 @Configuration
-@EnableWebSecurity
+@EnableWebFluxSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Value("${eureka.username}")
@@ -24,8 +25,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //in production use a stronger password encoder like "Big Crypt"
                 .passwordEncoder(NoOpPasswordEncoder.getInstance())
                 .withUser(username).password(password)
-                .authorities("USER");
+                .authorities("ADMIN");
     }
+
+
     @Override
     public void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
