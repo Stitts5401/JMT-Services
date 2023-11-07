@@ -1,0 +1,8 @@
+{
+  "realm": "jmtdev",
+  "auth-server-url": "http://localhost:8080",
+  "resource": "jmtdev-client",
+  "credentials": {
+    "secret": "secret"
+  }
+}

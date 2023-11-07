@@ -1,0 +1,40 @@
+server:
+  port: 8090
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
+
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: jmtdev-client
+            client-secret: lVXTZEcgL5ESTlc08pOdqSsdKUWZ0h9f
+            client-name: keycloak
+            authorization-grant-type: authorization_code
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope:
+                - openid
+                - profile
+                - email
+          github:
+            client-id: 30daa2055b90920902fd
+            client-secret: dd917ed10d5841e1ec9b08213bb95f8a386d9510
+            client-name: github
+            redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/auth/realms/jmtdev_realm
+            authorization-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/auth
+            token-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/token
+            user-info-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/certs
+

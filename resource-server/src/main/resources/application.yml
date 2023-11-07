@@ -1,0 +1,33 @@
+server:
+  port: 8282
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: TRACE
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/auth/realms/jmtdev_realm
+
+jwt:
+  auth:
+    converter:
+      resource-id: jmtdev-client
+      principal-attribute: preferred_username
+      role-prefix: ROLE_
+      jwt-realm-access-claim: resource_access
+      jwt-uri: http://localhost:8080/auth/realms/jmtdev_realm/
