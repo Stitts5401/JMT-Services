@@ -11,7 +11,6 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 @Configuration
 public class WebClientConfiguration {
-
   @Bean
   WebClient webClient(
       ReactiveClientRegistrationRepository clientRegistrationRepository,
@@ -23,10 +22,4 @@ public class WebClientConfiguration {
     oauth.setDefaultClientRegistrationId("keycloak");
     return WebClient.builder().filter(oauth).build();
   }
-//  @Bean
-//  public SpringTemplateEngine templateEngine() {
-//    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-//    templateEngine.addDialect(new SpringSecurityDialect());
-//    return templateEngine;
-//  }
 }

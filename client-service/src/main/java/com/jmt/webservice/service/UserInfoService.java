@@ -30,6 +30,7 @@ public class UserInfoService {
             return authorizedClientRepository.loadAuthorizedClient(clientRegistrationId, principalName)
                     .flatMap(this::fetchUserInfoFromResourceServer);
         }
+
         private Mono<UserInfo> fetchUserInfoFromResourceServer(OAuth2AuthorizedClient authorizedClient) {
             OAuth2AccessToken accessToken = authorizedClient.getAccessToken();
             String jwtToken = accessToken.getTokenValue(); // The JWT token
@@ -45,4 +46,5 @@ public class UserInfoService {
                     .bodyToMono(UserInfo.class)
                     .onErrorResume(Mono::error);
         }
+
     }

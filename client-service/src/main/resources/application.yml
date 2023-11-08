@@ -5,7 +5,12 @@ logging:
     root: INFO
     org.springframework.web: INFO
     org.springframework.security: TRACE
-
+keycloak:
+  client:
+    id: jmtdev-client
+    secret: lVXTZEcgL5ESTlc08pOdqSsdKUWZ0h9f
+  logout:
+    url: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/logout
 spring:
   security:
     oauth2:
@@ -37,4 +42,5 @@ spring:
             token-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/token
             user-info-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/userinfo
             jwk-set-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/certs
+
 

@@ -69,9 +69,9 @@ images/logo-dark.svg" alt="logo">
 				<!-- Dark mode options END -->
 				<!-- Sign In button -->
 				<li th:unless="${#authentication?.authenticated}" class="nav-item">
-					<a th:href="@{/login}" class="btn btn-sm btn-primary mb-0"><i
+					<a th:href="@{/welcome-directory}" class="btn btn-sm btn-primary mb-0"><i
 							class="fa-solid fa-right-to-bracket me-sm-2"></i><span
-							class="d-none d-sm-inline">Sign Up</span></a>
+							class="d-none d-sm-inline">Login</span></a>
 				</li>
 				<li th:if="${#authentication?.authenticated}" class="nav-item">
 					<a th:href="@{/account/info}" class="btn btn-sm btn-primary mb-0"><i

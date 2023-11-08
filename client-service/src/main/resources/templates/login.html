@@ -40,7 +40,7 @@
 									<p class="mb-0">New here?<a href="sign-up.html"> Create an account</a></p>
 
 									<!-- Form START -->
-									<form class="form-signin mt-4 text-start" method="get" th:action="@{/welcome}">
+									<form class="form-signin mt-4 text-start" method="get" th:action="@{/welcome-directory}">
 										<!-- Errors -->
 										<div th:if="${authError}" class="alert alert-danger" role="alert">Authentication Error!</div>
 										<div th:if="${logoutSuccess}" class="alert alert-success" role="alert">Successfully logged out!</div>
