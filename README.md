@@ -4,7 +4,7 @@
 
 ## Authors
 
-- **Your Name** - *Initial work and Future Development* - [Stitts5401](https://github.com/Stitts5401)
+- **Jaden Stittsworth** - *Initial work and Future Development* - [Stitts5401](https://github.com/Stitts5401)
 
 ## License
 
