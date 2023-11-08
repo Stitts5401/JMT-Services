@@ -1,0 +1,9 @@
+server:
+    port: 8282
+jwt:
+  auth:
+    converter:
+      resource-id: jmtdev-client
+      role-prefix: ROLE_
+      jwt-realm-access-claim: resource_access
+      jwt-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/certs

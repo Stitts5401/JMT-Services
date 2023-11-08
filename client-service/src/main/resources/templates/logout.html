@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{/fragments/head :: head}"
+>
+    <title>Logout</title>
+</head>
+
+<body>
+<div>
+    <h1>Logout</h1>
+    <p>Successfully logged out!</p>
+    <a th:href="@{/home}">Login</a>
+    <a th:text="'Principal: '+ ${#authentication?.getPrincipal()}">Principal</a>
+
+</div>
+</body>
+</html>

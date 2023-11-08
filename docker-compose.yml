@@ -1,0 +1,91 @@
+---
+version: '3'
+services:
+
+  mysql:
+    image: mysql:latest
+    container_name: JMT_SQL_Container
+    environment:
+      MYSQL_ROOT_PASSWORD: new_password
+      MYSQL_DATABASE: jmt
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: ADMIN1234
+    ports:
+      - "3308:3306"
+    volumes:
+      - ./database_export.sql:/docker-entrypoint-initdb.d/database_export.sql
+
+
+  #
+#  postgres-inventory:
+#    container_name: postgres-inventory
+#    image: postgres
+#    environment:
+#      POSTGRES_DB: inventory-service
+#      POSTGRES_USER: ptechie
+#      POSTGRES_PASSWORD: password
+#      PGDATA: /data/postgres
+#    volumes:
+#      - ./postgres-inventory:/data/postgres
+#    ports:
+#      - "5432:5432"
+#    restart: unless-stopped
+
+  ## Mongo Docker Compose Config
+#  mongo:
+#    container_name: mongo
+#    image: mongo:4.4.14-rc0-focal
+#    restart: unless-stopped
+#    ports:
+#      - "27017:27017"
+#    expose:
+#      - "27017"
+#    volumes:
+#      - ./mongo-data:/data/db
+
+
+  ## Zipkin
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
+
+  ## Eureka Server
+  discovery-server:
+    image: discovery-server:latest
+    container_name: discovery-server
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+  api-gateway:
+    image: api-gateway:latest
+    container_name: api-gateway
+    ports:
+      - "8181:8080"
+    expose:
+      - "8181"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
+      - KEYSTORE_PASSWORD=password
+      - KEY_PASSWORD=password
+      - spring_r2dbc_password=Password@123
+      - spring_r2dbc_username=ADMIN
+    depends_on:
+      - zipkin
+      - discovery-server
+  ## Product-Service Docker Compose Config
+  web-service:
+    image: web-service:latest
+    container_name: web-service
+    ports:
+      - "8414:8090"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - discovery-server
+      - api-gateway
