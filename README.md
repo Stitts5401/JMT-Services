@@ -23,11 +23,12 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## TODO
 
 - [ ] Unit tests
+- [ ] Blob storage and secrets (Spring Cloud Azure)
 - [ ] Job Service
 - [ ] User Service
 - [ ] Job pages
 - [ ] User pages
 - [ ] Messaging (Websockets)
 - [ ] Notifications
-- [ ] Deployment
+- [ ] Deployment (Azure Spring Apps)
       
