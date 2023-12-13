@@ -7,3 +7,11 @@ jwt:
       role-prefix: ROLE_
       jwt-realm-access-claim: resource_access
       jwt-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/certs
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://eureka-server:8761/eureka

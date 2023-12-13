@@ -354,76 +354,65 @@
                                         </div>
                                     </div>
 
-                                    <!-- Name -->
+                                </form>
+                                <form class="row g-3" id="updateAccountForm" th:action="@{/account/update-account}" th:object="${userInfo}" method="post">                                    <!-- Name -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Full Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control"
-                                               th:value="${firstname} +' '+ ${lastname}"
-                                               placeholder="Enter your full name">
+                                        <label class="form-label">Firstname<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" th:field="*{firstname}" placeholder="Enter your firstname">
                                     </div>
-
+                                    <div class="col-md-6">
+                                        <label class="form-label">Lastname<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" th:field="*{lastname}" placeholder="Enter your lastname">
+                                    </div>
                                     <!-- Email -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Email address<span
-                                                class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" value="hello@gmail.com"
-                                               placeholder="Enter your email id">
+                                        <label class="form-label">Email address<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" th:field="*{email}" placeholder="Enter your email id">
                                     </div>
                                     <!-- Mobile -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Mobile number<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" th:value="${phone}"
-                                               placeholder="Enter your mobile number">
+                                        <label class="form-label">Mobile number<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Enter your mobile number">
                                     </div>
                                     <!-- Nationality -->
                                     <div class="col-md-6">
                                         <label class="form-label">Nationality<span class="text-danger">*</span></label>
-                                        <select class="form-select js-choice">
-                                            <option value="">Select your country</option>
-                                            <option>USA</option>
-                                            <option selected>Paris</option>
-                                            <option>India</option>
-                                            <option>UK</option>
+                                        <select class="form-select js-choice" th:field="*{nationality}">
+                                            <option value="">Select your nationality</option>
+                                            <th:block th:each="nation : ${nationalities}">
+                                                <option th:text="${nation}" th:value="${nation}" th:selected="${nation == currentNationality}"></option>
+                                            </th:block>
                                         </select>
                                     </div>
                                     <!-- Date of birth -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Date of Birth<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control flatpickr" value="29 Aug 1996"
-                                               placeholder="Enter date of birth" data-date-format="d M Y">
+                                        <label class="form-label">Date of Birth<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control flatpickr" th:field="*{dateOfBirth}" placeholder="Enter date of birth" data-date-format="d M Y">
                                     </div>
                                     <!-- Address -->
                                     <div class="col-12">
                                         <label class="form-label">Address</label>
-                                        <textarea class="form-control" rows="3" spellcheck="false">2119 N Division Ave, New Hampshire, York, United States</textarea>
-                                    </div>
-
-
-                                    <div id='wrap'>
-                                        <div class='field'></div>
-                                        <form class='signup'>
-                                            <input class='email' placeholder='email' type='email'>
-                                            <div class='btnwrap custom'>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <b>Subscribe</b>
-                                                <div class='blob'></div>
-                                                <input type='submit' value='Subscribe'>
-                                            </div>
-                                        </form>
+                                        <textarea class="form-control" rows="3" th:field="*{address}" placeholder="Address here."></textarea>
                                     </div>
 
                                     <!-- Button -->
                                     <div class="col-12 text-end">
-                                        <a href="#" class="btn btn-primary mb-0">Save Changes</a>
+                                        <button type="submit" id="submitBtn" class="btn btn-primary mb-0">Save Changes</button>
+                                    </div>
+                                    <!-- Error Message -->
+                                    <div class="col-12 text-end">
+                                        <span th:if="${hasError}" th:text="${errorMsg}" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Success Message -->
+                                    <div class="col-12 text-end">
+                                        <span id="successMessage" class="text-success"></span>
                                     </div>
                                 </form>
+                                <div class="col-12 text-center" id="loadingSpinner" style="display: none;">
+                                    <span class="spinner-border text-primary" role="status"></span>
+                                </div>
+
                                 <!-- Form END -->
                             </div>
                             <!-- Card body END -->

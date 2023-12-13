@@ -19,6 +19,7 @@
         <module>client-service</module>
         <module>jmt-common</module>
         <module>config-service</module>
+        <module>user-service</module>
     </modules>
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
@@ -60,7 +61,7 @@
                 <scope>import</scope>
             </dependency>
             <!--        WebFlux-->
-            <dependency >
+            <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-webflux</artifactId>
                 <version>${org.springframework.boot}</version>
@@ -71,7 +72,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                <version>3.1.5</version>
+                <version>${org.springframework.boot}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -93,7 +94,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-data-r2dbc</artifactId>
-                <version>${spring-boot-data-r2dbc.version}</version>
+                <version>${org.springframework.boot}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -167,14 +168,14 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-test</artifactId>
-                <version>3.1.5</version>
+                <version>${org.springframework.boot}</version>
                 <scope>test</scope>
                 <type>pom</type>
             </dependency>
             <dependency>
                 <groupId>io.projectreactor</groupId>
                 <artifactId>reactor-test</artifactId>
-                <version>${reactor-test.version}</version>
+                <version>3.6.0</version>
                 <scope>test</scope>
                 <type>pom</type>
             </dependency>
@@ -195,7 +196,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-devtools</artifactId>
-                <version>3.1.5</version>
+                <version>${org.springframework.boot}</version>
                 <scope>runtime</scope>
                 <type>pom</type>
                 <optional>true</optional>
@@ -207,7 +208,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--            JWT-->
+            <!--            JWT-->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-api</artifactId>
@@ -243,6 +244,17 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:20</image>
+                    </from>
+                    <to><image>registry.hub.docker.com/stitts5401/${project.artifactId}</image></to>
                 </configuration>
             </plugin>
         </plugins>

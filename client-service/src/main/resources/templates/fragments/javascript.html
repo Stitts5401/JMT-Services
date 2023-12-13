@@ -35,6 +35,61 @@
     <script th:src="@{/assets/vendor/choices/js/choices.min.js}"></script>
     <script th:src="@{/assets/js/functions.js}"></script>
     <script th:src="@{/assets/js/custom.js}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const form = document.getElementById('updateAccountForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const loadingSpinner = document.getElementById('loadingSpinner');
+            const errorMessage = document.getElementById('errorMessage');
+            const successMessage = document.getElementById('successMessage');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                // Show loading spinner and hide the submit button
+                submitBtn.style.display = 'none';
+                loadingSpinner.style.display = 'block';
+
+                const url = form.getAttribute('action');
+                const formData = new FormData(form);
+                const formDataJson = Object.fromEntries(formData.entries());
+
+                fetch(url, {
+                    method: 'POST',
+                    body: JSON.stringify(formDataJson),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok ' + response.statusText);
+                        }
+                        return response.text(); // or response.json() if your server responds with JSON
+                    })
+                    .then(data => {
+                        // Handle success
+                        successMessage.textContent = 'Account updated successfully!';
+                        errorMessage.textContent = ''; // Clear any previous error messages
+
+                        // Optionally refresh the form or the part of the page
+                        // location.reload(); // Uncomment to refresh the page
+                    })
+                    .catch((error) => {
+                        // Handle error
+                        errorMessage.textContent = error.message;
+                        successMessage.textContent = ''; // Clear any previous success messages
+                    })
+                    .finally(() => {
+                        // Hide loading spinner and show the submit button again
+                        loadingSpinner.style.display = 'none';
+                        submitBtn.style.display = 'block';
+                    });
+            });
+        });
+    </script>
+
 </div>
 
 </body>

@@ -1,0 +1,8 @@
+server:
+  port: 8585
+keycloak:
+  password-change:
+    url: http://localhost:8080/auth/realms/jmtdev_realms/account/credentials/password
+spring:
+  application:
+    name: user-service

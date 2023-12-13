@@ -1,14 +1,21 @@
 package com.jmt.webservice.controller;
 
+import com.jmt.webservice.literal.NationalityData;
+import com.jmt.webservice.model.UserInfo;
+import com.jmt.webservice.service.AccountService;
 import com.jmt.webservice.service.UserInfoService;
+import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
@@ -20,6 +27,7 @@ import reactor.core.publisher.Mono;
 public class AccountController {
 
     private final UserInfoService userInfoService;
+    private final AccountService accountService;
     @GetMapping("/info")
     public Mono<String> getUserAccountInfo(Model model, @AuthenticationPrincipal OAuth2AuthenticationToken oauthToken) {
 
@@ -39,16 +47,12 @@ public class AccountController {
                         int percentComplete = 0;
                         if (verifiedEmail) percentComplete += 50;
                         if (isComplete) percentComplete += 50;
-                        model.addAttribute("firstname", userInfo.getFirstname());
-                        model.addAttribute("lastname", userInfo.getLastname());
-                        model.addAttribute("email", userInfo.getEmail());
-                        model.addAttribute("phone", userInfo.getEmail());
+
                         model.addAttribute("emailVerified", verifiedEmail);
                         model.addAttribute("isComplete", isComplete);
                         model.addAttribute("percentComplete", percentComplete);
-                        model.addAttribute("isAdmin", userInfo.getRoles().stream().anyMatch(role -> role.contains("admin")));
-                        model.addAttribute("isUser", userInfo.getRoles().stream().anyMatch(role -> role.contains("user")));
-                        model.addAttribute("jobs", userInfo.getJobs());
+                        model.addAttribute("nationalities", NationalityData.getCommonNationalities());
+                        model.addAttribute("userInfo", userInfo);
                     }
                 })
                 .then(Mono.fromCallable(() -> "account/info")) // defer the rendering until the userInfo Mono completes
@@ -65,4 +69,47 @@ public class AccountController {
         return session.invalidate()
                 .then( Mono.just("home") );
     }
+
+    @PostMapping("/update-account")
+    private Mono<Void> updateAccount(@RequestBody UserInfo userInfo, Model model, @AuthenticationPrincipal OAuth2AuthenticationToken oauthToken) {
+        return userInfoService.retrieveUserInfo(oauthToken)
+                .log()
+                .flatMap(dbInfo -> {
+
+                    Errors errors = new BeanPropertyBindingResult(userInfo, "userInfo");
+                    userInfo.validate(userInfo, errors);
+
+                    if (errors.hasErrors()) {
+                        model.addAttribute("hasError", true);
+                        model.addAttribute("errorMsg", errors.getAllErrors().get(0).getDefaultMessage());
+                        return Mono.error(new ValidationException(String.valueOf(errors))); // Custom exception
+                    }
+
+                    Mono<Void> emailUpdateMono = dbInfo.getEmail().equals(userInfo.getEmail()) ?
+                            Mono.empty() :
+                            accountService.updateEmail(oauthToken, userInfo.getEmail());
+
+                    Mono<Void> phoneUpdateMono = dbInfo.getPhoneNumber().equals(userInfo.getPhoneNumber()) ?
+                            Mono.empty() :
+                            accountService.updatePhoneNumber(oauthToken, userInfo.getPhoneNumber());
+
+                    Mono<Void> addressUpdateMono = dbInfo.getAddress().equals(userInfo.getAddress()) ?
+                            Mono.empty() :
+                            accountService.updateAddress(oauthToken, userInfo.getAddress());
+
+                    Mono<Void> firstNameUpdateMono = dbInfo.getFirstname().equals(userInfo.getFirstname()) ?
+                            Mono.empty() :
+                            accountService.updateFirstName(oauthToken, userInfo.getFirstname());
+
+                    Mono<Void> lastNameUpdateMono = dbInfo.getLastname().equals(userInfo.getLastname()) ?
+                            Mono.empty() :
+                            accountService.updateLastName(oauthToken, userInfo.getLastname());
+
+                    model.addAttribute("successMessage", "Account updated successfully!");
+                    return Mono.when(emailUpdateMono, phoneUpdateMono, addressUpdateMono, firstNameUpdateMono, lastNameUpdateMono);
+
+                });
+    }
+
+
 }

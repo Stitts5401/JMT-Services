@@ -20,7 +20,7 @@ public class UserInfoService {
 
         public UserInfoService(WebClient.Builder webClientBuilder,
                                ReactiveOAuth2AuthorizedClientService authorizedClientRepository) {
-            this.webClient = webClientBuilder.baseUrl("http://localhost:8282").build();
+            this.webClient = webClientBuilder.baseUrl("http://api-gateway:8282").build();
             this.authorizedClientRepository = authorizedClientRepository;
         }
         public Mono<UserInfo> retrieveUserInfo(OAuth2AuthenticationToken oauthToken) {
