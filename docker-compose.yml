@@ -23,8 +23,11 @@ services:
       - "3308:3306"
     volumes:
       - ./database_export.sql:/docker-entrypoint-initdb.d/database_export.sql
+
   postgres:
     image: postgres
+    networks:
+      - microservices-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
     container_name: postgres
@@ -42,6 +45,8 @@ services:
       - postgres
     ports:
       - "8080:8080"
+    expose:
+      - "8080"
     environment:
       KEYCLOAK_USER: admin
       KEYCLOAK_PASSWORD: admin
@@ -85,13 +90,16 @@ services:
     networks:
       - microservices-network
     ports:
-      - "8383:8090"
+      - "8383:8080"
+    expose:
+      - "8383"
     container_name: client-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - zipkin
       - eureka-server
+      - keycloak
       - api-gateway
 
   user-service:

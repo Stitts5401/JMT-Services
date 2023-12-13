@@ -2,6 +2,7 @@ package com.jmt.webservice.service;
 
 import com.jmt.webservice.model.UserInfo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
@@ -15,12 +16,14 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class UserInfoService {
 
+    @Value("${host.gateway}")
+    private String url ;
     private final WebClient webClient;
     private final ReactiveOAuth2AuthorizedClientService authorizedClientRepository;
 
         public UserInfoService(WebClient.Builder webClientBuilder,
                                ReactiveOAuth2AuthorizedClientService authorizedClientRepository) {
-            this.webClient = webClientBuilder.baseUrl("http://api-gateway:8282").build();
+            this.webClient = webClientBuilder.baseUrl(url).build();
             this.authorizedClientRepository = authorizedClientRepository;
         }
         public Mono<UserInfo> retrieveUserInfo(OAuth2AuthenticationToken oauthToken) {

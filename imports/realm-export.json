@@ -817,7 +817,25 @@
         "phone",
         "offline_access",
         "microprofile-jwt"
-      ]
+      ],
+      "authorizationSettings": {
+        "allowRemoteResourceManagement": false,
+        "policyEnforcementMode": "ENFORCING",
+        "resources": [
+          {
+            "name": "Default Resource",
+            "type": "urn:jmt_client:resources:default",
+            "ownerManagedAccess": false,
+            "attributes": {},
+            "_id": "eed71b1f-94f9-47c7-8f79-a173658d32e4",
+            "uris": [
+              "/*"
+            ]
+          }
+        ],
+        "scopes": [],
+        "decisionStrategy": "UNANIMOUS"
+      }
     },
     {
       "id": "406abf79-74fd-4974-8762-f172d1ac3c2f",

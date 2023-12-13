@@ -78,12 +78,7 @@ public class SecurityConfiguration {
 
                 .build();
     }
-//    ServerLogoutSuccessHandler logoutSuccessHandler(ReactiveClientRegistrationRepository authorizedClientRepository) {
-//        OidcClientInitiatedServerLogoutSuccessHandler oidcLogoutSuccessHandler =
-//                new OidcClientInitiatedServerLogoutSuccessHandler(authorizedClientRepository);
-//        oidcLogoutSuccessHandler.setPostLogoutRedirectUri("{baseUrl}/home");
-//        return oidcLogoutSuccessHandler;
-//    }
+
     private Mono<Void> oauth2AuthenticationSuccessHandler(WebFilterExchange webFilterExchange, Authentication authentication) {
         return redirectUser(webFilterExchange);
     }

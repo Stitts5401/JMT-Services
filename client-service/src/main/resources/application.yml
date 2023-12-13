@@ -1,3 +1,5 @@
+host:
+  gateway: http://localhost:8282
 server:
   port: 8090
 logging:
@@ -12,7 +14,7 @@ logging:
 keycloak:
   client:
     id: jmt-client
-    secret: 8MISC0VSwXZ7jIu9WeqWRHCYhH5HHmaK
+    secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
   logout:
     url: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
 spring:
@@ -37,7 +39,7 @@ spring:
         registration:
           keycloak:
             client-id: jmt_client
-            client-secret: 8MISC0VSwXZ7jIu9WeqWRHCYhH5HHmaK
+            client-secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
             client-name: keycloak
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
@@ -56,11 +58,11 @@ spring:
               - email
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/auth/realms/jmt_realm
-            authorization-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/auth
+            issuer-uri: http://localhost:8080/realms/jmt_realm
+            authorization-uri: http://localhost:8080/realms/jmt_realm/protocol/openid-connect/auth
             token-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/token
-            user-info-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/userinfo
-            jwk-set-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/certs
+            user-info-uri: http://localhost:8080/realms/jmt_realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://localhost:8080/realms/jmt_realm/protocol/openid-connect/certs
 
 eureka:
   client:

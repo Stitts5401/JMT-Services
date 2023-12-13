@@ -1,3 +1,5 @@
+host:
+  gateway: http://api-gateway:8282
 server:
   port: 8080
 logging:
@@ -6,13 +8,13 @@ logging:
       springframework:
         security: DEBUG
     root: INFO
-    org.springframework.web: INFO
-    org.springframework.security: TRACE
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
 
 keycloak:
   client:
-    id: jmt-client
-    secret: 8MISC0VSwXZ7jIu9WeqWRHCYhH5HHmaK
+    id: jmt_client
+    secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
   logout:
     url: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
 spring:
@@ -36,8 +38,8 @@ spring:
       client:
         registration:
           keycloak:
-            client-id: jmt-client
-            client-secret: 8MISC0VSwXZ7jIu9WeqWRHCYhH5HHmaK
+            client-id: jmt_client
+            client-secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
             client-name: keycloak
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
@@ -56,9 +58,9 @@ spring:
               - email
         provider:
           keycloak:
-            issuer-uri: http://keycloak:8080/realms/jmt_realm
-            authorization-uri: http://keycloak:8080/realms/jmt_realm/protocol/openid-connect/auth
-            token-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/token
+            issuer-uri: http://keycloak:8080/auth/realms/jmt_realm
+            authorization-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/auth
+            token-uri: http://localhost:8080/auth/auth/realms/jmt_realm/protocol/openid-connect/token
             user-info-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/userinfo
             jwk-set-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/certs
 

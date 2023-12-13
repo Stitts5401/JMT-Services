@@ -1,6 +1,7 @@
 package com.jmt.webservice.service;
 
 import net.minidev.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -13,12 +14,14 @@ import reactor.core.publisher.Mono;
 @Component
 public class GatewayRequest {
 
+    @Value("${host.gateway}")
+    private String url ;
     private final WebClient webClient;
     private final ReactiveOAuth2AuthorizedClientService authorizedClientRepository;
 
     public GatewayRequest(WebClient.Builder webClientBuilder,
                            ReactiveOAuth2AuthorizedClientService authorizedClientRepository) {
-        this.webClient = webClientBuilder.baseUrl("http://api-gateway:8282").build();
+        this.webClient = webClientBuilder.baseUrl(url).build();
         this.authorizedClientRepository = authorizedClientRepository;
     }
 
