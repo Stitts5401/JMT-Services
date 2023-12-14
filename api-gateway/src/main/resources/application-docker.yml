@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:password@discovery-service:8761/eureka
+
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://keycloak:8080/auth/realms/jmt_realm
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: r2dbc:mysql://mysql:3308/jmt
+    password: ADMIN1234
+    username: admin
+#keycloak:
+#  auth-server-url: http://keycloak:8080/auth
+#  realm: JMT_Microservices
+#  resource: api-gateway
+#  ssl-required: external
+#  public-client: true
+#  principal-attribute: preferred_username
+
+zipkin:
+  base-url: http://zipkin:9411
+
+logging:
+  level:
+    web: DEBUG
+    org:
+      springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            gateway: TRACE
+    root: INFO

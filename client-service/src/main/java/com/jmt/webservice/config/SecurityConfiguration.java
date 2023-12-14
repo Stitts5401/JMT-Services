@@ -1,40 +1,30 @@
 package com.jmt.webservice.config;
 
 import com.jmt.webservice.service.UserInfoService;
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.client.oidc.web.server.logout.OidcClientInitiatedServerLogoutSuccessHandler;
-import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.WebFilterExchange;
 import org.springframework.security.web.server.authentication.logout.DelegatingServerLogoutHandler;
 import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
-import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.authentication.logout.WebSessionServerLogoutHandler;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.util.List;
 
 @Slf4j
 @Configuration
@@ -50,7 +40,7 @@ public class SecurityConfiguration {
     private final UserInfoService userInfoService;
 
     @Bean
-    SecurityWebFilterChain webFilterChain(ServerHttpSecurity http) throws Exception {
+    SecurityWebFilterChain webFilterChain(ServerHttpSecurity http)  {
         DelegatingServerLogoutHandler logoutHandler = new DelegatingServerLogoutHandler(
                 new WebSessionServerLogoutHandler(), new SecurityContextServerLogoutHandler()
         );
@@ -75,7 +65,6 @@ public class SecurityConfiguration {
                 )
                 .logout( (logout) -> logout.logoutUrl("/oauth2/authorization/keycloak")  )
 
-
                 .build();
     }
 
@@ -97,5 +86,10 @@ public class SecurityConfiguration {
         return response.setComplete();
     }
 
+    @Bean
+    public MapReactiveUserDetailsService userDetailsService() {
+        UserDetails userDetails = User.withUsername("admin").password("admin").roles("ADMIN").build();
+        return new MapReactiveUserDetailsService(List.of(userDetails));
+    }
 }
 

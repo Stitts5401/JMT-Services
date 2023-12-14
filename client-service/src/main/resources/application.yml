@@ -1,22 +1,27 @@
 host:
-  gateway: http://localhost:8282
+  gateway: http://host.docker.internal:8282
 server:
   port: 8090
 logging:
   level:
     org:
       springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            gateway: TRACE
         security: DEBUG
     root: INFO
     org.springframework.web: INFO
-    org.springframework.security: TRACE
-
+    org.springframework.security: DEBUG
 keycloak:
   client:
     id: jmt-client
-    secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
+    secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
   logout:
-    url: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
+    url: http://host.docker.internal:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
 spring:
   application:
     name: client-service
@@ -28,18 +33,14 @@ spring:
       enabled: true
     restart:
       enabled: true
-  sleuth:
-    integration:
-      enabled: true
-    sampler:
-      probability: 1
+
   security:
     oauth2:
       client:
         registration:
           keycloak:
             client-id: jmt_client
-            client-secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
+            client-secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
             client-name: keycloak
             authorization-grant-type: authorization_code
             redirect-uri: '{baseUrl}/login/oauth2/code/{registrationId}'
@@ -58,16 +59,18 @@ spring:
               - email
         provider:
           keycloak:
-            issuer-uri: http://localhost:8080/realms/jmt_realm
-            authorization-uri: http://localhost:8080/realms/jmt_realm/protocol/openid-connect/auth
-            token-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/token
-            user-info-uri: http://localhost:8080/realms/jmt_realm/protocol/openid-connect/userinfo
-            jwk-set-uri: http://localhost:8080/realms/jmt_realm/protocol/openid-connect/certs
+            issuer-uri: http://host.docker.internal:8080/auth/realms/jmt_realm
+            authorization-uri: http://host.docker.internal:8080/auth/realms/jmt_realm/protocol/openid-connect/auth
+            token-uri: http://host.docker.internal:8080/auth/realms/jmt_realm/protocol/openid-connect/token
+            user-info-uri: http://host.docker.internal:8080/auth/realms/jmt_realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://host.docker.internal:8080/auth/realms/jmt_realm/protocol/openid-connect/certs
 
 eureka:
   client:
-    serviceUrl:
-      defaultZone: http://eureka:password@localhost:8761/eureka
+    service-url:
+      defaultZone: http://eureka:password@localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
 
 zipkin:
   base-url: http://zipkin:9411/

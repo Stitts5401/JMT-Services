@@ -1,17 +1,68 @@
 server:
-    port: 8282
+  port: 8282
+
 jwt:
   auth:
     converter:
-      resource-id: jmtdev_client
+      resource-id: jmt_client
       role-prefix: ROLE_
       jwt-realm-access-claim: resource_access
-      jwt-uri: http://localhost:8080/auth/realms/jmtdev_realm/protocol/openid-connect/certs
+      jwt-uri: http://host.docker.internal:8080/auth/realms/jmtdev_realm/protocol/openid-connect/certs
+
 eureka:
-  instance:
-    prefer-ip-address: true
   client:
-    fetch-registry: true
-    register-with-eureka: true
     service-url:
-      defaultZone: http://eureka-server:8761/eureka
+      defaultZone: http://eureka:password@localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: discovery-service
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/web
+        - id: discovery-service-static
+          uri: http://localhost:8761
+          predicates:
+            - Path=/eureka/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/api/v1/user/**
+        - id: client-service
+          uri: http://host.docker.internal:8090
+          predicates:
+            - Path=/**
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: r2dbc:mysql://localhost:3308/jmt
+    password: ADMIN1234
+    username: admin
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://host.docker.internal:8080/auth/realms/jmt_realm
+
+logging:
+  level:
+    web: DEBUG
+    org:
+      springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            gateway: TRACE
+    root: INFO
+
+zipkin:
+  base-url: http://localhost:9411

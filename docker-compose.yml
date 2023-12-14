@@ -58,6 +58,7 @@ services:
 
   eureka-server:
     image: stitts5401/eureka-server:latest
+    pull_policy: always
     networks:
       - microservices-network
     container_name: eureka-server
@@ -67,8 +68,10 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - zipkin
+
   api-gateway:
     image: stitts5401/api-gateway:latest
+    pull_policy: always
     networks:
       - microservices-network
     container_name: api-gateway
@@ -86,13 +89,11 @@ services:
       - eureka-server
 
   client-service:
+    restart: unless-stopped
     image: stitts5401/client-service:latest
+    pull_policy: always
     networks:
       - microservices-network
-    ports:
-      - "8383:8080"
-    expose:
-      - "8383"
     container_name: client-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -104,6 +105,7 @@ services:
 
   user-service:
     image: stitts5401/user-service:latest
+    pull_policy: always
     networks:
       - microservices-network
     container_name: user-service
