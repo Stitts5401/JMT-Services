@@ -1,6 +1,7 @@
 package com.jmt.webservice.service;
 
 import com.jmt.webservice.model.UserInfo;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
@@ -14,18 +15,16 @@ import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserInfoService {
 
+
     @Value("${host.gateway}")
-    private String url ;
-    private final WebClient webClient;
+    private String hostGateway;
+
+    private final WebClient.Builder webClient;
     private final ReactiveOAuth2AuthorizedClientService authorizedClientRepository;
 
-        public UserInfoService(WebClient.Builder webClientBuilder,
-                               ReactiveOAuth2AuthorizedClientService authorizedClientRepository) {
-            this.webClient = webClientBuilder.baseUrl(url).build();
-            this.authorizedClientRepository = authorizedClientRepository;
-        }
         public Mono<UserInfo> retrieveUserInfo(OAuth2AuthenticationToken oauthToken) {
             String clientRegistrationId = oauthToken.getAuthorizedClientRegistrationId();
             String principalName = oauthToken.getName();
@@ -39,8 +38,8 @@ public class UserInfoService {
             String jwtToken = accessToken.getTokenValue(); // The JWT token
 
             // Handle specific errors if necessary
-            return webClient.get()
-                    .uri("/user/info")
+            return webClient.build().get()
+                    .uri(hostGateway + "/user/info")
                     .headers(headers -> headers.setBearerAuth(jwtToken))
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, clientResponse ->

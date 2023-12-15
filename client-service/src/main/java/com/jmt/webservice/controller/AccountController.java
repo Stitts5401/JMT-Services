@@ -4,6 +4,7 @@ import com.jmt.webservice.literal.NationalityData;
 import com.jmt.webservice.model.UserInfo;
 import com.jmt.webservice.service.AccountService;
 import com.jmt.webservice.service.UserInfoService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
+@CircuitBreaker(name = "account", fallbackMethod = "fallback")
 @RequiredArgsConstructor
 @RequestMapping("/account")
 public class AccountController {

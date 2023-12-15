@@ -1,7 +1,7 @@
 host:
-  gateway: http://host.docker.internal:8282/api/v1
+  gateway: http://host.docker.internal:8282
 server:
-  port: 5151
+  port: 8181
 logging:
   level:
     org:
@@ -16,12 +16,9 @@ logging:
     root: INFO
     org.springframework.web: INFO
     org.springframework.security: DEBUG
-keycloak:
-  password-change:
-    url: http://localhost:8080/auth/realms/jmtdev_realms/account/credentials/password
 spring:
   application:
-    name: user-service
+    name: job-service
   output:
     ansi:
       enabled: always
@@ -36,10 +33,7 @@ eureka:
       defaultZone: http://eureka:password@localhost:8761/eureka/
     registerWithEureka: true
     fetchRegistry: true
-    webclient:
-      enabled: true
-    healthcheck:
-      enabled: true
+
 zipkin:
   base-url: http://zipkin:9411/
 
@@ -50,7 +44,7 @@ management:
         include: "*"
   health:
     show-details: always
-    circuit-breakers:
+    circuitbreakers:
       enabled: true
 resilience4j:
   circuit breaker:

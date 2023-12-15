@@ -4,11 +4,13 @@ server:
 spring:
   application:
     name: discovery-service
+  output:
+    ansi:
+      enabled: always
 eureka:
   client:
     registerWithEureka: false
     fetchRegistry: false
-
 app:
   eureka:
     username: eureka

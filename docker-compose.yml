@@ -59,8 +59,6 @@ services:
   eureka-server:
     image: stitts5401/eureka-server:latest
     pull_policy: always
-    networks:
-      - microservices-network
     container_name: eureka-server
     ports:
       - "8761:8761"

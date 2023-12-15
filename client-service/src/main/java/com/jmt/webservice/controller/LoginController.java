@@ -1,6 +1,7 @@
 package com.jmt.webservice.controller;
 
 import com.jmt.webservice.service.UserInfoService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,10 +15,16 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Controller
 @RequestMapping("/")
+@CircuitBreaker(name = "account", fallbackMethod = "fallbackMethod")
 @RequiredArgsConstructor
 public class LoginController {
 
     private final UserInfoService userInfoService;
+
+    public String fallbackMethod(Exception e) {
+        log.error("Fallback method triggered with exception {}", e.getMessage());
+        return "fallback";
+    }
 
     /**
      * Home page.
@@ -52,17 +59,16 @@ public class LoginController {
     }
 
     @GetMapping("/welcome-directory")
-    public Mono<String> welcome(Model model, @AuthenticationPrincipal OAuth2AuthenticationToken oauthToken) {
-        if (oauthToken == null) {
-            return Mono.just("redirect:/oauth2/authorization/keycloak");
-        }
-        return userInfoService.retrieveUserInfo(oauthToken)
-                .flatMap( userInfo -> {
-                    model.addAttribute("name", userInfo.getFirstname() + " " + userInfo.getLastname());
-                    model.addAttribute("email", userInfo.getEmail() );
-                    return Mono.just("welcome-directory");
-                });
-        }
+    public Mono<String> welcome(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono) {
+        return oauthTokenMono
+                .flatMap(oauthToken -> userInfoService.retrieveUserInfo(oauthToken)
+                        .map(userInfo -> {
+                            model.addAttribute("name", userInfo.getFirstname() + " " + userInfo.getLastname());
+                            model.addAttribute("email", userInfo.getEmail());
+                            return "welcome-directory";
+                        }))
+                .switchIfEmpty(Mono.defer(() -> Mono.just("redirect:/oauth2/authorization/keycloak")));
+    }
     }
 
 

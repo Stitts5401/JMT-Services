@@ -1,5 +1,6 @@
 package com.jmt.webservice.controller;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,6 +31,7 @@ import java.net.URI;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CircuitBreaker(name = "account", fallbackMethod = "fallback")
 public class LogoutController {
 
     private final ReactiveOAuth2AuthorizedClientService authorizedClientService;

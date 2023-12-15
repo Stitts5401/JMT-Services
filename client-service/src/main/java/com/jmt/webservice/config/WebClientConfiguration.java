@@ -1,5 +1,6 @@
 package com.jmt.webservice.config;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
@@ -12,7 +13,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 @Configuration
 public class WebClientConfiguration {
   @Bean
-  WebClient webClient(
+  @LoadBalanced
+  public WebClient.Builder webClient(
       ReactiveClientRegistrationRepository clientRegistrationRepository,
       ServerOAuth2AuthorizedClientRepository authorizedClientRepository) {
     ServerOAuth2AuthorizedClientExchangeFilterFunction oauth =
@@ -20,6 +22,6 @@ public class WebClientConfiguration {
             clientRegistrationRepository, authorizedClientRepository);
     oauth.setDefaultOAuth2AuthorizedClient(true);
     oauth.setDefaultClientRegistrationId("keycloak");
-    return WebClient.builder().filter(oauth).build();
+    return WebClient.builder().filter(oauth);
   }
 }
