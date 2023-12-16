@@ -3,16 +3,12 @@ version: '3'
 services:
   zipkin:
     image: openzipkin/zipkin
-    networks:
-      - microservices-network
     container_name: zipkin
     ports:
       - "9411:9411"
 
   mysql:
     image: mysql:latest
-    networks:
-      - microservices-network
     container_name: JMT_SQL_Container
     environment:
       MYSQL_ROOT_PASSWORD: new_password
@@ -26,8 +22,6 @@ services:
 
   postgres:
     image: postgres
-    networks:
-      - microservices-network
     volumes:
       - postgres_data:/var/lib/postgresql/data
     container_name: postgres
@@ -38,8 +32,6 @@ services:
 
   keycloak:
     image: jboss/keycloak
-    networks:
-      - microservices-network
     container_name: keycloak
     depends_on:
       - postgres
@@ -70,8 +62,6 @@ services:
   api-gateway:
     image: stitts5401/api-gateway:latest
     pull_policy: always
-    networks:
-      - microservices-network
     container_name: api-gateway
     ports:
       - "8282:8080"
@@ -87,11 +77,9 @@ services:
       - eureka-server
 
   client-service:
-    restart: unless-stopped
+#    restart: unless-stopped
     image: stitts5401/client-service:latest
     pull_policy: always
-    networks:
-      - microservices-network
     container_name: client-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -104,8 +92,6 @@ services:
   user-service:
     image: stitts5401/user-service:latest
     pull_policy: always
-    networks:
-      - microservices-network
     container_name: user-service
     environment:
       - SPRING_PROFILES_ACTIVE=docker
@@ -114,9 +100,17 @@ services:
       - eureka-server
       - api-gateway
 
-networks:
-  microservices-network:
-    driver: bridge
+  job-service:
+    image: stitts5401/job-service:latest
+    pull_policy: always
+    container_name: job-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+      - eureka-server
+      - api-gateway
+
 volumes:
   postgres_data:
     driver: local

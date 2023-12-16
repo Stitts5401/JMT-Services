@@ -18,19 +18,19 @@ logging:
     org.springframework.security: DEBUG
 spring:
   application:
-    name: user-service
+    name: job-service
   output:
     ansi:
       enabled: always
   r2dbc:
-    url: r2dbc:mysql://mysql:3308/jmt
+    url: r2dbc:mysql://mysql:3306/jmt
     password: ADMIN1234
     username: admin
 
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka:password@localhost:8761/eureka/
+      defaultZone: http://eureka:password@eureka-server:8761/eureka
     registerWithEureka: true
     fetchRegistry: true
 

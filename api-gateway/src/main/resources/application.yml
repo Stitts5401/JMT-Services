@@ -15,33 +15,40 @@ eureka:
       defaultZone: http://eureka:password@localhost:8761/eureka/
     registerWithEureka: true
     fetchRegistry: true
-
+app:
+  eureka-server: localhost
 spring:
   application:
     name: api-gateway
   cloud:
     gateway:
       routes:
-        - id: discovery-service
-          uri: http://localhost:8761
+        - id: eureka-server
+          uri: http://eureka:password@${app.eureka-server}:8761
           predicates:
             - Path=/eureka/web
-        - id: discovery-service-static
-          uri: http://localhost:8761
+        - id: eureka-server-static
+          uri: http://eureka:password@${app.eureka-server}:8761
           predicates:
-            - Path=/eureka/**
+            - Path=/eureka/
         - id: client-service
-          uri: http://host.docker.internal:8090
+          uri: lb://client-service
           predicates:
             - Path=/**
+          filters:
+            - RewritePath=/(?<segment>.*),/$\{segment}
         - id: job-service
-          uri: http://host.docker.internal:8181
+          uri: lb://job-service
           predicates:
             - Path=/api/v1/job/**
+          filters:
+            - RewritePath=/api/v1/(?<segment>.*),/$\{segment}
         - id: user-service
-          uri: http://host.docker.internal:5151
+          uri: lb://user-service
           predicates:
             - Path=/api/v1/user/**
+          filters:
+            - RewritePath=/api/v1/(?<segment>.*),/$\{segment}
   output:
     ansi:
       enabled: always
