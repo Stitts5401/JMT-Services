@@ -1,6 +1,7 @@
 package com.jmt.jobs.controller;
 
 import com.jmt.jobs.entity.Job;
+import com.jmt.jobs.model.JobInfo;
 import com.jmt.jobs.service.JobService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,7 +23,7 @@ public class JobController {
         return jobService.get(userId);
     }
     @GetMapping("/details/{jobId}")
-    public Mono<Job> getJobsByUser(@PathVariable long jobId) {
+    public Mono<JobInfo> getJobsById(@PathVariable long jobId) {
         return jobService.get(jobId);
     }
     @GetMapping("/listings")

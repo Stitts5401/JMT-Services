@@ -6,6 +6,7 @@ import lombok.Data;
 
 import java.nio.ByteBuffer;
 import java.sql.Time;
+import java.util.List;
 
 @Data
 public class JobInfo {
@@ -18,17 +19,6 @@ public class JobInfo {
     private boolean completed;
     private ByteBuffer image;
     private String category;
-
-    public JobInfo(Job job) {
-        id = job.getId();
-        userId = job.getUserId();
-        name = job.getName();
-        description = job.getDescription();
-        location = job.getLocation();
-        createdDate = job.getCreatedDate();
-        completed = job.isCompleted();
-        image = job.getImage();
-        category = job.getCategory();
-    }
+    private List<PolicyInfo> policyInfo;
 
 }

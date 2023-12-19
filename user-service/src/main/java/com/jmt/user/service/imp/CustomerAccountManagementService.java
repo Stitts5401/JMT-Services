@@ -97,15 +97,14 @@ public class CustomerAccountManagementService implements AccountManagementServic
         return userRepository.findByEmail(email)
                 .flatMap(user -> getJobs(user.getId())
                         .collectList()
-                        .map(jobs -> jobs.stream().map(JobInfo::new).collect(Collectors.toList()))
                         .map(jobs -> new UserInfo(user, jobs, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())))
                 );
     }
-    private Flux<Job> getJobs(Integer userId) {
+    private Flux<JobInfo> getJobs(Integer userId) {
         return WebClient.create()
                 .get()
                 .uri(url+ "/jobs/user/" + userId)
                 .retrieve()
-                .bodyToFlux(Job.class);
+                .bodyToFlux(JobInfo.class);
     }
 }
