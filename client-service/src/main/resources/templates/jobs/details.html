@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{/fragments/head :: head}">
+	<title th:text="'JMT - Jobs Details'">JMT - Details</title>
+</head>
+
+
+<body>
+
+<!-- Header START -->
+<header class="navbar-light header-sticky">
+	<!-- Logo Nav START -->
+	<nav class="navbar navbar-expand-xl">
+		<div class="container">
+			<!-- Logo START -->
+           <a class="navbar-brand" th:href="@{/../home}">
+                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+                <img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
+            </a>
+			<!-- Logo END -->
+			
+			<!-- Responsive navbar toggler -->
+			<button class="navbar-toggler ms-auto mx-3 p-0 p-sm-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-animation">
+					<span></span>
+					<span></span>
+					<span></span>
+				</span>
+			</button>
+
+			<!-- Main navbar START -->
+			<div class="navbar-collapse collapse" id="navbarCollapse">
+				<ul class="navbar-nav navbar-nav-scroll">
+					<!-- Nav item Contact -->
+					<li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact Us</a></li>
+				</ul>
+			</div>
+			<!-- Main navbar END -->
+
+      <!-- Profile and Notification START -->
+			<ul class="nav flex-row align-items-center list-unstyled ms-xl-auto">
+
+
+				<!-- Notification dropdown START -->
+				<li class="nav-item dropdown me-3">
+					<!-- Notification button -->
+					<a class="nav-notification btn btn-light p-0 mb-0" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" data-bs-auto-close="outside">
+						<i class="bi bi-bell fa-fw"></i>
+					</a>
+					<!-- Notification dote -->
+					<span class="notif-badge animation-blink"></span>
+
+					<!-- Notification dropdown menu START -->
+					<div class="dropdown-menu dropdown-animation dropdown-menu-end dropdown-menu-size-md shadow-lg p-0">
+						<div class="card bg-transparent">
+							<!-- Card header -->
+							<div class="card-header bg-transparent d-flex justify-content-between align-items-center border-bottom">
+								<h6 class="m-0">Notifications <span class="badge bg-danger bg-opacity-10 text-danger ms-2">4 new</span></h6>
+								<a class="small" href="#">Clear all</a>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0">
+								<ul class="list-group list-group-flush list-unstyled p-2">
+									<!-- Notification item -->
+									<li>
+										<a href="#" class="list-group-item list-group-item-action rounded notif-unread border-0 mb-1 p-3">
+											<h6 class="mb-2">New! Booking flights from New York ✈️</h6>
+											<p class="mb-0 small">Find the flexible ticket on flights around the world. Start searching today</p>
+											<span>Wednesday</span>
+										</a>
+									</li>
+									<!-- Notification item -->
+									<li>
+										<a href="#" class="list-group-item list-group-item-action rounded border-0 mb-1 p-3">
+											<h6 class="mb-2">Sunshine saving are here 🌞 save 30% or more on a stay</h6>
+											<span>15 Nov 2022</span>
+										</a>
+									</li>
+								</ul>
+							</div>
+							<!-- Card body END -->
+
+							<!-- Card footer -->
+							<div class="card-footer bg-transparent text-center border-top">
+								<a href="#" class="btn btn-sm btn-link mb-0 p-0">See all incoming activity</a>
+							</div>
+						</div>
+					</div>
+					<!-- Notification dropdown menu END -->
+				</li>
+				<!-- Notification dropdown END -->
+
+				<!-- Profile dropdown START -->
+				<li class="nav-item dropdown">
+					<!-- Avatar -->
+					<a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
+						<img class="avatar-img rounded-2" th:src="@{/assets/images/avatar/01.jpg}" alt="avatar">
+					</a>
+
+					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
+						<!-- Profile info -->
+						<li class="px-3 mb-3">
+							<div class="d-flex align-items-center">
+								<!-- Avatar -->
+								<div class="avatar me-3">
+									<img class="avatar-img rounded-circle shadow" th:src="@{/assets/images/avatar/01.jpg}" alt="avatar">
+								</div>
+								<div>
+									<a class="h6 mt-2 mt-sm-0" href="#">Lori Ferguson</a>
+									<p class="small m-0">example@gmail.com</p>
+								</div>
+							</div>
+						</li>
+
+						<!-- Links -->
+						<li> <hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>My Wishlist</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Settings</a></li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help Center</a></li>
+						<li><a class="dropdown-item bg-danger-soft-hover" href="#"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						<li> <hr class="dropdown-divider"></li>
+
+						<!-- Dark mode options START -->
+						<li>
+							<div class="nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center p-2 pb-0">
+								<span>Mode:</span>
+								<button type="button" class="btn btn-link nav-link text-primary-hover mb-0 p-0" data-bs-theme-value="light" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Light">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-sun fa-fw mode-switch" viewBox="0 0 16 16">
+										<path d="M8 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm0 1a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+										<use href="#"></use>
+									</svg>
+								</button>
+								<button type="button" class="btn btn-link nav-link text-primary-hover mb-0 p-0" data-bs-theme-value="dark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Dark">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-moon-stars fa-fw mode-switch" viewBox="0 0 16 16">
+										<path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278zM4.858 1.311A7.269 7.269 0 0 0 1.025 7.71c0 4.02 3.279 7.276 7.319 7.276a7.316 7.316 0 0 0 5.205-2.162c-.337.042-.68.063-1.029.063-4.61 0-8.343-3.714-8.343-8.29 0-1.167.242-2.278.681-3.286z"/>
+										<path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+										<use href="#"></use>
+									</svg>
+								</button>
+								<button type="button" class="btn btn-link nav-link text-primary-hover mb-0 p-0 active" data-bs-theme-value="auto" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Auto">
+									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-circle-half fa-fw mode-switch" viewBox="0 0 16 16">
+										<path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+										<use href="#"></use>
+									</svg>
+								</button>
+							</div>
+						</li> 
+						<!-- Dark mode options END-->
+					</ul>
+				</li>
+				<!-- Profile dropdown END -->
+			</ul>
+			<!-- Profile and Notification START -->
+		</div>
+	</nav>
+	<!-- Logo Nav END -->
+</header>
+<!-- Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+	
+<!-- =======================
+Main Banner START -->
+<section class="pt-4 pt-lg-5">
+	<div class="container position-relative">
+
+		<!-- Title and button START -->
+		<div class="row">
+			<div class="col-12">
+
+				<!-- Meta -->
+				<div class="d-md-flex justify-content-md-between">
+					<!-- Title -->
+					<div>
+<!--						<h1 class="fs-2" th:text="${job.getName()}">Job Title Here</h1>-->
+						<ul class="nav nav-divider h6 text-body mb-0">
+							<!-- Additional details like duration or locations can also be dynamically added if they are available in the job object -->
+<!--							<li class="nav-item" th:text="${job.createdDate}">5 nights - 6 Days</li>-->
+<!--							<li class="nav-item" th:text="${job.location}">1 Country - 2 Cities</li>-->
+						</ul>
+					</div>
+
+
+					<!-- Buttons -->
+					<ul class="list-inline text-end">
+							<!-- Heart icon -->
+						<li class="list-inline-item">
+							<a href="#" class="btn btn-sm btn-light px-2"><i class="fa-solid fa-fw fa-heart"></i></a>
+						</li>
+						<!-- Share icon -->
+						<li class="list-inline-item dropdown">
+							<!-- Share button -->
+							<a href="#" class="btn btn-sm btn-light px-2" role="button" id="dropdownShare" data-bs-toggle="dropdown" aria-expanded="false">
+								<i class="fa-solid fa-fw fa-share-alt"></i>
+							</a>
+							<!-- dropdown button -->
+							<ul class="dropdown-menu dropdown-menu-end min-w-auto shadow rounded" aria-labelledby="dropdownShare">
+								<li><a class="dropdown-item" href="#"><i class="fab fa-twitter-square me-2"></i>Twitter</a></li>
+								<li><a class="dropdown-item" href="#"><i class="fab fa-facebook-square me-2"></i>Facebook</a></li>
+								<li><a class="dropdown-item" href="#"><i class="fab fa-linkedin me-2"></i>LinkedIn</a></li>
+								<li><a class="dropdown-item" href="#"><i class="fa-solid fa-copy me-2"></i>Copy link</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+		<!-- Title and button END -->
+
+		<!-- Image gallery START -->
+		<div class="row mt-md-5">
+			<div class="col-12">
+				<!-- Primary image -->
+				<div class="splide splide-main mb-3" data-splide='{"type" : "fade","autoplay": true,"heightRatio":0.5,"pagination":false,"arrows":false,"cover":true,"lazyLoad":"sequential"}'>
+					<div class="splide__track">
+						<ul class="splide__list">
+							<li class="splide__slide rounded"><img th:src="@{/assets/images/gallery/04.jpg}" alt="">
+								<!-- Glightbox image -->
+								<a th:href="@{/assets/images/gallery/04.jpg}" class="stretched-link" data-glightbox="" data-gallery="banner"></a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- Secondary image -->
+				<div class="splide splide-thumb" data-splide='{"rewind":true,"fixedWidth":200,"fixedHeight":120,"isNavigation":true,"gap":20,"focus":"center","pagination":false,"cover":true,"lazyLoad":"sequential","breakpoints":{"600":{"fixedWidth":150,"fixedHeight":80}}}'>
+					<div class="splide__track">
+						<ul class="splide__list">
+							<li class="splide__slide"><img th:src="@{/assets/images/gallery/04.jpg}" alt=""></li>
+						</ul>
+					</div>
+					<!-- Arrows -->
+					<div class="splide__arrows">
+						<button class="splide__arrow  splide__arrow--prev p-splide__arrow--prev bg-primary"><span class="spi-angle-left text-white"><i class="fa-solid fa-fw fa-angle-left"></i></span></button>
+						<button class="splide__arrow splide__arrow--next p-splide__arrow--next bg-primary"><span class="spi-angle-right text-white"><i class="fa-solid fa-fw fa-angle-right"></i></span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Image gallery END -->
+
+	</div>
+</section>
+<!-- =======================
+Main Banner END -->
+
+<!-- =======================
+Tabs START -->
+<section class="py-0">
+	<div class="container">
+		
+		<!-- Tabs START -->
+		<div class="row">
+			<div class="col-12">
+				<!-- Outer tabs START -->
+				<ul class="nav nav-pills nav-justified nav-responsive bg-primary bg-opacity-10 rounded p-2" id="tour-pills-tab" role="tablist">
+					<!-- Tab item -->
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active mb-0" id="tour-pills-tab-1" data-bs-toggle="pill" data-bs-target="#tour-pills-tab1" type="button" role="tab" aria-controls="tour-pills-tab1" aria-selected="true">Overview</button>
+					</li>
+					<!-- Tab item -->
+					<li class="nav-item" role="presentation">
+						<button class="nav-link mb-0" id="tour-pills-tab-3" data-bs-toggle="pill" data-bs-target="#tour-pills-tab3" type="button" role="tab" aria-controls="tour-pills-tab3" aria-selected="false">Inclusions & Exclusion</button>
+					</li>
+					<!-- Tab item -->
+					<li class="nav-item" role="presentation">
+						<button class="nav-link mb-0" id="tour-pills-tab-4" data-bs-toggle="pill" data-bs-target="#tour-pills-tab4" type="button" role="tab" aria-controls="tour-pills-tab4" aria-selected="false">Tour Policy</button>
+					</li>
+				</ul> 
+				<!-- Outer tabs END -->
+			</div>
+		</div>
+		<!-- Tabs END -->
+	</div>
+</section>
+<!-- =======================
+Tabs END -->
+
+<!-- =======================
+Tabs-content START -->
+<section class="pt-4 pt-md-5">
+	<div class="container">
+
+		<div class="row g-4 g-md-5">
+			<!-- Tabs Content START -->
+			<div class="col-xl-8">
+				<!-- Outer tabs contents START -->
+				<div class="tab-content mb-0" id="tour-pills-tabContent">
+
+					<!-- Overview Section START -->
+					<div class="tab-pane fade show active" id="tour-pills-tab1" role="tabpanel" aria-labelledby="tour-pills-tab-1">
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header bg-transparent border-bottom p-0 pb-3">
+								<h3 class="mb-0">Overview</h3>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0 pt-3">
+								<p th:text="${job.getDescription()}">Job Description Here</p>
+							</div>
+							<!-- Card body END -->
+						</div>
+					</div>
+					<!-- Overview Section END -->
+
+					<!-- Inclusions & Exclusions Section START -->
+					<div class="tab-pane fade" id="tour-pills-tab3" role="tabpanel" aria-labelledby="tour-pills-tab-3">
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header bg-transparent border-bottom p-0 pb-3">
+								<h3 class="mb-0">Inclusions & Exclusions</h3>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0 pt-3">
+								<h5>Inclusion</h5>
+								<ul class="list-group list-group-borderless">
+									<li th:each="inclusion : ${job.getDescription()}" class="list-group-item" th:text="${inclusion}">Inclusion Item</li>
+								</ul>
+
+								<h5>Exclusion</h5>
+								<ul class="list-group list-group-borderless">
+									<li th:each="exclusion : ${job.getDescription()}" class="list-group-item" th:text="${exclusion}">Exclusion Item</li>
+								</ul>
+							</div>
+							<!-- Card body END -->
+						</div>
+					</div>
+					<!-- Inclusions & Exclusions Section END -->
+
+
+					<!-- Tour Policy Section START -->
+					<div class="tab-pane fade" id="tour-pills-tab4" role="tabpanel" aria-labelledby="tour-pills-tab-4">
+						<div class="card bg-transparent p-0">
+							<!-- Card header -->
+							<div class="card-header bg-transparent border-bottom p-0 pb-3">
+								<h3 class="mb-0">Job Policy</h3>
+							</div>
+
+							<!-- Card body START -->
+							<div class="card-body p-0 pt-3">
+								<h5>Contract Agreement Policy:</h5>
+								<p class="mb-2">The client will receive a contract agreement via email within 48 hours of successful job request submission.</p>
+								<p class="mb-2">In case the requested start date is unavailable, an alternate schedule according to the client’s preference will be arranged and a new contract agreement will be sent via email.</p>
+								<p class="mb-0">Alternatively, the client may choose to cancel the job request before the contract agreement is signed and no fee will be charged.</p>
+
+								<!-- List -->
+								<h5 class="mt-4">Cancellation Policy:</h5>
+								<ul class="list-group list-group-borderless">
+									<li class="list-group-item">
+										<span class="h6 fw-normal me-1 mb-0"><i class="bi bi-dot"></i>More than 30 days before the start date:</span>
+										<span>No charge</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 fw-normal me-1 mb-0"><i class="bi bi-dot"></i>15 to 30 days before the start date:</span>
+										<span>25% of the estimated job cost</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 fw-normal me-1 mb-0"><i class="bi bi-dot"></i>7 to 14 days before the start date:</span>
+										<span>50% of the estimated job cost</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 fw-normal me-1 mb-0"><i class="bi bi-dot"></i>Less than 7 days before the start date:</span>
+										<span>75% of the estimated job cost</span>
+									</li>
+									<li class="list-group-item">
+										<span class="h6 fw-normal me-1 mb-0"><i class="bi bi-dot"></i>After job commencement:</span>
+										<span>100% of the estimated job cost</span>
+									</li>
+								</ul>
+
+								<p class="mt-2">All charges are subject to taxes as applicable. Estimates are valid for 30 days and subject to change without prior notice.</p>
+
+								<h5 class="mt-4">Refund Policy:</h5>
+								<p class="mb-2">Any applicable refund amount will be processed within 15 business days after the cancellation request is confirmed.</p>
+								<p class="mb-0">Refunds will be made via the original payment method or a company check.</p>
+							</div>
+							<!-- Card body END -->
+						</div>
+					</div>
+					<!-- Tour Policy Section END -->
+
+
+				</div>	
+			</div>
+			<!-- Tabs Content END -->
+
+			<!-- Right side content START -->
+			<aside class="col-xl-4">
+				<div class="row g-4">
+					<!-- Book now item START -->
+					<div class="col-md-6 col-xl-12">
+						<div class="card card-body border bg-transparent">
+							<!-- Title -->
+							<div class="hstack gap-2 mb-1">
+								<h3 class="card-title mb-0">$280</h3>
+								<span class="fs-5">/person</span>
+							</div>
+
+							<div class="d-flex justify-content-between mb-4">
+								<!-- Rating -->
+								<ul class="list-inline mb-0">
+									<li class="list-inline-item me-1 h6 mb-0">4.5</li>
+									<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fa-solid fa-star text-warning"></i></li>
+									<li class="list-inline-item me-0 small"><i class="fa-solid fa-star-half-alt text-warning"></i></li>
+								</ul>
+								<a href="#" class="mb-0 m-0 text-reset text-primary-hover">(365 reviews)</a>
+							</div>
+
+							<!-- Button -->
+							<div class="d-grid gap-2">
+								<a th:href="@{/tour-booking}" class="btn btn-primary">Book Now</a>
+								<button class="btn btn-outline-primary mb-0" type="button" data-bs-toggle="modal" data-bs-target="#inquiryForm">
+									<i class="bi bi-eye fa-fw me-2"></i>Send Inquiry
+								</button>
+							</div>
+
+						</div>
+					</div>
+					<!-- Book now item END -->
+
+					<!-- Help item START -->
+					<div class="col-md-6 col-xl-12">
+						<div class="card card-body bg-light p-4">
+							<!-- Title -->
+							<h4 class="card-title">Need Help?</h4>
+
+							<!-- List -->
+							<ul class="list-group list-group-borderless">
+								<li class="list-group-item py-3">
+									<a href="#" class="h6 mb-0">
+										<i class="bi fa-fw bi-telephone-forward text-primary fs-5 me-2"></i>
+										<span class="fw-light me-1">Call us on:</span>+31 123 456 789
+									</a>
+								</li>
+
+								<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+								<li class="list-group-item py-3">
+									<h6 class="mb-0">
+										<i class="bi fa-fw bi-alarm text-primary fs-5 me-2"></i>
+										<span class="h6 fw-light me-1 mb-0">Timing:</span>10AM to 7PM
+									</h6>
+								</li>
+
+								<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+								<li class="list-group-item py-3">
+									<a href="#" class="h6 mb-0">
+										<i class="bi fa-fw bi-headset text-primary fs-5 me-2"></i>Let Us Call You
+									</a>
+								</li>
+
+								<li class="list-group-item py-0"><hr class="my-0"></li><!-- Divider -->
+
+								<li class="list-group-item pt-3 pb-0">
+									<a th:href="@{/contact}" class="h6 mb-0">
+										<i class="bi fa-fw bi-calendar-check text-primary fs-5 me-2"></i>Book Appointments
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<!-- Help item END -->
+				</div>
+			</aside>
+			<!-- Right side content END -->
+
+		</div> <!-- Row END -->
+	</div>
+</section>
+<!-- =======================
+Tabs-content END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer class="bg-dark pt-5">
+	<div class="container">
+		<!-- Row START -->
+		<div class="row g-4">
+
+			<!-- Widget 1 START -->
+			<div class="col-lg-3">
+				<!-- logo -->
+				<a th:href="@{/home}">
+					<img class="h-40px" th:src="@{/assets/images/logo-light.svg}" alt="logo">
+				</a>
+				<p class="my-3 text-body-secondary">Departure defective arranging rapturous did believe him all had supported.</p>
+				<p class="mb-2"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-telephone me-2"></i>+1234 568 963</a> </p>
+				<p class="mb-0"><a href="#" class="text-body-secondary text-primary-hover"><i class="bi bi-envelope me-2"></i>example@gmail.com</a></p>
+			</div>
+			<!-- Widget 1 END -->
+
+			<!-- Widget 2 START -->
+			<div class="col-lg-8 ms-auto">
+				<div class="row g-4">
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Page</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">About us</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Contact us</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">News and Blog</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Meet a Team</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Link</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Sign up</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Sign in</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Privacy Policy</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Terms</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Cookie</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Support</a></li>
+						</ul>
+					</div>
+									
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Global Site</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">India</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">California</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Indonesia</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Canada</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#">Malaysia</a></li>
+						</ul>
+					</div>
+
+					<!-- Link block -->
+					<div class="col-6 col-md-3">
+						<h5 class="text-white mb-2 mb-md-4">Booking</h5>
+						<ul class="nav flex-column text-primary-hover">
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-hotel me-2"></i>Hotel</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-plane me-2"></i>Flight</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-globe-americas me-2"></i>Tour</a></li>
+							<li class="nav-item"><a class="nav-link text-body-secondary" href="#"><i class="fa-solid fa-car me-2"></i>Cabs</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<!-- Widget 2 END -->
+
+		</div><!-- Row END -->
+
+		<!-- Tops Links -->
+		<div class="row mt-5">
+			<h5 class="mb-2 text-white">Top Links</h5>
+			<ul class="list-inline text-primary-hover lh-lg">
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Flights</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Hotels</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Tours</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Cabs</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">About</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Contact us</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Blogs</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Services</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Detail page</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Services</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Policy</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Testimonials</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Newsletters</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Podcasts</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Protests</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">NewsCyber</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Education</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Sports</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Tech and Auto</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Opinion</a></li>
+				<li class="list-inline-item"><a href="#" class="text-body-secondary">Share Market</a></li>
+			</ul>
+		</div>
+
+		<!-- Payment and card -->
+		<div class="row g-4 justify-content-between mt-0 mt-md-2">
+
+			<!-- Payment card -->
+			<div class="col-sm-7 col-md-6 col-lg-4">
+				<h5 class="text-white mb-2">Payment & Security</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a href="#"><img th:src="@{/assets/images/element/paypal.svg}" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img th:src="@{/assets/images/element/visa.svg}" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img th:src="@{/assets/images/element/mastercard.svg}" class="h-30px" alt=""></a></li>
+					<li class="list-inline-item"> <a href="#"><img th:src="@{/assets/images/element/expresscard.svg}" class="h-30px" alt=""></a></li>
+				</ul>
+			</div>
+
+			<!-- Social media icon -->
+			<div class="col-sm-5 col-md-6 col-lg-3 text-sm-end">
+				<h5 class="text-white mb-2">Follow us on</h5>
+				<ul class="list-inline mb-0 mt-3">
+					<li class="list-inline-item"> <a class="btn btn-sm px-2 bg-facebook mb-0" href="#"><i class="fab fa-fw fa-facebook-f"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-instagram mb-0" href="#"><i class="fab fa-fw fa-instagram"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-twitter mb-0" href="#"><i class="fab fa-fw fa-twitter"></i></a> </li>
+					<li class="list-inline-item"> <a class="btn btn-sm shadow px-2 bg-linkedin mb-0" href="#"><i class="fab fa-fw fa-linkedin-in"></i></a> </li>
+				</ul>	
+			</div>
+		</div>
+
+		<!-- Divider -->
+		<hr class="mt-4 mb-0">
+
+		<!-- Bottom footer -->
+		<div class="row">
+			<div class="container">
+				<div class="d-lg-flex justify-content-between align-items-center py-3 text-center text-lg-start">
+					<!-- copyright text -->
+					<div class="text-body-secondary text-primary-hover"> Copyrights ©2023 Booking. Build by <a href="https://www.webestica.com/" class="text-body-secondary">Webestica</a>. </div>
+					<!-- copyright links-->
+					<div class="nav mt-2 mt-lg-0">
+						<ul class="list-inline text-primary-hover mx-auto mb-0">
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Privacy policy</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1" href="#">Terms and conditions</a></li>
+							<li class="list-inline-item me-0"><a class="nav-link text-body-secondary py-1 pe-0" href="#">Refund policy</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<!-- =======================
+Footer END -->
+
+<!-- Send Inquiry START -->
+<div class="modal fade" id="inquiryForm" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<!-- Title -->
+			<div class="modal-header">
+				<h5 class="modal-title" id="inquiryFormlabel">Get Inquiry</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			
+			<!-- Body -->
+			<div class="modal-body p-3">
+				<div class="card bg-transparent">
+					<!-- Card header -->
+					<div class="card-header bg-transparent">
+						<!-- Title -->
+						<h6 class="card-title mb-0">Our expert will get in touch with you shortly</h6>
+					</div>
+
+					<!-- Card body -->
+					<div class="card-body pt-0">
+
+						<form>
+							<!-- Name -->
+							<div class="mb-3">
+								<label class="form-label">Name</label>
+								<input type="text" class="form-control" placeholder="Enter Your name">
+							</div>
+							<!-- Email -->
+							<div class="mb-3">
+								<label class="form-label">Email id</label>
+								<input type="email" class="form-control" placeholder="Enter Your emil id">
+							</div>
+							<!-- Phone number -->
+							<div class="mb-3">
+								<label class="form-label">Phone number</label>
+								<input type="text" class="form-control" placeholder="Enter Your phone number">
+							</div>
+
+							<div class="mb-3 ms-2 form-check">
+								<input type="checkbox" class="form-check-input" id="inquiryCheck">
+								<label class="form-check-label" for="inquiryCheck">I agree to receive updates and offers</label>
+							</div>
+
+							<!-- Buttons -->
+							<div class="d-grid gap-2 d-md-block">
+								<button class="btn btn-dark mb-0" type="button">Send Inquiry</button>
+								<button class="btn btn-link mb-0" type="button">Call on: +123 456 89</button>
+							</div>
+						</form> <!-- Form END -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Send Inquiry END -->
+
+<!-- Back to top -->
+<div class="back-top"></div>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Vendors -->
+<script th:src="@{/assets/vendor/splide-master/dist/js/splide.min.js}"></script>
+<script th:src="@{/assets/vendor/glightbox/js/glightbox.js}"></script>
+
+<!-- ThemeFunctions -->
+<script th:src="@{/assets/js/functions.js}"></script>
+
+</body>
+</html>

@@ -1,5 +1,7 @@
 host:
-  gateway: http://api-gateway:8282
+  gateway: http://api-gateway:8282/api/v1
+server:
+  port: 8090
 logging:
   level:
     org:
@@ -12,7 +14,7 @@ logging:
 keycloak:
   client:
     id: jmt_client
-    secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
+    secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
   logout:
     url: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
 spring:
@@ -37,10 +39,10 @@ spring:
         registration:
           keycloak:
             client-id: jmt_client
-            client-secret: nrhK7Gb9jHbOq9TzcPzGVQJFg8sMcPOS
+            client-secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
             client-name: keycloak
             authorization-grant-type: authorization_code
-            redirect-uri: http://api-gateway:8282/login/oauth2/code/keycloak
+            redirect-uri: http://client-service:8090/login/oauth2/code/keycloak
             scope:
               - openid
               - profile
@@ -49,7 +51,7 @@ spring:
             client-id: 30daa2055b90920902fd
             client-secret: dd917ed10d5841e1ec9b08213bb95f8a386d9510
             client-name: github
-            redirect-uri: http://api-gateway:8282/login/oauth2/code/github
+            redirect-uri: http://client-service:8090/login/oauth2/code/github
             scope:
               - openid
               - profile
@@ -58,14 +60,10 @@ spring:
           keycloak:
             issuer-uri: http://keycloak:8080/auth/realms/jmt_realm
             authorization-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/auth
-            token-uri: http://localhost:8080/auth/auth/realms/jmt_realm/protocol/openid-connect/token
-            user-info-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/userinfo
-            jwk-set-uri: http://localhost:8080/auth/realms/jmt_realm/protocol/openid-connect/certs
+            token-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/token
+            user-info-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/certs
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka:password@eureka-server:8761/eureka
 
 zipkin:
   base-url: http://zipkin:9411/

@@ -9,6 +9,6 @@ import reactor.core.publisher.Mono;
 @Repository
 public interface UserRepository extends ReactiveCrudRepository<User, Long> {
 
-    @Query("SELECT * FROM user WHERE prefered_username = :preferred_username")
-    Mono<User> findByUsername(String preferred_username);
+    @Query("SELECT * FROM user WHERE email = :email")
+    Mono<User> findByEmail(String email);
 }

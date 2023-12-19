@@ -1,6 +1,5 @@
 package com.jmt.user.entity;
 
-import io.r2dbc.spi.Blob;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,6 +8,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.nio.ByteBuffer;
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -22,7 +22,7 @@ public class User {
     private Integer id;
     private String email;
     @Column("profile_picture")
-    private Blob profilePicture;
+    private ByteBuffer profilePicture;
     @Column("first_name")
     private String firstname;
     @Column("last_name")

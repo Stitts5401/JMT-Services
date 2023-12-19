@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/")
 @CircuitBreaker(name = "account", fallbackMethod = "fallbackMethod")
 @RequiredArgsConstructor
-public class LoginController {
+public class BaseController {
 
     private final UserInfoService userInfoService;
 
@@ -63,13 +63,37 @@ public class LoginController {
         return oauthTokenMono
                 .flatMap(oauthToken -> userInfoService.retrieveUserInfo(oauthToken)
                         .map(userInfo -> {
-                            model.addAttribute("name", userInfo.getFirstname() + " " + userInfo.getLastname());
-                            model.addAttribute("email", userInfo.getEmail());
+                            model.addAttribute("userInfo", userInfo);
                             return "welcome-directory";
                         }))
-                .switchIfEmpty(Mono.defer(() -> Mono.just("redirect:/oauth2/authorization/keycloak")));
+                .switchIfEmpty(Mono.defer(() -> {
+                    log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
+                    return Mono.just("redirect:/oauth2/authorization/keycloak");
+                }))
+                .doOnNext(viewName -> log.info("Rendering view: " + viewName))
+                .onErrorResume(e -> {
+                    log.error("Error while processing the welcome request: ", e);
+                    model.addAttribute("loginError", true);
+                    return Mono.just("home");
+                });
     }
+    @RequestMapping("/privacy-policy")
+    public Mono<String> privacyPolicy(Model model){
+        return Mono.just("privacy-policy");
     }
+    @RequestMapping("/terms-of-service")
+    public Mono<String> termsOfService(Model model){
+        return Mono.just("terms-of-service");
+    }
+    @RequestMapping("/contact")
+    public Mono<String> getContactPage(Model model){
+        return Mono.just("contact");
+    }
+    @RequestMapping("/pricing")
+    public Mono<String> deleteAccount(Model model){
+        return Mono.just("pricing");
+    }
+}
 
 
 

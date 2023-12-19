@@ -1,5 +1,5 @@
 host:
-  gateway: http://localhost:8282/api/v1
+  gateway: http://api-gateway:8282/api/v1
 server:
   port: 8090
 logging:
@@ -21,7 +21,7 @@ keycloak:
     id: jmt-client
     secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
   logout:
-    url: http://host.docker.internal:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
+    url: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
 spring:
   application:
     name: client-service

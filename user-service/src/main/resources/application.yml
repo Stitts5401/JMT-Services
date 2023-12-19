@@ -1,5 +1,5 @@
 host:
-  gateway: http://host.docker.internal:8282/api/v1
+  gateway: http://api-gateway:8282/api/v1
 server:
   port: 5151
 logging:
@@ -10,15 +10,15 @@ logging:
         cloud:
           gateway:
             route:
-              RouteDefinitionRouteLocator: INFO
-            gateway: TRACE
+              RouteDefinitionRouteLocator: DEBUG
+            gateway: DEBUG
         security: DEBUG
-    root: INFO
-    org.springframework.web: INFO
+    root: DEBUG
+    org.springframework.web: DEBUG
     org.springframework.security: DEBUG
 keycloak:
   password-change:
-    url: http://localhost:8080/auth/realms/jmtdev_realms/account/credentials/password
+    url: http://keycloak:8080/auth/realms/jmtdev_realms/account/credentials/password
 spring:
   application:
     name: user-service
@@ -44,12 +44,7 @@ zipkin:
   base-url: http://zipkin:9411/
 
 management:
-  endpoint:
-    web:
-      exposure:
-        include: "*"
   health:
-    show-details: always
     circuit-breakers:
       enabled: true
 resilience4j:

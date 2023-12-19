@@ -1,8 +1,10 @@
 package com.jmt.user.service;
 
 import com.jmt.user.model.PasswordChangeRequest;
-import io.r2dbc.spi.Blob;
+
 import reactor.core.publisher.Mono;
+
+import java.nio.ByteBuffer;
 
 public interface AccountManagementService {
     Mono<Void> updatePassword(PasswordChangeRequest passwordChangeRequest);
@@ -11,6 +13,6 @@ public interface AccountManagementService {
     Mono<Void> updateAddress(String username, String address);
     Mono<Void> updateFirstName(String username, String name);
     Mono<Void> updateLastName(String username, String name);
-    Mono<Void> updateProfilePicture(String username, Blob profilePicture);
+    Mono<Void> updateProfilePicture(String username, ByteBuffer profilePicture);
     Mono<Void> accountStatus(String username, boolean status);
 }

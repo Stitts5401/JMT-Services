@@ -25,10 +25,13 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     container_name: postgres
+    ports:
+      - "3408:3406"
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
       POSTGRES_PASSWORD: password
+
 
   keycloak:
     image: jboss/keycloak
@@ -54,6 +57,8 @@ services:
     container_name: eureka-server
     ports:
       - "8761:8761"
+    expose:
+      - "8761"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
@@ -77,10 +82,14 @@ services:
       - eureka-server
 
   client-service:
-#    restart: unless-stopped
+    restart: unless-stopped
     image: stitts5401/client-service:latest
     pull_policy: always
     container_name: client-service
+    ports:
+      - "8090:8080"
+    expose:
+      - "8090"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:

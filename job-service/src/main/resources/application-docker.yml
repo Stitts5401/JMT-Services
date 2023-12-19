@@ -1,5 +1,5 @@
 host:
-  gateway: http://api-gateway:8282
+  gateway: http://api-gateway:8282/api/v1
 server:
   port: 0
 logging:
@@ -30,9 +30,13 @@ spring:
 eureka:
   client:
     service-url:
-      defaultZone: http://eureka:password@eureka-server:8761/eureka
+      defaultZone: http://eureka:password@eureka-server:8761/eureka/
     registerWithEureka: true
     fetchRegistry: true
+    webclient:
+      enabled: true
+    healthcheck:
+      enabled: true
 
 zipkin:
   base-url: http://zipkin:9411/

@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,27 +27,19 @@ public class DownstreamHeadersFilterConfig {
                 .map(securityContext -> {
                     Authentication authentication = securityContext.getAuthentication();
                     String preferredUsername = null;
-                    String roles = "";
+                    Collection<GrantedAuthority> rolesList = null;
 
                     if (authentication instanceof JwtAuthenticationToken) {
                         Jwt jwt = ((JwtAuthenticationToken) authentication).getToken();
-                        preferredUsername = jwt.getClaimAsString("preferred_username");
-                        List<String> rolesList = jwt.getClaimAsStringList("roles");
-                        if (rolesList != null) {
-                            roles = String.join(",", rolesList);
-                        }
-                    } else if (authentication instanceof OAuth2AuthenticationToken) {
-                        OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
-                        OAuth2AuthenticatedPrincipal principal = oauthToken.getPrincipal();
-                        preferredUsername = principal.getAttribute("preferred_username");
-                        roles = oauthToken.getAuthorities().stream()
-                                .map(GrantedAuthority::getAuthority)
-                                .collect(Collectors.joining(","));
+                        preferredUsername = jwt.getClaimAsString("email");
+                        rolesList = ((JwtAuthenticationToken) authentication).getAuthorities();
                     }
 
                     ServerHttpRequest request = exchange.getRequest().mutate()
                             .header("X-Preferred-Username", preferredUsername)
-                            .header("X-Authorities", roles)
+                            .header("X-Authorities", rolesList.stream()
+                                    .map(GrantedAuthority::getAuthority)
+                                    .collect(Collectors.joining(",")))
                             .build();
                     return exchange.mutate().request(request).build();
                 })

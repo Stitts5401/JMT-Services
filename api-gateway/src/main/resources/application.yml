@@ -31,24 +31,18 @@ spring:
           uri: http://eureka:password@${app.eureka-server}:8761
           predicates:
             - Path=/eureka/
-        - id: client-service
-          uri: lb://client-service
-          predicates:
-            - Path=/**
-          filters:
-            - RewritePath=/(?<segment>.*),/$\{segment}
         - id: job-service
-          uri: lb://job-service
+          uri: http://job-service:8181
           predicates:
-            - Path=/api/v1/job/**
+            - Path=/api/v1/jobs/**
           filters:
-            - RewritePath=/api/v1/(?<segment>.*),/$\{segment}
+            - RewritePath=/api/v1/(?<segment>.*),/${segment}
         - id: user-service
-          uri: lb://user-service
+          uri: http://user-service:5151
           predicates:
             - Path=/api/v1/user/**
           filters:
-            - RewritePath=/api/v1/(?<segment>.*),/$\{segment}
+            - RewritePath=/api/v1/(?<segment>.*),/${segment}
   output:
     ansi:
       enabled: always
@@ -60,7 +54,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://host.docker.internal:8080/auth/realms/jmt_realm
+          issuer-uri: http://localhost:8080/auth/realms/jmt_realm
 
 logging:
   level:

@@ -2,11 +2,12 @@ package com.jmt.webservice.model;
 
 import lombok.Data;
 
-import java.sql.Blob;
+import java.nio.ByteBuffer;
 import java.sql.Time;
+import java.util.List;
 
 @Data
-public class Job {
+public class JobInfo {
     private Integer id;
     private Integer userId;
     private String name;
@@ -14,5 +15,6 @@ public class Job {
     private String location;
     private Time createdDate;
     private boolean completed;
-    private Blob image;
+    private ByteBuffer image;
+    private String category;
 }

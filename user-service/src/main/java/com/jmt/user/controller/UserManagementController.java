@@ -4,27 +4,21 @@ package com.jmt.user.controller;
 import com.jmt.user.model.PasswordChangeRequest;
 import com.jmt.user.model.UserInfo;
 import com.jmt.user.service.imp.CustomerAccountManagementService;
-import io.r2dbc.spi.Blob;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.security.Principal;
+import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/user")
+@RequestMapping("/user")
 public class UserManagementController {
 
     private final CustomerAccountManagementService accountManagementService;
@@ -60,7 +54,7 @@ public class UserManagementController {
     }
 
     @PostMapping("/management/update/profile-picture")
-    private Mono<Void> updateProfilePicture(@RequestBody String username, @RequestBody Blob profilePicture) {
+    private Mono<Void> updateProfilePicture(@RequestBody String username, @RequestBody ByteBuffer profilePicture) {
         return accountManagementService.updateProfilePicture(username, profilePicture);
     }
 
@@ -70,13 +64,13 @@ public class UserManagementController {
     }
     @GetMapping("/info")
     public Mono<UserInfo> userInfo(ServerHttpRequest request) {
-        String username = request.getHeaders().getFirst("X-Preferred-Username");
+        String email = request.getHeaders().getFirst("X-Preferred-Username");
         String authoritiesString = request.getHeaders().getFirst("X-Authorities");
         List<GrantedAuthority> authorities = Arrays.stream(authoritiesString.split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
 
-        return accountManagementService.getUserInformationFromUsername(username, authorities);
+        return accountManagementService.getUserInformationFromEmail(email, authorities);
     }
 
 

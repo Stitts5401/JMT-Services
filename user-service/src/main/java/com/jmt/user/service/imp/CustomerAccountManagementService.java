@@ -1,11 +1,11 @@
 package com.jmt.user.service.imp;
 
 import com.jmt.user.entity.Job;
+import com.jmt.user.model.JobInfo;
 import com.jmt.user.model.PasswordChangeRequest;
 import com.jmt.user.model.UserInfo;
 import com.jmt.user.repository.UserRepository;
 import com.jmt.user.service.AccountManagementService;
-import io.r2dbc.spi.Blob;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -37,67 +38,67 @@ public class CustomerAccountManagementService implements AccountManagementServic
                 .retrieve()
                 .bodyToMono(Void.class);
     }
-    public Mono<Void> updateEmail(String username, String email) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> updateEmail(String oldEmail, String newEmail) {
+        return userRepository.findByEmail(oldEmail)
                 .flatMap(user -> {
-                    user.setEmail(email);
+                    user.setEmail(newEmail);
                     return userRepository.save(user);
                 }).then();
     }
 
-    public Mono<Void> updatePhoneNumber(String username, String phoneNumber) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> updatePhoneNumber(String email, String phoneNumber) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> {
                     user.setPhoneNumber(phoneNumber);
                     return userRepository.save(user);
                 }).then();
     }
 
-    public Mono<Void> updateAddress(String username, String address) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> updateAddress(String email, String address) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> {
                     user.setAddress(address);
                     return userRepository.save(user);
                 }).then();
     }
 
-    public Mono<Void> updateFirstName(String username, String name) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> updateFirstName(String email, String name) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> {
                     user.setFirstname(name);
                     return userRepository.save(user);
                 }).then();
     }
 
-    public Mono<Void> updateLastName(String username, String name) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> updateLastName(String email, String name) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> {
                     user.setLastname(name);
                     return userRepository.save(user);
                 }).then();
     }
 
-    public Mono<Void> updateProfilePicture(String username, Blob profilePicture) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> updateProfilePicture(String email, ByteBuffer profilePicture) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> {
                     user.setProfilePicture(profilePicture);
                     return userRepository.save(user);
                 }).then();
     }
 
-    public Mono<Void> accountStatus(String username, boolean isEnabled) {
-        return userRepository.findByUsername(username)
+    public Mono<Void> accountStatus(String email, boolean isEnabled) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> {
                     user.setEnabled(isEnabled);
                     return userRepository.save(user);
                 }).then();
     }
-    public Mono<UserInfo> getUserInformationFromUsername(String email ,  Collection<? extends GrantedAuthority> authorities) {
-        return userRepository.findByUsername(email)
+    public Mono<UserInfo> getUserInformationFromEmail(String email ,  Collection<? extends GrantedAuthority> authorities) {
+        return userRepository.findByEmail(email)
                 .flatMap(user -> getJobs(user.getId())
                         .collectList()
-                        .map(jobs -> new UserInfo(user, jobs, authorities.stream()
-                                .map(GrantedAuthority::getAuthority).collect(Collectors.toList())))
+                        .map(jobs -> jobs.stream().map(JobInfo::new).collect(Collectors.toList()))
+                        .map(jobs -> new UserInfo(user, jobs, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())))
                 );
     }
     private Flux<Job> getJobs(Integer userId) {

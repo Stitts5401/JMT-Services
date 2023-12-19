@@ -1,5 +1,5 @@
 host:
-  gateway: http://host.docker.internal:8282
+  gateway: http://api-gateway:8282
 server:
   port: 8181
 logging:
@@ -38,12 +38,7 @@ zipkin:
   base-url: http://zipkin:9411/
 
 management:
-  endpoint:
-    web:
-      exposure:
-        include: "*"
   health:
-    show-details: always
     circuitbreakers:
       enabled: true
 resilience4j:

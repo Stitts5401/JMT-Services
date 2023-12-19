@@ -1,7 +1,7 @@
 host:
   gateway: http://api-gateway:8282
 server:
-  port: 0
+  port: 8070
 logging:
   level:
     org:
@@ -36,6 +36,14 @@ eureka:
       defaultZone: http://eureka:password@eureka-server:8761/eureka
     registerWithEureka: true
     fetchRegistry: true
+    webclient:
+      enabled: true
+    healthcheck:
+      enabled: true
 
+management:
+    health:
+      circuit-breakers:
+        enabled: true
 zipkin:
   base-url: http://zipkin:9411/

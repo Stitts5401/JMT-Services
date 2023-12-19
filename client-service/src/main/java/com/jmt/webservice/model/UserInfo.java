@@ -23,7 +23,7 @@ public class UserInfo extends Model implements Validator {
     private Date dateOfBirth;
     private String phoneNumber;
     private List<String> roles;
-    private List<Job> jobs;
+    private List<JobInfo> jobs;
     @Override
     public boolean supports(Class<?> clazz) {
         return UserInfo.class.isAssignableFrom(clazz);
