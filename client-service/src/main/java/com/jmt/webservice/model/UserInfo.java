@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
+import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class UserInfo extends Model implements Validator {
     private String nationality;
     private Date dateOfBirth;
     private String phoneNumber;
+    private String blobName;
     private List<String> roles;
     private List<JobInfo> jobs;
     @Override
@@ -52,10 +54,10 @@ public class UserInfo extends Model implements Validator {
         } else {
             // Assuming you want to check for adult age (18+)
             Date now = new Date();
-            long age = now.getYear() - userInfo.dateOfBirth.getYear();
-            if (age < 18) {
-                errors.rejectValue("dateOfBirth", "dateOfBirth.invalid", "Must be at least 18 years old");
-            }
+//            long age = now.getYear() - userInfo.dateOfBirth;
+//            if (age < 18) {
+//                errors.rejectValue("dateOfBirth", "dateOfBirth.invalid", "Must be at least 18 years old");
+//            }
         }
         if (userInfo.phoneNumber == null || !userInfo.phoneNumber.matches("[0-9]+")) {
             errors.rejectValue("phoneNumber", "phoneNumber.invalid", "Invalid phone number");

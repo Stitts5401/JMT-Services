@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -40,7 +44,10 @@ public class UserInfoService {
             // Handle specific errors if necessary
             return webClient.build().get()
                     .uri(hostGateway + "/user/info")
-                    .headers(headers -> headers.setBearerAuth(jwtToken))
+                    .headers(headers -> {
+                            headers.setBearerAuth(jwtToken);
+                            headers.setAccept(List.of(MediaType.APPLICATION_JSON));
+                    })
                     .retrieve()
                     .onStatus(HttpStatusCode::is4xxClientError, clientResponse ->
                             Mono.error(new ResponseStatusException(clientResponse.statusCode(), "Expired or invalid JWT token"))

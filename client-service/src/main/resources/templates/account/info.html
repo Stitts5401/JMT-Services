@@ -104,7 +104,7 @@
                     <a class="avatar avatar-xs p-0" href="#" id="profileDropdown" role="button"
                        data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        <img class="avatar-img rounded-circle" th:src="@{/assets/images/avatar/01.jpg}" alt="avatar">
+                        <img class="avatar-img rounded-circle" th:src="${userInfo.getBlobName()}">
                     </a>
 
                     <!-- Profile dropdown START -->
@@ -115,12 +115,12 @@
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
                                 <div class="avatar me-3">
-                                    <img class="avatar-img rounded-circle shadow" th:src="@{/assets/images/avatar/01.jpg}"
+                                    <img id="avatar" class="avatar-img rounded-circle shadow" th:src="${userInfo.getBlobName()}"
                                          alt="avatar">
                                 </div>
                                 <div>
-                                    <a class="h6 mt-2 mt-sm-0" href="#">Lori Ferguson</a>
-                                    <p class="small m-0">example@gmail.com</p>
+                                    <a class="h6 mt-2 mt-sm-0" id="userName" th:text="${userInfo.getFirstname()}+' '+${userInfo.getLastname()}">Default Name</a>
+                                    <p class="small m-0" id="email" th:text="${userInfo.getEmail()}">Default Email</p>
                                 </div>
                             </div>
                         </li>
@@ -135,10 +135,8 @@
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Settings</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help
                             Center</a></li>
-                        <li><a class="dropdown-item bg-danger-soft-hover" th:action="@{/logout}" methods="get"><i
-                                class="bi bi-power fa-fw me-2"></i>Sign Out(GET)</a></li>
-                        <li><a class="dropdown-item bg-danger-soft-hover" th:action="@{/logout}" methods="post"><i
-                                class="bi bi-power fa-fw me-2"></i>Sign Out(POST)</a></li>
+                        <li><a class="dropdown-item bg-danger-soft-hover" th:href="@{/logout}"><i
+                                class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -235,7 +233,7 @@
                                         <!-- Avatar -->
                                         <div class="avatar avatar-xl mb-2">
                                             <img class="avatar-img rounded-circle border border-2 border-white"
-                                                 th:src="@{/assets/images/avatar/01.jpg}" alt="">
+                                                 th:src="${userInfo.getBlobName()}" alt="">
                                         </div>
                                         <h6 class="mb-0"><span th:text="${userInfo.getFirstname()}+' '+${userInfo.getLastname()}">FullName</span>
                                         </h6>
@@ -332,7 +330,7 @@
                             <!-- Card body START -->
                             <div class="card-body">
                                 <!-- Form START -->
-                                <form class="row g-3">
+                                <form class="row g-3" method="post" action="/file/uploadProfilePhoto" enctype="multipart/form-data">
                                     <!-- Profile photo -->
                                     <div class="col-12">
                                         <label class="form-label">Upload your profile photo<span
@@ -342,20 +340,19 @@
                                                    title="Replace this pic">
                                                 <!-- Avatar place holder -->
                                                 <span class="avatar avatar-xl">
-												<img id="uploadfile-1-preview"
-                                                     class="avatar-img rounded-circle border border-white border-3 shadow"
-                                                     th:src="@{/assets/images/avatar/01.jpg}" alt="">
+                                               <img id="uploadfile-1-preview"  th:src="${userInfo.getBlobName()}" alt="Placeholder"
+                                                    class="avatar-img rounded-circle border border-white border-3 shadow">
 											</span>
                                             </label>
                                             <!-- Upload button -->
-                                            <label class="btn btn-sm btn-primary-soft mb-0"
-                                                   for="uploadfile-1">Change</label>
-                                            <input id="uploadfile-1" class="form-control d-none" type="file">
+                                            <label class="btn btn-sm btn-primary-soft mb-0" for="uploadfile-1">Change</label>
+                                            <input type="hidden" name="oldImageGuid" id="oldImageGuid" class="form-control d-none" th:value="${userInfo.blobName}" onchange="this.form.submit()" />
+                                            <input id="uploadfile-1" name="file" onchange="this.form.submit()" class="form-control d-none" type="file">
                                         </div>
                                     </div>
-
+                                    <div th:if="${uploadError}" class="alert alert-danger" th:text="${uploadError}">Upload error message goes here.</div>
                                 </form>
-                                <form class="row g-3" id="updateAccountForm" th:action="@{/account/update-account}" th:object="${userInfo}" method="post">                                    <!-- Name -->
+                                <form class="row g-3" id="updateAccountForm" th:action="${userInfo.getBlobName()}" th:object="${userInfo}" method="post">                                    <!-- Name -->
                                     <div class="col-md-6">
                                         <label class="form-label">Firstname<span class="text-danger">*</span></label>
                                         <input type="text" class="form-control" th:field="*{firstname}" placeholder="Enter your firstname">
@@ -502,7 +499,7 @@ Footer END -->
 
 <!-- Back to top -->
 <div class="back-top"></div>
-<javascript th:replace="~{/fragments/javascript :: js}"></javascript>
+<div th:replace="~{/fragments/javascript :: js}"></div>
 
 </body>
 </html>

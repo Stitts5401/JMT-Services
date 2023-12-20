@@ -638,7 +638,7 @@ Tour grid START -->
 					<div class="card card-hover-shadow pb-0 h-100">
 						<div class="position-relative">
 							<!-- Use Thymeleaf to dynamically set the image source -->
-							<img th:src="${job.getImage()}" class="card-img-top" alt="Card image">
+							<img th:src="${job.getImage()()}" class="card-img-top" alt="Card image">
 							<div class="card-img-overlay d-flex flex-column p-4 z-index-1">
 								<div>
 									<!-- Dynamically set the badge text or remove if not applicable -->
@@ -698,7 +698,7 @@ Footer END -->
 
 <!-- Back to top -->
 <div class="back-top"></div>
-<javascript th:replace="~{/fragments/javascript :: js}"></javascript>
+<div th:replace="~{/fragments/javascript :: js}"></div>
 
 </body>
 </html>

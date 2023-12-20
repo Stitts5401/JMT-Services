@@ -1,5 +1,7 @@
 package com.jmt.webservice.controller;
 
+import com.jmt.webservice.literal.NationalityData;
+import com.jmt.webservice.service.GoogleCloudStorageService;
 import com.jmt.webservice.service.UserInfoService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,8 @@ import reactor.core.publisher.Mono;
 public class BaseController {
 
     private final UserInfoService userInfoService;
+    private final GoogleCloudStorageService googleCloudStorageService;
+
 
     public String fallbackMethod(Exception e) {
         log.error("Fallback method triggered with exception {}", e.getMessage());
@@ -60,11 +64,19 @@ public class BaseController {
 
     @GetMapping("/welcome-directory")
     public Mono<String> welcome(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono) {
+
         return oauthTokenMono
                 .flatMap(oauthToken -> userInfoService.retrieveUserInfo(oauthToken)
-                        .map(userInfo -> {
-                            model.addAttribute("userInfo", userInfo);
-                            return "welcome-directory";
+                        .flatMap(userInfo -> {
+                            Mono<String> blobNameMono = Mono.just(userInfo.getBlobName() == null || userInfo.getBlobName().isEmpty() ?
+                                    "01.jpg" :
+                                    userInfo.getBlobName());
+                            return blobNameMono.flatMap(googleCloudStorageService::generateSignedUrl)
+                                    .map(signedUrl -> {
+                                        userInfo.setBlobName(signedUrl);
+                                        model.addAttribute("userInfo", userInfo);
+                                        return "welcome-directory"; // Name of the Thymeleaf template
+                                    });
                         }))
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");

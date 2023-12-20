@@ -22,7 +22,7 @@ public class User {
     private Integer id;
     private String email;
     @Column("profile_picture")
-    private ByteBuffer profilePicture;
+    private String blobName;
     @Column("first_name")
     private String firstname;
     @Column("last_name")

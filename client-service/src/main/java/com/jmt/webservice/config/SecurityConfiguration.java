@@ -35,7 +35,7 @@ public class SecurityConfiguration {
 
     private final String[] WHITE_LIST = new String[]
             {
-                     "/oauth2/**", "/error/**", "/**"
+                     "/oauth2/**", "/error/**", "/**", "/static/**", "/webjars/**", "/favicon.*", "/css/**", "/js/**", "/images/**"
             };
     private final UserInfoService userInfoService;
 

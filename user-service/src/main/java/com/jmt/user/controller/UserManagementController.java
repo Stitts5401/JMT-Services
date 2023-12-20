@@ -54,8 +54,11 @@ public class UserManagementController {
     }
 
     @PostMapping("/management/update/profile-picture")
-    private Mono<Void> updateProfilePicture(@RequestBody String username, @RequestBody ByteBuffer profilePicture) {
-        return accountManagementService.updateProfilePicture(username, profilePicture);
+    private Mono<Void> updateProfilePicture(ServerHttpRequest request, @RequestBody String profilePicture) {
+
+        String email = request.getHeaders().getFirst("X-Preferred-Username");
+
+        return accountManagementService.updateProfilePicture(email, profilePicture);
     }
 
     @PostMapping("/management/update/account-status")

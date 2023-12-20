@@ -48,7 +48,6 @@ public class JobService {
                                     List<PolicyInfo> policyInfos = policyItems.stream()
                                             .map(PolicyInfo::new)
                                             .collect(Collectors.toList());
-
                                     // Create JobInfo object
                                     return new JobInfo(job, policyInfos);
                                 })

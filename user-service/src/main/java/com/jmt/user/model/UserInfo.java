@@ -14,6 +14,7 @@ public class UserInfo {
     private String address;
     private String nationality;
     private Date dateOfBirth;
+    private String blobName;
     private List<String> roles;
     private List<JobInfo> jobs;
     public UserInfo(User user, List<JobInfo> jobs, List<String> roles) {
@@ -23,6 +24,7 @@ public class UserInfo {
         phoneNumber = user.getPhoneNumber();
         address = user.getAddress();
         nationality = user.getNationality();
+        blobName = user.getBlobName();
         this.roles = roles;
         this.jobs = jobs;
     }

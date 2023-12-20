@@ -47,10 +47,12 @@ public class JobController {
     public Mono<String> jobDetails(Model model, @PathVariable("jobId") long jobId, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono){
         return oauthTokenMono
                 .flatMap(auth -> jobListingService.retrieve(jobId, auth))
+                .log()
                 .map(jobInfo -> {
                     model.addAttribute("job", jobInfo );
+                    model.addAttribute("policies", jobInfo.getPolicyInfo() );
                     return "jobs/details";
-                })
+                }).log()
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No Job found");
                     return Mono.just("redirect:/error");

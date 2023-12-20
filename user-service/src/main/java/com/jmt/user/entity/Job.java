@@ -29,6 +29,6 @@ public class Job {
     private Time createdDate;
     @Column("completion_status")
     private boolean completed;
-    private ByteBuffer image;
+    private String image;
     private String category;
 }

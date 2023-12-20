@@ -16,7 +16,7 @@
         <div class="container">
             <!-- Logo START -->
             <a class="navbar-brand" th:href="@{/home}">
-                <img class="navbar-brand-item" src="/assets/images/logo-dark.svg" alt="logo">
+                <img class="navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
             </a>
             <!-- Logo END -->
 
@@ -178,7 +178,7 @@
                 <li class="nav-item ms-3 dropdown">
                     <!-- Avatar -->
                     <a class="avatar avatar-sm p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="avatar-img rounded-2" src="/assets/images/avatar/01.jpg" alt="avatar">
+                        <img class="avatar-img rounded-2" th:src="${userInfo.getBlobName()}" alt="">
                     </a>
 
                     <ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
@@ -187,7 +187,7 @@
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
                                 <div class="avatar me-3">
-                                    <img class="avatar-img rounded-circle shadow" src="/assets/images/avatar/01.jpg" alt="avatar">
+                                    <img class="avatar-img rounded-circle shadow" th:src="${userInfo.getBlobName()}" alt="">
                                 </div>
                                 <div>
                                     <a class="h6 mt-2 mt-sm-0" href="#" th:text="${userInfo.getFirstname()}+' '+${userInfo.getLastname()}"></a>
@@ -1308,7 +1308,8 @@ Footer END -->
 
 <!-- Back to top -->
 <div class="back-top"></div>
-<javascript th:replace="~{/fragments/javascript :: js}"></javascript>
+<div th:replace="~{/fragments/javascript :: js}"></div>
+
 
 </body>
 </html>

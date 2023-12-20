@@ -23,9 +23,9 @@ spring:
     ansi:
       enabled: always
   r2dbc:
-    url: r2dbc:mysql://mysql:3306/jmt
-    password: ADMIN1234
-    username: admin
+    url: r2dbc:mysql://35.196.14.239:3306/jmt
+    password: jF}[,IsU{kqEG,}s
+    username: root
 
 eureka:
   client:

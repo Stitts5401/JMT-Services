@@ -40,7 +40,9 @@ public class JobListingService {
         String principalName = oauthToken.getName();
 
         return authorizedClientRepository.loadAuthorizedClient(clientRegistrationId, principalName)
-                .flatMap(client -> fetchUserInfoFromResourceServer(client, jobId));
+                .flatMap(client -> fetchUserInfoFromResourceServer(client, jobId))
+                .doOnNext(jobInfo -> log.info("JobInfo: {}", jobInfo))
+                .log();
     }
 
     private Mono<Page<JobInfo>> fetchUserInfoFromResourceServer(OAuth2AuthorizedClient authorizedClient,
@@ -81,6 +83,8 @@ public class JobListingService {
                         Mono.error(new ResponseStatusException(clientResponse.statusCode(), "Expired or invalid JWT token"))
                 )
                 .bodyToMono(JobInfo.class)
+                .doOnNext(jobInfo -> log.info("JobInfo: {}", jobInfo))
+                .log()
                 .onErrorResume(ex -> {
                     log.error("Error retrieving job listings: ", ex);
                     return Mono.error(ex);

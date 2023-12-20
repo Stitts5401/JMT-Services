@@ -15,6 +15,7 @@ public class JobInfo {
     private String location;
     private Time createdDate;
     private boolean completed;
-    private ByteBuffer image;
+    private String image;
     private String category;
+    private List<PolicyInfo> policyInfo;
 }

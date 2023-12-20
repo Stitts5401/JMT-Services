@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 
 <html xmlns:th="http://www.thymeleaf.org">
-
 <body>
-
 <div th:fragment="js">
 
     <!-- Optional JavaScript -->
     <!-- jquery 3.3.1 -->
     <script th:src="@{/assets/vendor/jquery/jquery-3.3.1.min.js}"></script>
     <!-- bootstrap bundle js -->
-    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.js}"></script>
+<!--    <script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.js}"></script>-->
+    <script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
     <!-- slimscroll js -->
     <script th:src="@{/assets/vendor/slimscroll/jquery.slimscroll.js}"></script>
     <!-- chart chartist js -->
@@ -22,7 +21,7 @@
     <script th:src="@{/assets/vendor/charts/morris-bundle/morris.js}"></script>
     <!-- chart c3 js -->
     <script th:src="@{/assets/vendor/charts/c3charts/c3.min.js}"></script>
-    <script th:src="@{/assets/vendor/charts/c3charts/d3-5.4.0.min.js}"></script>
+<!--    <script th:src="@{/assets/vendor/charts/c3charts/d3-5.4.0.min.js}"></script>-->
     <script th:src="@{/assets/vendor/charts/c3charts/C3chartjs.js}"></script>
     <script th:src="@{/assets/vendor/datepicker/tempusdominus-bootstrap-4.js}"></script>
     <script th:src="@{/assets/vendor/datepicker/moment.js}"></script>
@@ -30,16 +29,12 @@
     <script th:src="@{/assets/vendor/aos/aos.js}"></script>
     <script th:src="@{/assets/vendor/flatpickr/js/flatpickr.min.js}"></script>
     <script th:src="@{/assets/vendor/choices/js/choices.min.js}"></script>
-    <script th:src="@{/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js}"></script>
     <!-- Vendors -->
     <script th:src="@{/assets/vendor/choices/js/choices.min.js}"></script>
     <script th:src="@{/assets/vendor/flatpickr/js/flatpickr.min.js}"></script>
     <script th:src="@{/assets/vendor/stepper/js/bs-stepper.min.js}"></script>
     <script th:src="@{/assets/vendor/quill/js/quill.min.js}"></script>
     <script th:src="@{/assets/vendor/dropzone/js/dropzone.js}"></script>
-    <!-- ThemeFunctions -->
-    <script th:src="@{/assets/js/functions.js}"></script>
-    <script th:src="@{/assets/js/custom.js}"></script>
     <!-- main js -->
     <script th:src="@{/assets/vendor/tiny-slider/tiny-slider.js}"></script>
     <script th:src="@{/assets/vendor/purecounterjs/dist/purecounter_vanilla.js}"></script>
@@ -51,61 +46,34 @@
     <!-- Vendors -->
     <script th:src="@{/assets/vendor/splide-master/dist/js/splide.min.js}"></script>
     <script th:src="@{/assets/vendor/glightbox/js/glightbox.js}"></script>
+    <!-- ThemeFunctions -->
+    <script th:src="@{/assets/js/functions.js}"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', (event) => {
-            const form = document.getElementById('updateAccountForm');
-            const submitBtn = document.getElementById('submitBtn');
-            const loadingSpinner = document.getElementById('loadingSpinner');
-            const errorMessage = document.getElementById('errorMessage');
-            const successMessage = document.getElementById('successMessage');
+        document.addEventListener("DOMContentLoaded", function() {
+            var storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
+            if (storedUserInfo) {
+                // Update elements with the class 'userName'
+                var userNameElements = document.querySelectorAll('.userName');
+                userNameElements.forEach(function(element) {
+                    element.textContent = storedUserInfo.firstname + ' ' + storedUserInfo.lastname;
+                });
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+                // Update elements with the class 'userEmail'
+                var userEmailElements = document.querySelectorAll('.userEmail');
+                userEmailElements.forEach(function(element) {
+                    element.textContent = storedUserInfo.email;
+                });
 
-                // Show loading spinner and hide the submit button
-                submitBtn.style.display = 'none';
-                loadingSpinner.style.display = 'block';
-
-                const url = form.getAttribute('action');
-                const formData = new FormData(form);
-                const formDataJson = Object.fromEntries(formData.entries());
-
-                fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify(formDataJson),
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                    }
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok ' + response.statusText);
-                        }
-                        return response.text(); // or response.json() if your server responds with JSON
-                    })
-                    .then(data => {
-                        // Handle success
-                        successMessage.textContent = 'Account updated successfully!';
-                        errorMessage.textContent = ''; // Clear any previous error messages
-
-                        // Optionally refresh the form or the part of the page
-                        // location.reload(); // Uncomment to refresh the page
-                    })
-                    .catch((error) => {
-                        // Handle error
-                        errorMessage.textContent = error.message;
-                        successMessage.textContent = ''; // Clear any previous success messages
-                    })
-                    .finally(() => {
-                        // Hide loading spinner and show the submit button again
-                        loadingSpinner.style.display = 'none';
-                        submitBtn.style.display = 'block';
-                    });
-            });
+                // Update images with the class 'userAvatarImage'
+                var userAvatarImageElements = document.querySelectorAll('.userAvatarImage');
+                userAvatarImageElements.forEach(function(element) {
+                    element.src = storedUserInfo.blobName;
+                });
+            }
         });
     </script>
+
 
 </div>
 

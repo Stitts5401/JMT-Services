@@ -13,6 +13,6 @@ public interface AccountManagementService {
     Mono<Void> updateAddress(String username, String address);
     Mono<Void> updateFirstName(String username, String name);
     Mono<Void> updateLastName(String username, String name);
-    Mono<Void> updateProfilePicture(String username, ByteBuffer profilePicture);
+    Mono<Void> updateProfilePicture(String username, String profilePicture);
     Mono<Void> accountStatus(String username, boolean status);
 }

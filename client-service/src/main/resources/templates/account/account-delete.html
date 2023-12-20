@@ -270,34 +270,40 @@
 				<li class="nav-item ms-3 dropdown">
 					<!-- Avatar -->
 					<a class="avatar avatar-xs p-0" href="#" id="profileDropdown" role="button" data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown" aria-expanded="false">
-						<img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar">
+						<img class="avatar-img rounded-circle userAvatarImage" src="">
 					</a>
 
 					<!-- Profile dropdown START -->
 					<ul class="dropdown-menu dropdown-animation dropdown-menu-end shadow pt-3" aria-labelledby="profileDropdown">
 						<!-- Profile info -->
-						<li class="px-3 mb-3">
-							<div class="d-flex align-items-center">
-								<!-- Avatar -->
-								<div class="avatar me-3">
-									<img class="avatar-img rounded-circle shadow" src="assets/images/avatar/01.jpg" alt="avatar">
-								</div>
-								<div>
-									<a class="h6 mt-2 mt-sm-0" href="#">Lori Ferguson</a>
-									<p class="small m-0">example@gmail.com</p>
-								</div>
-							</div>
-						</li>
+                        <li class="px-3 mb-3">
+                            <div class="d-flex align-items-center">
+                                <!-- Avatar -->
+                                <div class="avatar me-3">
+                                    <img class="avatar-img rounded-circle shadow userAvatarImage" src="" alt="avatar">
+                                </div>
+                                <div>
+                                    <a class="h6 mt-2 mt-sm-0 userName" href="#" >Default Name</a>
+                                    <p class="small m-0 userEmail">Default Email</p>
+                                </div>
+                            </div>
+                        </li>
 
 						<!-- Links -->
-						<li> <hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
+						<li><a class="dropdown-item" href="#"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Bookings</a>
+						</li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-heart fa-fw me-2"></i>My Wishlist</a></li>
 						<li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Settings</a></li>
-						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help Center</a></li>
-						<li><a class="dropdown-item bg-danger-soft-hover" href="#"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
-						<li> <hr class="dropdown-divider"></li>
-
+						<li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help
+							Center</a></li>
+						<li><a class="dropdown-item bg-danger-soft-hover" th:href="@{/logout}"><i
+								class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
+						<li>
+							<hr class="dropdown-divider">
+						</li>
 						<!-- Dark mode options START -->
 						<li>
 							<div class="nav-pills-primary-soft theme-icon-active d-flex justify-content-between align-items-center p-2 pb-0">
@@ -377,13 +383,14 @@ Content START -->
 								<div class="text-center mb-3">
 									<!-- Avatar -->
 									<div class="avatar avatar-xl mb-2">
-										<img class="avatar-img rounded-circle border border-2 border-white"
-											 th:src="@{/assets/images/avatar/01.jpg}" alt="">
+										<img class="avatar-img rounded-circle border border-2 border-white userAvatarImage"
+											 src="" alt="">
 									</div>
-									<h6 class="mb-0"><span th:text="${userInfo.getFirstname()}+' '+${userInfo.getLastname()}">FullName</span>
+									<h6 class="mb-0 userName"><span
+											text="">Default Name</span>
 									</h6>
-									<a href="#" class="text-reset text-primary-hover small"
-									   th:text="${userInfo.getEmail()}">Email</a>
+									<a href="#" class="text-reset text-primary-hover small userEmail"
+									   text="">Default Email</a>
 									<hr>
 								</div>
 
@@ -472,7 +479,7 @@ Footer END -->
 
 <!-- Back to top -->
 <div class="back-top"></div>
-<javascript th:replace="~{/fragments/javascript :: js}"></javascript>
+<div th:replace="~{/fragments/javascript :: js}"></div>
 
 </body>
 </html>

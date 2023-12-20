@@ -9,6 +9,7 @@ import com.jmt.user.service.AccountManagementService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -78,12 +79,8 @@ public class CustomerAccountManagementService implements AccountManagementServic
                 }).then();
     }
 
-    public Mono<Void> updateProfilePicture(String email, ByteBuffer profilePicture) {
-        return userRepository.findByEmail(email)
-                .flatMap(user -> {
-                    user.setProfilePicture(profilePicture);
-                    return userRepository.save(user);
-                }).then();
+    public Mono<Void> updateProfilePicture(String email, String profilePicture) {
+        return userRepository.updateByEmail(email, profilePicture);
     }
 
     public Mono<Void> accountStatus(String email, boolean isEnabled) {
@@ -104,6 +101,7 @@ public class CustomerAccountManagementService implements AccountManagementServic
         return WebClient.create()
                 .get()
                 .uri(url+ "/jobs/user/" + userId)
+                .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToFlux(JobInfo.class);
     }

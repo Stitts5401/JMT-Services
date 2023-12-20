@@ -3,6 +3,7 @@ package com.jmt.webservice.controller;
 import com.jmt.webservice.literal.NationalityData;
 import com.jmt.webservice.model.UserInfo;
 import com.jmt.webservice.service.AccountService;
+import com.jmt.webservice.service.GoogleCloudStorageService;
 import com.jmt.webservice.service.UserInfoService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.ValidationException;
@@ -27,22 +28,28 @@ public class AccountController {
 
     private final UserInfoService userInfoService;
     private final AccountService accountService;
+    private final GoogleCloudStorageService googleCloudStorageService;
     @GetMapping("/info")
     public Mono<String> getUserAccountInfo(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono) {
         return oauthTokenMono
-                .flatMap(userInfoService::retrieveUserInfo).map( userInfo -> {
-                    // Add user info attributes only if userInfo is not null
-                        boolean isComplete =
-                                userInfo.getFirstname() != null && userInfo.getLastname() != null &&
-                                        userInfo.getEmail() != null && userInfo.getAddress() != null;
-                        int percentComplete = 0;
-                        if (isComplete) percentComplete += 50;
+                .flatMap(userInfoService::retrieveUserInfo)
+                .flatMap(userInfo -> {
+                    boolean isComplete = userInfo.getFirstname() != null && userInfo.getLastname() != null &&
+                            userInfo.getEmail() != null && userInfo.getAddress() != null;
+                    int percentComplete = isComplete ? 50 : 0;
 
-                        model.addAttribute("isComplete", isComplete);
-                        model.addAttribute("percentComplete", percentComplete);
-                        model.addAttribute("nationalities", NationalityData.getCommonNationalities());
-                        model.addAttribute("userInfo", userInfo);
-                    return "account/info";
+                    Mono<String> blobNameMono = Mono.just(userInfo.getBlobName() == null || userInfo.getBlobName().isEmpty() ?
+                            "01.jpg" :
+                            userInfo.getBlobName());
+                    return blobNameMono.flatMap(googleCloudStorageService::generateSignedUrl)
+                            .map(signedUrl -> {
+                                userInfo.setBlobName(signedUrl); // Set the signed URL or the default image path
+                                model.addAttribute("isComplete", isComplete);
+                                model.addAttribute("percentComplete", percentComplete);
+                                model.addAttribute("nationalities", NationalityData.getCommonNationalities());
+                                model.addAttribute("userInfo", userInfo);
+                                return "account/info"; // Name of the Thymeleaf template
+                            });
                 })
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
@@ -101,7 +108,6 @@ public class AccountController {
         return session.invalidate()
                 .then( Mono.just("home") );
     }
-
     @PostMapping("/update-account")
     private Mono<Void> updateAccount(@RequestBody UserInfo userInfo, Model model, @AuthenticationPrincipal OAuth2AuthenticationToken oauthToken) {
         return userInfoService.retrieveUserInfo(oauthToken)

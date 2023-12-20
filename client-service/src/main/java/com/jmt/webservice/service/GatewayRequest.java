@@ -1,5 +1,6 @@
 package com.jmt.webservice.service;
 
+import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.oauth2.client.ReactiveOAuth2AuthorizedClientService;
@@ -12,20 +13,16 @@ import reactor.core.publisher.Mono;
 
 
 @Component
+@RequiredArgsConstructor
 public class GatewayRequest {
 
     @Value("${host.gateway}")
-    private String url ;
-    private final WebClient webClient;
+    private String hostGateway ;
+    private final WebClient.Builder webClient;
     private final ReactiveOAuth2AuthorizedClientService authorizedClientRepository;
 
-    public GatewayRequest(WebClient.Builder webClientBuilder,
-                           ReactiveOAuth2AuthorizedClientService authorizedClientRepository) {
-        this.webClient = webClientBuilder.baseUrl(url).build();
-        this.authorizedClientRepository = authorizedClientRepository;
-    }
 
-    public Mono<Void> post(OAuth2AuthenticationToken token, String url, JSONObject body) {
+    public Mono<Void> post(OAuth2AuthenticationToken token, String endpoint, JSONObject body) {
         String clientRegistrationId = token.getAuthorizedClientRegistrationId();
         String principalName = token.getName();
 
@@ -33,14 +30,15 @@ public class GatewayRequest {
                 (client -> {
                     OAuth2AccessToken accessToken = client.getAccessToken();
                     String jwtToken = accessToken.getTokenValue(); // The JWT token
-                    return webClient.post()
-                            .uri(url)
+                    return webClient.build().post()
+                            .uri(hostGateway + endpoint)
                             .headers(headers -> headers.setBearerAuth(jwtToken))
                             .bodyValue(body)
                             .retrieve()
                             .bodyToMono(Void.class);
                 });
-    }    public Mono<Void> post(OAuth2AuthenticationToken token, String url, String body) {
+    }
+    public Mono<Void> post(OAuth2AuthenticationToken token, String endpoint, String body) {
         String clientRegistrationId = token.getAuthorizedClientRegistrationId();
         String principalName = token.getName();
 
@@ -48,8 +46,8 @@ public class GatewayRequest {
                 (client -> {
                     OAuth2AccessToken accessToken = client.getAccessToken();
                     String jwtToken = accessToken.getTokenValue(); // The JWT token
-                    return webClient.post()
-                            .uri(url)
+                    return webClient.build().post()
+                            .uri(hostGateway + endpoint)
                             .headers(headers -> headers.setBearerAuth(jwtToken))
                             .bodyValue(body)
                             .retrieve()
