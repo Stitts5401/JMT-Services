@@ -4,6 +4,7 @@ import com.jmt.jobs.entity.Job;
 import com.jmt.jobs.model.JobInfo;
 import com.jmt.jobs.service.JobService;
 import lombok.RequiredArgsConstructor;
+import net.minidev.json.JSONObject;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.ui.Model;
@@ -18,13 +19,19 @@ public class JobController {
 
     private final JobService jobService;
 
-    @GetMapping("/user/{userId}")
-    public Flux<Job> getJobsByUser(@PathVariable Integer userId) {
-        return jobService.get(userId);
+    @PatchMapping("/manage/add")
+    public Mono<Job> addImages(@RequestBody JSONObject jsonObject) {
+        return jobService.addImageByJobId((Integer) jsonObject.get("id"), (String) jsonObject.get("guid")) ;
     }
+    @PatchMapping("/manage/remove")
+    public Mono<Job> removeImages(@RequestBody JSONObject jsonObject)  {
+        return jobService.removeImageById((String) jsonObject.get("guid"));
+    }
+    @GetMapping("/user/{userId}")
+    public Flux<Job> getJobsByUserId(@PathVariable Integer userId) {return jobService.getJobsByUserId(userId);}
     @GetMapping("/details/{jobId}")
-    public Mono<JobInfo> getJobsById(@PathVariable long jobId) {
-        return jobService.get(jobId);
+    public Mono<JobInfo> getJobsById(@PathVariable Integer jobId) {
+        return jobService.getJobById(jobId);
     }
     @GetMapping("/listings")
     public Mono<String> jobListings(Model model, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,

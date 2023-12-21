@@ -1,5 +1,6 @@
 package com.jmt.webservice.service;
 
+import com.jmt.webservice.model.JobInfo;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -52,6 +53,22 @@ public class GatewayRequest {
                             .bodyValue(body)
                             .retrieve()
                             .bodyToMono(Void.class);
+                });
+    }
+    public Mono<JobInfo> patch(OAuth2AuthenticationToken token, String endpoint, JSONObject body) {
+        String clientRegistrationId = token.getAuthorizedClientRegistrationId();
+        String principalName = token.getName();
+
+        return authorizedClientRepository.loadAuthorizedClient(clientRegistrationId, principalName).flatMap
+                (client -> {
+                    OAuth2AccessToken accessToken = client.getAccessToken();
+                    String jwtToken = accessToken.getTokenValue(); // The JWT token
+                    return webClient.build().patch()
+                            .uri(hostGateway + endpoint)
+                            .headers(headers -> headers.setBearerAuth(jwtToken))
+                            .bodyValue(body)
+                            .retrieve()
+                            .bodyToMono(JobInfo.class);
                 });
     }
 }

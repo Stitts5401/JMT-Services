@@ -14,11 +14,9 @@
     <nav class="navbar navbar-expand-xl">
         <div class="container">
             <!-- Logo START -->
-            <a class="navbar-brand" th:href="@{/home}">
-                <img class="light-mode-item navbar-brand-item smaller" src="../assets/
-images/logo-light.svg" alt="logo">
-                <img class="dark-mode-item navbar-brand-item" src="../assets/
-images/logo-dark.svg" alt="logo">
+            <a class="navbar-brand" th:href="@{/welcome-directory}">
+                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+                <img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
             </a>
             <!-- Logo END -->
 
@@ -110,7 +108,7 @@ images/logo-dark.svg" alt="logo">
                     <p class="mb-4">Speedily say has suitable disposal add boy. On forth doubt miles of child. Exercise
                         joy man children rejoiced.</p>
                     <!-- Button -->
-                    <a href="../static/add-listing.html" class="btn btn-primary-soft mb-4">Add your Job<i
+                    <a th:href="@{/job/add}" class="btn btn-primary-soft mb-4">Add your Job<i
                             class="fa-solid fa-arrow-right-long fa-fw"></i></a>
                     <!-- List -->
                     <h6 class="fw-normal mb-1">Create New Job Listing</h6>

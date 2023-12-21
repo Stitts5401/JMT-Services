@@ -28,13 +28,24 @@ public class UserInfoService {
 
     private final WebClient.Builder webClient;
     private final ReactiveOAuth2AuthorizedClientService authorizedClientRepository;
+    private final GoogleCloudStorageService googleCloudStorageService;
 
         public Mono<UserInfo> retrieveUserInfo(OAuth2AuthenticationToken oauthToken) {
             String clientRegistrationId = oauthToken.getAuthorizedClientRegistrationId();
             String principalName = oauthToken.getName();
 
             return authorizedClientRepository.loadAuthorizedClient(clientRegistrationId, principalName)
-                    .flatMap(this::fetchUserInfoFromResourceServer);
+                    .flatMap(this::fetchUserInfoFromResourceServer)
+                    .flatMap(userInfo -> {
+                        Mono<String> blobNameMono = Mono.just(userInfo.getBlobName() == null || userInfo.getBlobName().isEmpty() ?
+                                "01.jpg" :
+                                userInfo.getBlobName());
+                        return blobNameMono.flatMap(data -> googleCloudStorageService.generateSignedUrl(data , false))
+                                .map(signedUrl -> {
+                                    userInfo.setBlobName(signedUrl);
+                                    return userInfo;
+                                });
+                    });
         }
 
         private Mono<UserInfo> fetchUserInfoFromResourceServer(OAuth2AuthorizedClient authorizedClient) {

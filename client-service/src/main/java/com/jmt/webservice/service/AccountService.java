@@ -1,5 +1,7 @@
 package com.jmt.webservice.service;
 
+import com.google.cloud.storage.BlobInfo;
+import com.jmt.webservice.model.JobInfo;
 import com.jmt.webservice.model.PasswordChangeRequest;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
@@ -37,7 +39,13 @@ public class AccountService {
     private Mono<Void> accountStatus( OAuth2AuthenticationToken oauthToken, String accountStatusRequest) {
         return gatewayRequest.post(oauthToken, "/user/management/update/account-status", accountStatusRequest).then();
     }
-    public Mono<Void> updateImage( OAuth2AuthenticationToken oauthToken, String accountStatusRequest) {
-        return gatewayRequest.post(oauthToken, "/user/management/update/profile-picture", accountStatusRequest).then();
+    public Mono<Void> updateImage( OAuth2AuthenticationToken oauthToken, String img) {
+        return gatewayRequest.post(oauthToken, "/user/management/update/profile-picture", img).then();
+    }
+    public Mono<JobInfo> addJobImage(OAuth2AuthenticationToken oauthToken, JSONObject body) {
+        return gatewayRequest.patch(oauthToken, "/jobs/manage/add", body);
+    }
+    public Mono<JobInfo> removeJobImage( OAuth2AuthenticationToken oauthToken, JSONObject body) {
+        return gatewayRequest.patch(oauthToken, "/jobs/manage/remove", body);
     }
 }

@@ -1,4 +1,5 @@
 package com.jmt.jobs.entity;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,26 +8,19 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.sql.Time;
-import java.util.List;
+import java.sql.Timestamp;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table("job")
-public class Job {
+@Table("job_images")
+public class JobImage {
 
     @Id
     private Integer id;
-    @Column("user_id")
-    private Integer userId;
-    private String name;
-    private String description;
-    private String location;
-    @Column("created_date")
-    private Time createdDate;
-    @Column("completion_status")
-    private boolean completed;
-    private String category;
+    @Column("job_id")
+    private Integer jobId;
+    private String guid;
+    private Timestamp uploaded_date;
 }

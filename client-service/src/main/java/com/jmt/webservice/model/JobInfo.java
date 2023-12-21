@@ -2,7 +2,6 @@ package com.jmt.webservice.model;
 
 import lombok.Data;
 
-import java.nio.ByteBuffer;
 import java.sql.Time;
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class JobInfo {
     private String location;
     private Time createdDate;
     private boolean completed;
-    private String image;
+    private List<JobImageDto> image;
     private String category;
     private List<PolicyInfo> policyInfo;
 }

@@ -16,6 +16,8 @@ import reactor.core.publisher.Mono;
 public interface JobRepository extends ReactiveCrudRepository<Job, Long>{
     @Query("SELECT * FROM job WHERE user_id = :user_id")
     Flux<Job> findJobsById(Integer user_id);
+    @Query("SELECT * FROM job WHERE id = :job_id")
+    Mono<Job> findJobById(Integer job_id);
     @Query("SELECT * FROM job WHERE name LIKE :filter")
     Flux<Job> findByFilter(@Param("filter") String filter);
 }

@@ -95,7 +95,7 @@ public class CustomerAccountManagementService implements AccountManagementServic
                 .flatMap(user -> getJobs(user.getId())
                         .collectList()
                         .map(jobs -> new UserInfo(user, jobs, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())))
-                );
+                ).log();
     }
     private Flux<JobInfo> getJobs(Integer userId) {
         return WebClient.create()
@@ -103,6 +103,6 @@ public class CustomerAccountManagementService implements AccountManagementServic
                 .uri(url+ "/jobs/user/" + userId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToFlux(JobInfo.class);
+                .bodyToFlux(JobInfo.class).log();
     }
 }

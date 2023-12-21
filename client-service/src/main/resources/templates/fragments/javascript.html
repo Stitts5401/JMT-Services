@@ -30,7 +30,6 @@
     <script th:src="@{/assets/vendor/flatpickr/js/flatpickr.min.js}"></script>
     <script th:src="@{/assets/vendor/choices/js/choices.min.js}"></script>
     <!-- Vendors -->
-    <script th:src="@{/assets/vendor/choices/js/choices.min.js}"></script>
     <script th:src="@{/assets/vendor/flatpickr/js/flatpickr.min.js}"></script>
     <script th:src="@{/assets/vendor/stepper/js/bs-stepper.min.js}"></script>
     <script th:src="@{/assets/vendor/quill/js/quill.min.js}"></script>
@@ -48,9 +47,18 @@
     <script th:src="@{/assets/vendor/glightbox/js/glightbox.js}"></script>
     <!-- ThemeFunctions -->
     <script th:src="@{/assets/js/functions.js}"></script>
-
-    <script>
+    <script th:inline="javascript">
         document.addEventListener("DOMContentLoaded", function() {
+            /*<![CDATA[*/
+            // Assuming userInfo is a Thymeleaf object
+
+            var userInfo = [[${userInfo}]];
+
+            if (userInfo){
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
+                console.log(localStorage.getItem('userInfo'));
+            }
+
             var storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
             if (storedUserInfo) {
                 // Update elements with the class 'userName'
@@ -72,6 +80,7 @@
                 });
             }
         });
+        /*]]>*/
     </script>
 
 

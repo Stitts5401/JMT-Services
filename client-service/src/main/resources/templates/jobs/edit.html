@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 
 <head th:replace="~{/fragments/head :: head}">
     <title th:text="'JMT - About'">JMT - About</title>
@@ -8,14 +7,13 @@
 <body>
 <header th:replace="~{/fragments/jobHeaders :: header}"></header>
 <main>
-    <section th:replace="~{/fragments/jobDetailsSection :: banner}"></section>
-    <section th:replace="~{/fragments/jobDetailsSection :: head}"></section>
-    <section th:replace="~{/fragments/jobDetailsSection :: content}"></section>
+    <section th:replace="~{/fragments/jobDetailsSection :: bannerEdit}"></section>
+    <section th:replace="~{/fragments/jobDetailsSection :: headEdit}"></section>
+    <section th:replace="~{/fragments/jobDetailsSection :: contentEdit}"></section>
 </main>
 <footer th:replace="fragments/footer :: footer"></footer>
 <section th:replace="~{/fragments/inquiry :: default}"></section>
 <div class="back-top"></div>
 <div th:replace="~{/fragments/javascript :: js}"></div>
 </body>
-
 </html>

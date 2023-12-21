@@ -22,22 +22,18 @@ import reactor.core.publisher.Mono;
 public class BaseController {
 
     private final UserInfoService userInfoService;
-    private final GoogleCloudStorageService googleCloudStorageService;
-
-
     public String fallbackMethod(Exception e) {
         log.error("Fallback method triggered with exception {}", e.getMessage());
         return "fallback";
     }
 
     /**
-     * Home page.
+     * Home page redirect.
      */
     @RequestMapping("")
     public Mono<String> root() {
         return Mono.just("redirect:/home");
     }
-
     /**
      * Home page.
      */
@@ -45,39 +41,17 @@ public class BaseController {
     public Mono<String> home() {
         return Mono.just("home");
     }
-
     /**
-     * Sign in page.
+     * Welcome page.
+     * Redirect to auth account info or view jobs.
      */
-    @RequestMapping("/sign-up")
-    public Mono<String> signUp() {
-        return Mono.just("sign-up");
-    }
-
-    /**
-     * Simulation of an exception.
-     */
-    @RequestMapping("/simulateError")
-    public void simulateError() {
-        throw new RuntimeException("This is a simulated error message");
-    }
-
-    @GetMapping("/welcome-directory")
+    @RequestMapping("/welcome-directory")
     public Mono<String> welcome(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono) {
-
         return oauthTokenMono
-                .flatMap(oauthToken -> userInfoService.retrieveUserInfo(oauthToken)
-                        .flatMap(userInfo -> {
-                            Mono<String> blobNameMono = Mono.just(userInfo.getBlobName() == null || userInfo.getBlobName().isEmpty() ?
-                                    "01.jpg" :
-                                    userInfo.getBlobName());
-                            return blobNameMono.flatMap(googleCloudStorageService::generateSignedUrl)
-                                    .map(signedUrl -> {
-                                        userInfo.setBlobName(signedUrl);
-                                        model.addAttribute("userInfo", userInfo);
-                                        return "welcome-directory"; // Name of the Thymeleaf template
-                                    });
-                        }))
+                .flatMap(userInfoService::retrieveUserInfo).map( userInfo -> {
+                    model.addAttribute("userInfo", userInfo);
+                    return "welcome-directory";
+                })
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
                     return Mono.just("redirect:/oauth2/authorization/keycloak");

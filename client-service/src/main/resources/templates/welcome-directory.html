@@ -16,7 +16,8 @@
         <div class="container">
             <!-- Logo START -->
             <a class="navbar-brand" th:href="@{/home}">
-                <img class="navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
+                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+                <img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
             </a>
             <!-- Logo END -->
 
@@ -199,7 +200,7 @@
                         <!-- Links -->
                         <li> <hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" th:href="@{/account/info}"><i class="bi bi-gear fa-fw me-2"></i>Dashboard</a></li>
-                        <li><a class="dropdown-item" th:href="@{/account/account-jobs}"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Jobs</a></li>
+                        <li><a class="dropdown-item" th:href="@{/account/jobs}"><i class="bi bi-bookmark-check fa-fw me-2"></i>My Jobs</a></li>
                         <li><a class="dropdown-item" th:href="@{/help-center}"><i class="bi bi-info-circle fa-fw me-2"></i>Help Center</a></li>
                         <li><a class="dropdown-item bg-danger-soft-hover" th:href="@{/logout}"><i class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
                     </ul>
@@ -713,7 +714,7 @@
                 </div>
 
                 <!-- Card item -->
-                <div class="col-sm-6 col-lg-4 col-xl-3">
+                <div class="col-sm-6 col-lg-4 col-xl-3"f>
                     <div class="card shadow h-100">
                         <div class="position-relative">
                             <!-- Image -->

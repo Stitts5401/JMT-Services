@@ -180,7 +180,7 @@
 
 <!-- **************** MAIN CONTENT START **************** -->
 <main>
-	
+
 <!-- =======================
 Content START -->
 <section class="pt-3">
@@ -231,15 +231,15 @@ Content START -->
 													class="bi bi-person fa-fw me-2"></i>My Profile</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link active" th:href="@{/account/account-jobs}"><i
+											<a class="nav-link active" th:href="@{/account/jobs}"><i
 													class="bi bi-ticket-perforated fa-fw me-2"></i>My Job listings</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" th:href="@{/account/account-settings}"><i
+											<a class="nav-link" th:href="@{/account/settings}"><i
 													class="bi bi-gear fa-fw me-2"></i>Settings</a>
 										</li>
 										<li class="nav-item">
-											<a class="nav-link" th:href="@{/account/account-delete}"><i
+											<a class="nav-link" th:href="@{/account/delete}"><i
 													class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
 										</li>
 										<li class="nav-item">
@@ -252,8 +252,8 @@ Content START -->
 							<!-- Card body END -->
 						</div>
 					</div>
-				</div>	
-				<!-- Responsive offcanvas body END -->	
+				</div>
+				<!-- Responsive offcanvas body END -->
 			</div>
 			<!-- Sidebar END -->
 
@@ -285,7 +285,7 @@ Content START -->
 								<!-- Card img -->
 								<div class="col-md-3">
 									<!-- Replace with the dynamic image path for the job -->
-									<img th:src="@{path_to_image_endpoint(job)}" class="card-img rounded-2" th:alt="${job.name}">
+									<img th:src="@{/assets/images/gallery/05.jpg}" class="card-img rounded-2">
 								</div>
 
 								<!-- Card body -->
@@ -302,9 +302,9 @@ Content START -->
 											</ul>
 
 											<ul class="list-inline mb-0">
-												<!-- Heart icon -->
+												<!-- Edit icon -->
 												<li class="list-inline-item">
-													<a href="#" class="btn btn-sm btn-round btn-danger mb-0"><i class="fa-solid fa-fw fa-heart"></i></a>
+													<a th:href="@{/job/edit/{id}(id=${job.getId()})}" class="btn btn-sm btn-round btn-primary-soft mb-0"><i class="fa-solid fa-fw fa-gear"></i></a>
 												</li>
 												<!-- Share icon -->
 												<li class="list-inline-item dropdown">
@@ -325,8 +325,8 @@ Content START -->
 										<!-- Rating and buttons -->
 
 										<!-- Title -->
-										<h5 class="card-title mb-1"><a th:href="@{/job/details/{id}(id=${job.id})}" th:text="${job.name}">Job Title</a></h5>
-										<small><i class="bi bi-geo-alt me-2"></i><span th:text="${job.location}">Job Location</span></small>
+										<h5 class="card-title mb-1"><a th:href="@{/job/edit/{id}(id=${job.getId()})}" th:text="${job.getName()}">Job Title</a></h5>
+										<small><i class="bi bi-geo-alt me-2"></i><span th:text="${job.getLocation()}">Job Location</span></small>
 
 										<!-- Price and Button -->
 										<div class="d-sm-flex justify-content-sm-between align-items-center mt-3 mt-md-auto">
@@ -338,7 +338,7 @@ Content START -->
 											</div>
 											<!-- Price -->
 											<div class="mt-3 mt-sm-0">
-												<a th:href="@{/job/details/{id}(id=${job.id})}" class="btn btn-sm btn-dark w-100 mb-0">View job</a>
+												<a th:href="@{/job/details/{id}(id=${job.getId()})}" class="btn btn-sm btn-primary-soft w-100 mb-0">Preview</a>
 											</div>
 										</div>
 									</div>

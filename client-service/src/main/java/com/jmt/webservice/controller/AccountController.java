@@ -32,24 +32,19 @@ public class AccountController {
     @GetMapping("/info")
     public Mono<String> getUserAccountInfo(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono) {
         return oauthTokenMono
-                .flatMap(userInfoService::retrieveUserInfo)
-                .flatMap(userInfo -> {
-                    boolean isComplete = userInfo.getFirstname() != null && userInfo.getLastname() != null &&
-                            userInfo.getEmail() != null && userInfo.getAddress() != null;
-                    int percentComplete = isComplete ? 50 : 0;
+                .flatMap(userInfoService::retrieveUserInfo).map( userInfo -> {
+                    // Add user info attributes only if userInfo is not null
+                        boolean isComplete =
+                                userInfo.getFirstname() != null && userInfo.getLastname() != null &&
+                                        userInfo.getEmail() != null && userInfo.getAddress() != null;
+                        int percentComplete = 0;
+                        if (isComplete) percentComplete += 50;
 
-                    Mono<String> blobNameMono = Mono.just(userInfo.getBlobName() == null || userInfo.getBlobName().isEmpty() ?
-                            "01.jpg" :
-                            userInfo.getBlobName());
-                    return blobNameMono.flatMap(googleCloudStorageService::generateSignedUrl)
-                            .map(signedUrl -> {
-                                userInfo.setBlobName(signedUrl); // Set the signed URL or the default image path
-                                model.addAttribute("isComplete", isComplete);
-                                model.addAttribute("percentComplete", percentComplete);
-                                model.addAttribute("nationalities", NationalityData.getCommonNationalities());
-                                model.addAttribute("userInfo", userInfo);
-                                return "account/info"; // Name of the Thymeleaf template
-                            });
+                        model.addAttribute("isComplete", isComplete);
+                        model.addAttribute("percentComplete", percentComplete);
+                        model.addAttribute("nationalities", NationalityData.getCommonNationalities());
+                        model.addAttribute("userInfo", userInfo);
+                    return "account/info";
                 })
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
@@ -58,13 +53,13 @@ public class AccountController {
                 .doOnNext(viewName -> log.info("Rendering view: " + viewName)) // defer the rendering until the userInfo Mono completes
                 .onErrorResume(ex -> Mono.just("redirect:/logout"));
     }
-    @RequestMapping("/account-jobs")
+    @RequestMapping("/jobs")
     public Mono<String> getMyJobs(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono){
         return oauthTokenMono
                 .flatMap(userInfoService::retrieveUserInfo).map( userInfo -> {
                     model.addAttribute("userInfo", userInfo);
                     model.addAttribute("jobsList", userInfo.getJobs() );
-                    return "account/account-jobs";
+                    return "account/jobs";
                 })
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
@@ -73,12 +68,12 @@ public class AccountController {
                 .doOnNext(viewName -> log.info("Rendering view: " + viewName)) // defer the rendering until the userInfo Mono completes
                 .onErrorResume(ex -> Mono.just("redirect:/logout"));
     }
-    @RequestMapping("/account-delete")
+    @RequestMapping("/delete")
     public Mono<String> deleteAccount(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono){
         return oauthTokenMono
                 .flatMap(userInfoService::retrieveUserInfo).map( userInfo -> {
                     model.addAttribute("userInfo", userInfo);
-                    return "account/account-delete";
+                    return "account/delete";
                 })
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
@@ -87,12 +82,12 @@ public class AccountController {
                 .doOnNext(viewName -> log.info("Rendering view: " + viewName)) // defer the rendering until the userInfo Mono completes
                 .onErrorResume(ex -> Mono.just("redirect:/logout"));
     }
-    @RequestMapping("/account-settings")
+    @RequestMapping("/settings")
     public Mono<String> accountSettings(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono){
         return oauthTokenMono
                 .flatMap(userInfoService::retrieveUserInfo).map( userInfo -> {
                     model.addAttribute("userInfo", userInfo);
-                    return "account/account-settings";
+                    return "account/settings";
                 })
                 .switchIfEmpty(Mono.defer(() -> {
                     log.warn("No AuthenticationPrincipal found, redirecting to Keycloak");
