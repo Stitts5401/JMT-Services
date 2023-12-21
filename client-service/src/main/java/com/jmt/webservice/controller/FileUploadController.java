@@ -56,7 +56,7 @@ public class FileUploadController {
                     // All files uploaded successfully
                     model.addAttribute("jobInfos", jobInfos);
                     // Assuming jobInfos is not empty and has a getId method
-                    return Mono.just("redirect:/job/edit/" + jobInfos.get(0).getId());
+                    return Mono.just("redirect:/jobs/edit/" + jobInfos.get(0).getId());
                 })
                 .doOnError(e -> {
                     // Error: Add an error message to the model
@@ -78,14 +78,14 @@ public class FileUploadController {
                 .map(jobInfo -> {
                     // Success: Add the file URL to the model and redirect to the user account info page
                     model.addAttribute("jobInfo", jobInfo);
-                    return "redirect:/job/edit/" + jobInfo.getId();
+                    return "redirect:/jobs/edit/" + jobInfo.getId();
                 }).doOnError(e -> {
                     // Error: Add an error message to the model and redirect to the user account info page
                     model.addAttribute("uploadError", "Failed to upload profile photo.");
                 }).onErrorResume(e -> {
                     // Error: Add an error message to the model and redirect to the user account info page
                     model.addAttribute("uploadError", "Failed to upload profile photo.");
-                    return Mono.just("redirect:/job/edit/");
+                    return Mono.just("redirect:/jobs/edit/");
                 });
     }
 

@@ -1,13 +1,8 @@
 package com.jmt.jobs.service;
 
-import com.jmt.jobs.entity.Job;
-import com.jmt.jobs.model.JobImageDto;
-import com.jmt.jobs.model.JobInfo;
-import com.jmt.jobs.model.PolicyInfo;
-import com.jmt.jobs.repository.JobImageRepository;
-import com.jmt.jobs.repository.JobRepository;
-import com.jmt.jobs.repository.PolicyItemRepository;
-import com.jmt.jobs.repository.PolicyRepository;
+import com.jmt.jobs.entity.*;
+import com.jmt.jobs.model.*;
+import com.jmt.jobs.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -23,8 +18,9 @@ public class JobService {
 
     private final JobRepository jobRepository;
     private final JobImageRepository jobImageRepository;
-    private final PolicyItemRepository policyItemRepository;
-    private final PolicyRepository policyRepository;
+    private final CancellationPolicyRepository cancellationPolicyRepository;
+    private final ConfirmationPolicyRepository confirmationPolicyRepository;
+    private final RefundPolicyRepository refundPolicyRepository;
     public Flux<Job> getJobsByUserId(Integer userId) {
         return jobRepository.findJobsById(userId);
     }
@@ -37,29 +33,40 @@ public class JobService {
     public Mono<JobInfo> getJobById(Integer jobId) {
         return jobRepository.findJobById(jobId)
                 .flatMap(job -> Mono.zip(
-                                policyRepository.findByCategory(job.getCategory())
-                                        .flatMap(policy -> policyItemRepository.findByPolicyId(policy.getId())
-                                                .collectList()
-                                                .map(policyItems -> policyItems.stream()
-                                                        .map(PolicyInfo::new)
-                                                        .collect(Collectors.toList())
-                                                )
-                                        ),
-                                jobImageRepository.findJobImagesById(jobId)
-                                        .collectList()
-                                        .defaultIfEmpty(Collections.emptyList()), // Default to empty list if no images
-                                (policyInfos, jobImages) -> {
-                                    List<JobImageDto> imageDtoList = jobImages.isEmpty() ? Collections.emptyList() // Skip if empty
-                                            : jobImages.stream()
-                                            .map(JobImageDto::new) // Create DTOs if images are present
-                                            .collect(Collectors.toList());
-                                    return new JobInfo(job, policyInfos, imageDtoList); // Create JobInfo with or without images
-                                }
+                                confirmationPolicyRepository.findByJobId(job.getId()).collectList(),
+                                cancellationPolicyRepository.findByJobId(job.getId()).collectList(),
+                                refundPolicyRepository.findByJobId(job.getId()).collectList(),
+                                jobImageRepository.findJobImagesById(jobId).collectList().defaultIfEmpty(Collections.emptyList())
                         )
-                )
+                        .map(tuple -> {
+                            // Unpack the results from Mono.zip into respective lists
+                            List<ConfirmationPolicy> confirmationPolicies = tuple.getT1();
+                            List<CancellationPolicy> cancellationPolicies = tuple.getT2();
+                            List<RefundPolicy> refundPolicies = tuple.getT3();
+                            List<JobImage> jobImages = tuple.getT4();
+
+                            // Convert policies and job images to their respective DTOs
+                            List<ConfirmationPolicyInfo> confirmationPolicyInfos = confirmationPolicies.stream()
+                                    .map(ConfirmationPolicyInfo::new)
+                                    .collect(Collectors.toList());
+                            List<CancellationPolicyInfo> cancellationPolicyInfos = cancellationPolicies.stream()
+                                    .map(CancellationPolicyInfo::new)
+                                    .collect(Collectors.toList());
+                            List<RefundPolicyInfo> refundPolicyInfos = refundPolicies.stream()
+                                    .map(RefundPolicyInfo::new)
+                                    .collect(Collectors.toList());
+                            List<JobImageDto> imageDtoList = jobImages.stream()
+                                    .map(JobImageDto::new)
+                                    .collect(Collectors.toList());
+
+                            // Here we assume job has a getCategory method that returns the category name as a String
+                            String category = job.getCategory();
+
+                            // Create and return the JobInfo object with the policies
+                            return new JobInfo(job, imageDtoList, category, confirmationPolicyInfos, cancellationPolicyInfos, refundPolicyInfos);
+                        }))
                 .switchIfEmpty(Mono.error(new Exception("Job not found")));
     }
-
 
     public Mono<Job> addImageByJobId(Integer jobId, String guid) {
         return jobImageRepository.insertImages(jobId, guid).then(jobRepository.findJobById(jobId));

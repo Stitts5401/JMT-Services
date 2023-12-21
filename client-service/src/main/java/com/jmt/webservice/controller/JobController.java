@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Controller
-@RequestMapping("/job")
+@RequestMapping("/jobs")
 @CircuitBreaker(name = "jobs", fallbackMethod = "fallbackMethod")
 @RequiredArgsConstructor
 public class JobController {
@@ -44,7 +44,9 @@ public class JobController {
                 .flatMap(auth -> jobListingService.retrieve(jobId, auth))
                 .map(jobInfo -> {
                     model.addAttribute("job", jobInfo );
-                    model.addAttribute("policies", jobInfo.getPolicyInfo() );
+                    model.addAttribute("confirmationPolicies", jobInfo.getConfirmationPolicyInfos() );
+                    model.addAttribute("cancellationPolicies", jobInfo.getCancellationPolicyInfos() );
+                    model.addAttribute("refundPolicies", jobInfo.getRefundPolicyInfos() );
                     return "jobs/details";
                 })
                 .switchIfEmpty(Mono.defer(() -> {
@@ -58,7 +60,9 @@ public class JobController {
                 .flatMap(auth -> jobListingService.retrieve(jobId, auth))
                 .map(jobInfo -> {
                     model.addAttribute("job", jobInfo );
-                    model.addAttribute("policies", jobInfo.getPolicyInfo() );
+                    model.addAttribute("confirmationPolicies", jobInfo.getConfirmationPolicyInfos() );
+                    model.addAttribute("cancellationPolicies", jobInfo.getCancellationPolicyInfos() );
+                    model.addAttribute("refundPolicies", jobInfo.getRefundPolicyInfos() );
                     return "jobs/edit";
                 })
                 .switchIfEmpty(Mono.defer(() -> {

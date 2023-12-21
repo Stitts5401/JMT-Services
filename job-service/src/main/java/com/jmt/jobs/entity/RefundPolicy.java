@@ -5,15 +5,15 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-
+@Table("refund_policy")
 @Data
-@Table("policy_items")
-public class PolicyItem {
-
+public class RefundPolicy {
     @Id
+    @Column("refund_policy_id")
     private Integer id;
-    @Column("policy_id")
-    private Integer policy;
-    private String section;
-    private String content;
+    private Integer jobId;
+    @Column("refund_details")
+    private String details;
+
+    // Standard getters and setters
 }

@@ -12,10 +12,12 @@ public class JobInfo {
     private String name;
     private String description;
     private String location;
-    private Time createdDate;
+    private Time createdDate; // Changed to LocalDateTime for better date-time API
     private boolean completed;
-    private List<JobImageDto> image;
+    private List<JobImageDto> images; // Renamed to images for consistency
     private String category;
-    private List<PolicyInfo> policyInfo;
+    private List<ConfirmationPolicyInfo> confirmationPolicyInfos;
+    private List<CancellationPolicyInfo> cancellationPolicyInfos;
+    private List<RefundPolicyInfo> refundPolicyInfos;
 
 }

@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @Table("job")
 public class Job {
-
     @Id
     private Integer id;
     @Column("user_id")

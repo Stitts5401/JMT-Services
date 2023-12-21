@@ -2,9 +2,7 @@ package com.jmt.jobs.repository;
 
 
 
-import com.jmt.jobs.entity.Job;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.jmt.jobs.entity.Job;;
 import org.springframework.data.r2dbc.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.repository.reactive.ReactiveCrudRepository;

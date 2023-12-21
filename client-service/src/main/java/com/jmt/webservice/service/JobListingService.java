@@ -46,7 +46,7 @@ public class JobListingService {
 
                             return jobInfoFlux
                                     .flatMap(jobInfo -> {
-                                        Flux<JobImageDto> jobImagesFlux = Flux.fromIterable(jobInfo.getImage());
+                                        Flux<JobImageDto> jobImagesFlux = Flux.fromIterable(jobInfo.getImages());
                                         return jobImagesFlux
                                                 .flatMap(jobImageDto -> googleCloudStorageService.generateSignedUrl(jobImageDto.getGuid(), true)
                                                         .map(signedUrl -> {
@@ -55,7 +55,7 @@ public class JobListingService {
                                                         }))
                                                 .collectList()
                                                 .map(signedJobImages -> {
-                                                    jobInfo.setImage(signedJobImages);
+                                                    jobInfo.setImages(signedJobImages);
                                                     return jobInfo;
                                                 });
                                     })
@@ -73,7 +73,7 @@ public class JobListingService {
         return authorizedClientRepository.loadAuthorizedClient(clientRegistrationId, principalName)
                 .flatMap(client -> fetchUserInfoFromResourceServer(client, jobId))
                 .flatMap(jobInfo -> {
-                    Flux<JobImageDto> jobImagesFlux = Flux.fromIterable(jobInfo.getImage());
+                    Flux<JobImageDto> jobImagesFlux = Flux.fromIterable(jobInfo.getImages());
 
                     return jobImagesFlux
                             .flatMap(jobImageDto -> googleCloudStorageService.generateSignedUrl(jobImageDto.getGuid(), true)
@@ -83,7 +83,7 @@ public class JobListingService {
                                     }))
                             .collectList()
                             .map(signedJobImages -> {
-                                jobInfo.setImage(signedJobImages);
+                                jobInfo.setImages(signedJobImages);
                                 return jobInfo;
                             });
                 });
