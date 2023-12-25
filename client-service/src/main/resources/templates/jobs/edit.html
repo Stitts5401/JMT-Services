@@ -28,7 +28,6 @@
                             <!-- Upload icon -->
                             <li class="list-inline-item">
                                 <form method="post" action="/file/addJobPicture" enctype="multipart/form-data">
-
                                     <label href="#" class="btn btn-sm btn-light px-2" for="uploadImage">
                                         <i class="fa-solid fa-fw fa-images"></i>
                                     </label>
@@ -36,8 +35,6 @@
                                            th:value="${job.getId()}"/>
                                     <input id="uploadImage" name="files" class="form-control d-none" type="file"
                                            multiple onchange="this.form.submit()"/>
-
-
                                 </form>
                             </li>
                         </ul>

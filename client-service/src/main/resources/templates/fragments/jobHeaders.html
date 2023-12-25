@@ -9,7 +9,7 @@
         <div class="container">
             <!-- Logo START -->
             <a class="navbar-brand" th:href="@{/home}">
-                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo-light.svg}" alt="logo">
                 <img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
             </a>
             <!-- Logo END -->
@@ -43,28 +43,6 @@
 
                             <!-- Dropdown submenu -->
                             <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Flight</a>
-                                <ul class="dropdown-menu" data-bs-popper="none">
-                                    <li><a class="dropdown-item" href="index-flight.html">Flight Home</a></li>
-                                    <li><a class="dropdown-item" href="flight-list.html">Flight List</a></li>
-                                    <li><a class="dropdown-item" href="flight-detail.html">Flight Detail</a></li>
-                                    <li><a class="dropdown-item" href="flight-booking.html">Flight Booking</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Dropdown submenu -->
-                            <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Tour</a>
-                                <ul class="dropdown-menu" data-bs-popper="none">
-                                    <li><a class="dropdown-item" href="index-tour.html">Tour Home</a></li>
-                                    <li><a class="dropdown-item" href="tour-grid.html">Tour Grid</a></li>
-                                    <li><a class="dropdown-item" href="tour-detail.html">Tour Detail</a></li>
-                                    <li><a class="dropdown-item" href="tour-booking.html">Tour Booking</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Dropdown submenu -->
-                            <li class="dropdown-submenu dropend">
                                 <a class="dropdown-item dropdown-toggle" href="#">Cab</a>
                                 <ul class="dropdown-menu" data-bs-popper="none">
                                     <li><a class="dropdown-item" href="index-cab.html">Cab Home</a></li>
@@ -76,28 +54,7 @@
 
                             <!-- Dropdown submenu -->
                             <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Directory</a>
-                                <ul class="dropdown-menu" data-bs-popper="none">
-                                    <li><a class="dropdown-item" href="index-directory.html">Directory Home</a></li>
-                                    <li><a class="dropdown-item" href="directory-detail.html">Directory Detail</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Dropdown submenu -->
-                            <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Add Listing</a>
-                                <ul class="dropdown-menu" data-bs-popper="none">
-                                    <li><a class="dropdown-item" href="index.html">Join us</a></li>
-                                    <li><a class="dropdown-item" href="add-listing.html">Add Listing</a></li>
-                                    <li><a class="dropdown-item" href="add-listing-minimal.html">Add Listing Minimal</a>
-                                    </li>
-                                    <li><a class="dropdown-item" href="listing-added.html">Listing Added</a></li>
-                                </ul>
-                            </li>
-
-                            <!-- Dropdown submenu -->
-                            <li class="dropdown-submenu dropend">
-                                <a class="dropdown-item dropdown-toggle" href="#">Hero</a>
+                                <a class="dropdown-item dropdown-toggle" href="#">Categories</a>
                                 <ul class="dropdown-menu" data-bs-popper="none">
                                     <li><a class="dropdown-item" href="hero-inline-form.html">Hero Inline Form</a></li>
                                     <li><a class="dropdown-item" href="hero-multiple-search.html">Hero Multiple
@@ -108,9 +65,9 @@
                                 </ul>
                             </li>
 
-                            <li><a class="dropdown-item" href="booking-confirm.html">Booking Confirmed</a></li>
-                            <li><a class="dropdown-item" href="compare-listing.html">Compare Listing</a></li>
-                            <li><a class="dropdown-item" href="offer-detail.html">Offer Detail</a></li>
+                            <li><a class="dropdown-item"th:href="@{/}">Booking Confirmed</a></li>
+                            <li><a class="dropdown-item"th:href="@{/}">Compare Listing</a></li>
+                            <li><a class="dropdown-item"th:href="@{/}">Join the team</a></li>
                         </ul>
                     </li>
                     <!-- Nav item Pages -->
@@ -118,8 +75,8 @@
                         <a class="nav-link dropdown-toggle" href="#" id="pagesMenu" data-bs-toggle="dropdown"
                            aria-haspopup="true" aria-expanded="false">Jobs</a>
                         <ul class="dropdown-menu" aria-labelledby="pagesMenu">
-                            <li><a class="dropdown-item" href="about.html">Listings</a></li>
-                            <li><a class="dropdown-item" href="contact.html">Submit new</a></li>
+                            <li><a class="dropdown-item" th:href="@{/jobs/listings}">Listings</a></li>
+                            <li><a class="dropdown-item" th:href="@{/jobs/add}">Submit new</a></li>
                         </ul>
                     </li>
 

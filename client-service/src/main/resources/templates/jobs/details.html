@@ -73,14 +73,8 @@
                                     <!-- Image and lightbox link -->
                                     <img th:src="${image.getSigned_Url()}" alt="Gallery image">
                                     <a th:href="${image.getSigned_Url()}" data-glightbox="" data-gallery="banner"></a>
-                                    <form th:action="@{/file/removeJobPicture}" method="post"
-                                          enctype="multipart/form-data" class="position-absolute top-0 end-0 m-2 me-2">
                                         <input type="hidden" name="href" th:value="${image.getSigned_Url()}"/>
                                         <input type="hidden" name="id" th:value="${job.getId()}"/>
-                                        <!-- CSRF token input -->
-                                        <button type="submit"
-                                                class="btn btn-danger-soft btn-outline-danger btn-sm delete-btn">Delete
-                                        </button>
                                     </form>
                                 </li>
                             </ul>
