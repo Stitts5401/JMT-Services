@@ -2,9 +2,26 @@
 <project version="4">
   <component name="SqlDialectMappings">
     <file url="file://$PROJECT_DIR$/database_export.sql" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/job-service/src/main/java/com/jmt/jobs/repository/JobRepository.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/job-service/src/main/java/com/jmt/jobs/repository/PolicyItemRepository.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/job-service/src/main/java/com/jmt/jobs/repository/PolicyRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/BondingInsuranceRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/BudgetConstraintsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/CancellationPolicyRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/ChangeOrderProcessRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/ComplianceRegulationsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/ConfirmationPolicyRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/JobImageRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/JobRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/LaborRequirementsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/LocationDetailsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/MaterialsEquipmentRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/PaymentTermsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/ProjectDescriptionRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/ProjectTimelineRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/QualityRequirementsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/RefundPolicyRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/RiskFactorsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/SiteConditionsRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/WarrantyInformationRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/jmt-common/src/main/java/com/jmt/repository/WorkBreakdownRepository.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/user-service/src/main/java/com/jmt/user/repository/UserRepository.java" dialect="MySQL" />
   </component>
 </project>
