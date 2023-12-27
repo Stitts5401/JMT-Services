@@ -94,7 +94,7 @@ public class CustomerAccountManagementService implements AccountManagementServic
                 .flatMap(user -> getJobs(user.getId())
                         .collectList()
                         .map(jobs -> new UserInfo(user, jobs, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())))
-                ).doOnNext(userInfo -> System.out.println( "UserInformationFromEmail: " + userInfo.toString()));
+                ).log();
     }
     private Flux<Job> getJobs(Integer userId) {
         return WebClient.create()
