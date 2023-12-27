@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <head th:replace="~{/fragments/head :: head}">
-    <title>Error</title>
+    <title th:text="'Account Dashboard'">Account Dashboard</title>
 </head>
 
 <body class="dashboard">
@@ -15,7 +15,7 @@
         <div class="container">
             <!-- Logo START -->
             <a class="navbar-brand" th:href="@{/../home}">
-                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo.svg}" alt="logo">
+                <img class="light-mode-item navbar-brand-item" th:src="@{/assets/images/logo-light.svg}" alt="logo">
                 <img class="dark-mode-item navbar-brand-item" th:src="@{/assets/images/logo-dark.svg}" alt="logo">
             </a>
             <!-- Logo END -->
@@ -35,7 +35,7 @@
             <div class="navbar-collapse collapse" id="navbarCollapse">
                 <ul class="navbar-nav navbar-nav-scroll">
                     <!-- Nav item Contact -->
-                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact Us</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/contact}">Contact Us</a></li>
                 </ul>
             </div>
             <!-- Main navbar END -->
@@ -104,7 +104,7 @@
                     <a class="avatar avatar-xs p-0" href="#" id="profileDropdown" role="button"
                        data-bs-auto-close="outside" data-bs-display="static" data-bs-toggle="dropdown"
                        aria-expanded="false">
-                        <img class="avatar-img rounded-circle" src="assets/images/avatar/01.jpg" alt="avatar">
+                        <img class="avatar-img rounded-circle" th:src="${userInfo.getBlobName()}">
                     </a>
 
                     <!-- Profile dropdown START -->
@@ -115,12 +115,12 @@
                             <div class="d-flex align-items-center">
                                 <!-- Avatar -->
                                 <div class="avatar me-3">
-                                    <img class="avatar-img rounded-circle shadow" src="assets/images/avatar/01.jpg"
+                                    <img id="avatar" class="avatar-img rounded-circle shadow" th:src="${userInfo.getBlobName()}"
                                          alt="avatar">
                                 </div>
                                 <div>
-                                    <a class="h6 mt-2 mt-sm-0" href="#">Lori Ferguson</a>
-                                    <p class="small m-0">example@gmail.com</p>
+                                    <a class="h6 mt-2 mt-sm-0" id="userName" th:text="${userInfo.getFirstname()}+' '+${userInfo.getLastname()}">Default Name</a>
+                                    <p class="small m-0" id="email" th:text="${userInfo.getEmail()}">Default Email</p>
                                 </div>
                             </div>
                         </li>
@@ -135,10 +135,8 @@
                         <li><a class="dropdown-item" href="#"><i class="bi bi-gear fa-fw me-2"></i>Settings</a></li>
                         <li><a class="dropdown-item" href="#"><i class="bi bi-info-circle fa-fw me-2"></i>Help
                             Center</a></li>
-                        <li><a class="dropdown-item bg-danger-soft-hover" th:action="@{/logout}" method="get"><i
-                                class="bi bi-power fa-fw me-2"></i>Sign Out(GET)</a></li>
-                        <li><a class="dropdown-item bg-danger-soft-hover" th:action="@{/logout}" method="post"><i
-                                class="bi bi-power fa-fw me-2"></i>Sign Out(POST)</a></li>
+                        <li><a class="dropdown-item bg-danger-soft-hover" th:href="@{/logout}"><i
+                                class="bi bi-power fa-fw me-2"></i>Sign Out</a></li>
                         <li>
                             <hr class="dropdown-divider">
                         </li>
@@ -235,31 +233,31 @@
                                         <!-- Avatar -->
                                         <div class="avatar avatar-xl mb-2">
                                             <img class="avatar-img rounded-circle border border-2 border-white"
-                                                 src="assets/images/avatar/01.jpg" alt="">
+                                                 th:src="${userInfo.getBlobName()}" alt="">
                                         </div>
-                                        <h6 class="mb-0"><span th:text="${firstname}+' '+${lastname}">FullName</span>
+                                        <h6 class="mb-0"><span th:text="${userInfo.getFirstname()}+' '+${userInfo.getLastname()}">FullName</span>
                                         </h6>
                                         <a href="#" class="text-reset text-primary-hover small"
-                                           th:text="${email}">Email</a>
+                                           th:text="${userInfo.getEmail()}">Email</a>
                                         <hr>
                                     </div>
 
                                     <!-- Sidebar menu item START -->
                                     <ul class="nav nav-pills-primary-soft flex-column">
                                         <li class="nav-item">
-                                            <a class="nav-link active" th:href="@{info.html}"><i
+                                            <a class="nav-link active" th:href="@{/account/info}"><i
                                                     class="bi bi-person fa-fw me-2"></i>My Profile</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="account-bookings.html"><i
+                                            <a class="nav-link" th:href="@{/account/jobs}"><i
                                                     class="bi bi-ticket-perforated fa-fw me-2"></i>My Job listings</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="account-settings.html"><i
+                                            <a class="nav-link" th:href="@{/account/settings}"><i
                                                     class="bi bi-gear fa-fw me-2"></i>Settings</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="account-delete.html"><i
+                                            <a class="nav-link" th:href="@{/account/delete}"><i
                                                     class="bi bi-trash fa-fw me-2"></i>Delete Profile</a>
                                         </li>
                                         <li class="nav-item">
@@ -308,9 +306,9 @@
                             <!-- Content -->
                             <div class="bg-body rounded p-3 mt-3">
                                 <ul class="list-inline hstack flex-wrap gap-1 justify-content-between mb-0">
-                                    <li class="list-inline-item h6 fw-normal mb-0"><a><i class=""
-                                                                                         th:class="${emailVerified} ? 'bi bi-check-circle-fill text-success me-2' : 'bi bi-plus-circle-fill text-primary me-2'"></i>Verified
-                                        Email</a></li>
+<!--                                    <li class="list-inline-item h6 fw-normal mb-0"><a><i class=""-->
+<!--                                                                                         th:class="${emailVerified} ? 'bi bi-check-circle-fill text-success me-2' : 'bi bi-plus-circle-fill text-primary me-2'"></i>Verified-->
+<!--                                        Email</a></li>-->
                                     <li class="list-inline-item h6 fw-normal mb-0"><a><i
                                             class="bi bi-check-circle-fill text-success me-2"></i>Verified Phone</a>
                                     </li>
@@ -332,7 +330,7 @@
                             <!-- Card body START -->
                             <div class="card-body">
                                 <!-- Form START -->
-                                <form class="row g-3">
+                                <form class="row g-3" method="post" action="/file/uploadProfilePhoto" enctype="multipart/form-data">
                                     <!-- Profile photo -->
                                     <div class="col-12">
                                         <label class="form-label">Upload your profile photo<span
@@ -342,88 +340,76 @@
                                                    title="Replace this pic">
                                                 <!-- Avatar place holder -->
                                                 <span class="avatar avatar-xl">
-												<img id="uploadfile-1-preview"
-                                                     class="avatar-img rounded-circle border border-white border-3 shadow"
-                                                     src="assets/images/avatar/01.jpg" alt="">
+                                               <img id="uploadfile-1-preview"  th:src="${userInfo.getBlobName()}" alt="Placeholder"
+                                                    class="avatar-img rounded-circle border border-white border-3 shadow">
 											</span>
                                             </label>
                                             <!-- Upload button -->
-                                            <label class="btn btn-sm btn-primary-soft mb-0"
-                                                   for="uploadfile-1">Change</label>
-                                            <input id="uploadfile-1" class="form-control d-none" type="file">
+                                            <label class="btn btn-sm btn-primary-soft mb-0" for="uploadfile-1">Change</label>
+                                            <input type="hidden" name="oldImageGuid" id="oldImageGuid" class="form-control d-none" th:value="${userInfo.blobName}" onchange="this.form.submit()" />
+                                            <input id="uploadfile-1" name="file" onchange="this.form.submit()" class="form-control d-none" type="file">
                                         </div>
                                     </div>
-
-                                    <!-- Name -->
+                                    <div th:if="${uploadError}" class="alert alert-danger" th:text="${uploadError}">Upload error message goes here.</div>
+                                </form>
+                                <form class="row g-3" id="updateAccountForm" th:action="${userInfo.getBlobName()}" th:object="${userInfo}" method="post">                                    <!-- Name -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Full Name<span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control"
-                                               th:value="${firstname} +' '+ ${lastname}"
-                                               placeholder="Enter your full name">
+                                        <label class="form-label">Firstname<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" th:field="*{firstname}" placeholder="Enter your firstname">
                                     </div>
-
+                                    <div class="col-md-6">
+                                        <label class="form-label">Lastname<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" th:field="*{lastname}" placeholder="Enter your lastname">
+                                    </div>
                                     <!-- Email -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Email address<span
-                                                class="text-danger">*</span></label>
-                                        <input type="email" class="form-control" value="hello@gmail.com"
-                                               placeholder="Enter your email id">
+                                        <label class="form-label">Email address<span class="text-danger">*</span></label>
+                                        <input type="email" class="form-control" th:field="*{email}" placeholder="Enter your email id">
                                     </div>
                                     <!-- Mobile -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Mobile number<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" th:value="${phone}"
-                                               placeholder="Enter your mobile number">
+                                        <label class="form-label">Mobile number<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" th:field="*{phoneNumber}" placeholder="Enter your mobile number">
                                     </div>
                                     <!-- Nationality -->
                                     <div class="col-md-6">
                                         <label class="form-label">Nationality<span class="text-danger">*</span></label>
-                                        <select class="form-select js-choice">
-                                            <option value="">Select your country</option>
-                                            <option>USA</option>
-                                            <option selected>Paris</option>
-                                            <option>India</option>
-                                            <option>UK</option>
+                                        <select class="form-select js-choice" th:field="*{nationality}">
+                                            <option value="">Select your nationality</option>
+                                            <th:block th:each="nation : ${nationalities}">
+                                                <option th:text="${nation}" th:value="${nation}" th:selected="${nation == userInfo.getNationality()}"></option>
+                                            </th:block>
                                         </select>
                                     </div>
                                     <!-- Date of birth -->
                                     <div class="col-md-6">
-                                        <label class="form-label">Date of Birth<span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control flatpickr" value="29 Aug 1996"
-                                               placeholder="Enter date of birth" data-date-format="d M Y">
+                                        <label class="form-label">Date of Birth<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control flatpickr" th:field="*{dateOfBirth}" placeholder="Enter date of birth" data-date-format="d M Y">
                                     </div>
                                     <!-- Address -->
                                     <div class="col-12">
                                         <label class="form-label">Address</label>
-                                        <textarea class="form-control" rows="3" spellcheck="false">2119 N Division Ave, New Hampshire, York, United States</textarea>
-                                    </div>
-
-
-                                    <div id='wrap'>
-                                        <div class='field'></div>
-                                        <form class='signup'>
-                                            <input class='email' placeholder='email' type='email'>
-                                            <div class='btnwrap custom'>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <div class='spark'></div>
-                                                <b>Subscribe</b>
-                                                <div class='blob'></div>
-                                                <input type='submit' value='Subscribe'>
-                                            </div>
-                                        </form>
+                                        <textarea class="form-control" rows="3" th:field="*{address}" placeholder="Address here."></textarea>
                                     </div>
 
                                     <!-- Button -->
                                     <div class="col-12 text-end">
-                                        <a href="#" class="btn btn-primary mb-0">Save Changes</a>
+                                        <button type="submit" id="submitBtn" class="btn btn-primary mb-0">Save Changes</button>
+                                    </div>
+                                    <!-- Error Message -->
+                                    <div class="col-12 text-end">
+                                        <span th:if="${hasError}" th:text="${errorMsg}" class="text-danger"></span>
+                                    </div>
+
+                                    <!-- Success Message -->
+                                    <div class="col-12 text-end">
+                                        <span id="successMessage" class="text-success"></span>
                                     </div>
                                 </form>
+                                <div class="col-12 text-center" id="loadingSpinner" style="display: none;">
+                                    <span class="spinner-border text-primary" role="status"></span>
+                                </div>
+
                                 <!-- Form END -->
                             </div>
                             <!-- Card body END -->
@@ -507,42 +493,13 @@
 
 <!-- =======================
 Footer START -->
-<footer class="bg-dark p-3">
-    <div class="container">
-        <div class="row align-items-center">
-
-            <!-- Widget -->
-            <div class="col-md-4">
-                <div class="text-center text-md-start mb-3 mb-md-0">
-                    <a href="/home"> <img class="h-30px" src="/assets/images/logo-light.svg" alt="logo"> </a>
-                </div>
-            </div>
-
-            <!-- Widget -->
-            <div class="col-md-4">
-                <div class="text-body-secondary text-primary-hover"> Copyrights ©2023 Booking. Build by <a
-                        href="https://www.webestica.com/" class="text-body-secondary">Webestica</a>.
-                </div>
-            </div>
-
-            <!-- Widget -->
-            <div class="col-md-4">
-                <ul class="list-inline mb-0 text-center text-md-end">
-                    <li class="list-inline-item ms-2"><a href="#"><i class="text-white fab fa-facebook"></i></a></li>
-                    <li class="list-inline-item ms-2"><a href="#"><i class="text-white fab fa-instagram"></i></a></li>
-                    <li class="list-inline-item ms-2"><a href="#"><i class="text-white fab fa-linkedin-in"></i></a></li>
-                    <li class="list-inline-item ms-2"><a href="#"><i class="text-white fab fa-twitter"></i></a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</footer>
+<footer th:replace="~{/fragments/footer :: footer}"></footer>
 <!-- =======================
 Footer END -->
 
 <!-- Back to top -->
 <div class="back-top"></div>
+<div th:replace="~{/fragments/javascript :: js}"></div>
 
-<javascript th:replace="~{/fragments/javascript :: js}"></javascript>
 </body>
 </html>

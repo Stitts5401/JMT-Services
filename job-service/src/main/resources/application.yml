@@ -1,0 +1,55 @@
+host:
+  gateway: http://api-gateway:8282
+server:
+  port: 8181
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            gateway: TRACE
+        security: DEBUG
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+spring:
+  application:
+    name: job-service
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: r2dbc:mysql://35.196.14.239:3306/jmt
+    password: jF}[,IsU{kqEG,}s
+    username: root
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:password@localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+
+zipkin:
+  base-url: http://zipkin:9411/
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+resilience4j:
+  circuit breaker:
+    instances:
+      user:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        eventConsumerBufferSize: 10
+        sliding-window-type: COUNT_BASED
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true

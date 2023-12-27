@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.1.5</version>
+        <version>3.2.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.stitts</groupId>
@@ -19,59 +19,32 @@
         <module>client-service</module>
         <module>jmt-common</module>
         <module>config-service</module>
+        <module>user-service</module>
+        <module>job-service</module>
     </modules>
     <properties>
         <maven.compiler.source>20</maven.compiler.source>
         <maven.compiler.target>20</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <java.version>20</java.version>
         <testcontainers.version>1.18.0</testcontainers.version>
-        <spring-cloud.version>2021.0.2</spring-cloud.version>
-        <!-- Define properties for dependency versions -->
-        <spring-data-relational.version>3.1.4</spring-data-relational.version>
-        <spring-boot-data-r2dbc.version>3.1.4</spring-boot-data-r2dbc.version>
+        <spring-cloud.version>2023.0.0</spring-cloud.version>
         <r2dbc-mysql.version>0.8.2.RELEASE</r2dbc-mysql.version>
-        <reactor-test.version>YOUR_REACTOR_TEST_VERSION</reactor-test.version>
-        <spring-cloud-sleuth.version>3.1.9</spring-cloud-sleuth.version>
-        <spring-cloud-sleuth-zipkin.version>3.1.2</spring-cloud-sleuth-zipkin.version>
-        <zipkin-reporter-brave.version>2.16.4</zipkin-reporter-brave.version>
-        <!-- Define the version property for testcontainers-bom -->
-        <testcontainers-bom.version>${testcontainers.version}</testcontainers-bom.version>
         <jwt.version>0.11.5</jwt.version>
-        <eureka.version>4.0.2</eureka.version>
-        <org.springframework.boot>3.1.5</org.springframework.boot>
-        <org.springframework.security>6.1.5</org.springframework.security>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!--        Eureka-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-                <version>${eureka.version}</version>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-                <version>${eureka.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--        WebFlux-->
-            <dependency >
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-webflux</artifactId>
-                <version>${org.springframework.boot}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--        Thymeleaf-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-thymeleaf</artifactId>
-                <version>3.1.5</version>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>3.2.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -82,132 +55,26 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- Spring Data and R2DBC dependencies -->
-            <dependency>
-                <groupId>org.springframework.data</groupId>
-                <artifactId>spring-data-relational</artifactId>
-                <version>${spring-data-relational.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-r2dbc</artifactId>
-                <version>${spring-boot-data-r2dbc.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>dev.miku</groupId>
                 <artifactId>r2dbc-mysql</artifactId>
                 <version>${r2dbc-mysql.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- Spring Cloud Sleuth and Zipkin dependencies -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-starter-sleuth</artifactId>
-                <version>${spring-cloud-sleuth.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-                <version>${spring-cloud-sleuth-zipkin.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>io.zipkin.reporter2</groupId>
-                <artifactId>zipkin-reporter-brave</artifactId>
-                <version>${zipkin-reporter-brave.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- Spring Boot Starter Security dependency -->
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-oauth2-jose</artifactId>
-                <version>${org.springframework.security}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-security</artifactId>
-                <version>${org.springframework.boot}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-oauth2-client</artifactId>
-                <version>${org.springframework.boot}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
-                <version>${org.springframework.boot}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- Spring Cloud Dependencies BOM -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!--        testing-->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-test</artifactId>
-                <version>3.1.5</version>
-                <scope>test</scope>
-                <type>pom</type>
+                <scope>compile</scope>
             </dependency>
             <dependency>
                 <groupId>io.projectreactor</groupId>
                 <artifactId>reactor-test</artifactId>
-                <version>${reactor-test.version}</version>
+                <version>3.6.0</version>
                 <scope>test</scope>
                 <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-test</artifactId>
-                <version>${org.springframework.security}</version>
-                <scope>test</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.security</groupId>
-                <artifactId>spring-security-config</artifactId>
-                <version>${org.springframework.security}</version>
-                <scope>test</scope>
-                <type>pom</type>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <version>3.1.5</version>
-                <scope>runtime</scope>
-                <type>pom</type>
-                <optional>true</optional>
             </dependency>
             <dependency>
                 <groupId>org.testcontainers</groupId>
                 <artifactId>testcontainers-bom</artifactId>
-                <version>${testcontainers-bom.version}</version>
+                <version>${testcontainers.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-<!--            JWT-->
             <dependency>
                 <groupId>io.jsonwebtoken</groupId>
                 <artifactId>jjwt-api</artifactId>
@@ -222,7 +89,6 @@
                 <scope>import</scope>
                 <type>pom</type>
             </dependency>
-
             <dependency>
                 <groupId>com.jmt</groupId>
                 <artifactId>jmt-common</artifactId>
@@ -243,6 +109,17 @@
                             <artifactId>lombok</artifactId>
                         </exclude>
                     </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:20</image>
+                    </from>
+                    <to><image>registry.hub.docker.com/stitts5401/${project.artifactId}</image></to>
                 </configuration>
             </plugin>
         </plugins>

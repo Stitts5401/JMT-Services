@@ -1,0 +1,61 @@
+host:
+  gateway: http://api-gateway:8282/api/v1
+server:
+  port: 5151
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: DEBUG
+            gateway: DEBUG
+        security: DEBUG
+    root: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+keycloak:
+  password-change:
+    url: http://keycloak:8080/auth/realms/jmtdev_realms/account/credentials/password
+spring:
+  application:
+    name: user-service
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: r2dbc:mysql://localhost:3308/jmt
+    password: ADMIN1234
+    username: admin
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:password@localhost:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+    webclient:
+      enabled: true
+    healthcheck:
+      enabled: true
+zipkin:
+  base-url: http://zipkin:9411/
+
+management:
+  health:
+    circuit-breakers:
+      enabled: true
+resilience4j:
+  circuit breaker:
+    instances:
+      user:
+        registerHealthIndicator: true
+        slidingWindowSize: 5
+        eventConsumerBufferSize: 10
+        sliding-window-type: COUNT_BASED
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true

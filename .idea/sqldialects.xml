@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="SqlDialectMappings">
-    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java/com/stitts/apigateway/repository/JobRepository.java" dialect="MySQL" />
-    <file url="file://$PROJECT_DIR$/api-gateway/src/main/java/com/stitts/apigateway/repository/UserRepository.java" dialect="MySQL" />
     <file url="file://$PROJECT_DIR$/database_export.sql" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/job-service/src/main/java/com/jmt/jobs/repository/JobRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/job-service/src/main/java/com/jmt/jobs/repository/PolicyItemRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/job-service/src/main/java/com/jmt/jobs/repository/PolicyRepository.java" dialect="MySQL" />
+    <file url="file://$PROJECT_DIR$/user-service/src/main/java/com/jmt/user/repository/UserRepository.java" dialect="MySQL" />
   </component>
 </project>

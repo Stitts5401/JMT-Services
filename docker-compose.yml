@@ -1,6 +1,11 @@
 ---
 version: '3'
 services:
+  zipkin:
+    image: openzipkin/zipkin
+    container_name: zipkin
+    ports:
+      - "9411:9411"
 
   mysql:
     image: mysql:latest
@@ -15,77 +20,106 @@ services:
     volumes:
       - ./database_export.sql:/docker-entrypoint-initdb.d/database_export.sql
 
-
-  #
-#  postgres-inventory:
-#    container_name: postgres-inventory
-#    image: postgres
-#    environment:
-#      POSTGRES_DB: inventory-service
-#      POSTGRES_USER: ptechie
-#      POSTGRES_PASSWORD: password
-#      PGDATA: /data/postgres
-#    volumes:
-#      - ./postgres-inventory:/data/postgres
-#    ports:
-#      - "5432:5432"
-#    restart: unless-stopped
-
-  ## Mongo Docker Compose Config
-#  mongo:
-#    container_name: mongo
-#    image: mongo:4.4.14-rc0-focal
-#    restart: unless-stopped
-#    ports:
-#      - "27017:27017"
-#    expose:
-#      - "27017"
-#    volumes:
-#      - ./mongo-data:/data/db
-
-
-  ## Zipkin
-  zipkin:
-    image: openzipkin/zipkin
-    container_name: zipkin
+  postgres:
+    image: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    container_name: postgres
     ports:
-      - "9411:9411"
+      - "3408:3406"
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
 
-  ## Eureka Server
-  discovery-server:
-    image: discovery-server:latest
-    container_name: discovery-server
+
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    depends_on:
+      - postgres
+    ports:
+      - "8080:8080"
+    expose:
+      - "8080"
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      DB_VENDOR: POSTGRES
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: password
+
+  eureka-server:
+    image: stitts5401/eureka-server:latest
+    pull_policy: always
+    container_name: eureka-server
     ports:
       - "8761:8761"
+    expose:
+      - "8761"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
       - zipkin
+
   api-gateway:
-    image: api-gateway:latest
+    image: stitts5401/api-gateway:latest
+    pull_policy: always
     container_name: api-gateway
     ports:
-      - "8181:8080"
+      - "8282:8080"
     expose:
-      - "8181"
+      - "8282"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
       - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY= TRACE
-      - KEYSTORE_PASSWORD=password
-      - KEY_PASSWORD=password
       - spring_r2dbc_password=Password@123
       - spring_r2dbc_username=ADMIN
     depends_on:
       - zipkin
-      - discovery-server
-  ## Product-Service Docker Compose Config
-  web-service:
-    image: web-service:latest
-    container_name: web-service
+      - eureka-server
+
+  client-service:
+    restart: unless-stopped
+    image: stitts5401/client-service:latest
+    pull_policy: always
+    container_name: client-service
     ports:
-      - "8414:8090"
+      - "8090:8080"
+    expose:
+      - "8090"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     depends_on:
-      - discovery-server
+      - zipkin
+      - eureka-server
+      - keycloak
       - api-gateway
+
+  user-service:
+    image: stitts5401/user-service:latest
+    pull_policy: always
+    container_name: user-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+  job-service:
+    image: stitts5401/job-service:latest
+    pull_policy: always
+    container_name: job-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    depends_on:
+      - zipkin
+      - eureka-server
+      - api-gateway
+
+volumes:
+  postgres_data:
+    driver: local

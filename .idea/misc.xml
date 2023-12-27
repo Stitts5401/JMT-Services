@@ -7,6 +7,10 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/resource-server/pom.xml" />
         <option value="$PROJECT_DIR$/security/pom.xml" />
+        <option value="$PROJECT_DIR$/api-gateway/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/jmt-common/pom.xml" />
+        <option value="$PROJECT_DIR$/jobs-service/pom.xml" />
+        <option value="$PROJECT_DIR$/job-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

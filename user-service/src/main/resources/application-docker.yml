@@ -1,0 +1,49 @@
+host:
+  gateway: http://api-gateway:8282
+server:
+  port: 8070
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            gateway: TRACE
+        security: DEBUG
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+keycloak:
+  password-change:
+    url: http://keycloak:8080/auth/realms/jmtdev_realms/account/credentials/password
+spring:
+  application:
+    name: user-service
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: r2dbc:mysql://mysql:3306/jmt
+    password: ADMIN1234
+    username: admin
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:password@eureka-server:8761/eureka
+    registerWithEureka: true
+    fetchRegistry: true
+    webclient:
+      enabled: true
+    healthcheck:
+      enabled: true
+
+management:
+    health:
+      circuit-breakers:
+        enabled: true
+zipkin:
+  base-url: http://zipkin:9411/

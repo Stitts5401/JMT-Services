@@ -1,0 +1,42 @@
+host:
+  gateway: http://api-gateway:8282/api/v1
+server:
+  port: 0
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+        cloud:
+          gateway:
+            route:
+              RouteDefinitionRouteLocator: INFO
+            gateway: TRACE
+        security: DEBUG
+    root: INFO
+    org.springframework.web: INFO
+    org.springframework.security: DEBUG
+spring:
+  application:
+    name: job-service
+  output:
+    ansi:
+      enabled: always
+  r2dbc:
+    url: r2dbc:mysql://35.196.14.239:3306/jmt
+    password: jF}[,IsU{kqEG,}s
+    username: root
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://eureka:password@eureka-server:8761/eureka/
+    registerWithEureka: true
+    fetchRegistry: true
+    webclient:
+      enabled: true
+    healthcheck:
+      enabled: true
+
+zipkin:
+  base-url: http://zipkin:9411/

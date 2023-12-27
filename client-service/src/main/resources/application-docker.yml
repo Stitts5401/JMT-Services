@@ -1,0 +1,70 @@
+host:
+  gateway: http://api-gateway:8282/api/v1
+server:
+  port: 8090
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springframework.security: DEBUG
+
+keycloak:
+  client:
+    id: jmt_client
+    secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
+  logout:
+    url: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/logout
+spring:
+  application:
+    name: client-service
+  output:
+    ansi:
+      enabled: always
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  sleuth:
+    integration:
+      enabled: true
+    sampler:
+      probability: 1
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: jmt_client
+            client-secret: 4EpTbwg7S5dTfgtICsQGevVYhUMdzC7Z
+            client-name: keycloak
+            authorization-grant-type: authorization_code
+            redirect-uri: http://client-service:8090/login/oauth2/code/keycloak
+            scope:
+              - openid
+              - profile
+              - email
+          github:
+            client-id: 30daa2055b90920902fd
+            client-secret: dd917ed10d5841e1ec9b08213bb95f8a386d9510
+            client-name: github
+            redirect-uri: http://client-service:8090/login/oauth2/code/github
+            scope:
+              - openid
+              - profile
+              - email
+        provider:
+          keycloak:
+            issuer-uri: http://keycloak:8080/auth/realms/jmt_realm
+            authorization-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/auth
+            token-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/token
+            user-info-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/userinfo
+            jwk-set-uri: http://keycloak:8080/auth/realms/jmt_realm/protocol/openid-connect/certs
+
+
+zipkin:
+  base-url: http://zipkin:9411/
+
