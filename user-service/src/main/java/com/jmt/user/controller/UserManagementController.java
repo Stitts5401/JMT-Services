@@ -1,8 +1,8 @@
 package com.jmt.user.controller;
 
 
-import com.jmt.user.model.PasswordChangeRequest;
-import com.jmt.user.model.UserInfo;
+import com.jmt.model.PasswordChangeRequest;
+import com.jmt.model.UserInfo;
 import com.jmt.user.service.imp.CustomerAccountManagementService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.server.reactive.ServerHttpRequest;
@@ -11,7 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;

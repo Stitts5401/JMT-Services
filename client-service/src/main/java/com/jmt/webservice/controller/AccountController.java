@@ -1,7 +1,7 @@
 package com.jmt.webservice.controller;
 
 import com.jmt.webservice.literal.NationalityData;
-import com.jmt.webservice.model.UserInfo;
+import com.jmt.model.UserInfo;
 import com.jmt.webservice.service.AccountService;
 import com.jmt.webservice.service.GoogleCloudStorageService;
 import com.jmt.webservice.service.UserInfoService;
@@ -28,7 +28,7 @@ public class AccountController {
 
     private final UserInfoService userInfoService;
     private final AccountService accountService;
-    private final GoogleCloudStorageService googleCloudStorageService;
+
     @GetMapping("/info")
     public Mono<String> getUserAccountInfo(Model model, @AuthenticationPrincipal Mono<OAuth2AuthenticationToken> oauthTokenMono) {
         return oauthTokenMono
@@ -108,10 +108,7 @@ public class AccountController {
         return userInfoService.retrieveUserInfo(oauthToken)
                 .log()
                 .flatMap(dbInfo -> {
-
                     Errors errors = new BeanPropertyBindingResult(userInfo, "userInfo");
-                    userInfo.validate(userInfo, errors);
-
                     if (errors.hasErrors()) {
                         model.addAttribute("hasError", true);
                         model.addAttribute("errorMsg", errors.getAllErrors().get(0).getDefaultMessage());
@@ -140,7 +137,6 @@ public class AccountController {
 
                     model.addAttribute("successMessage", "Account updated successfully!");
                     return Mono.when(emailUpdateMono, phoneUpdateMono, addressUpdateMono, firstNameUpdateMono, lastNameUpdateMono);
-
                 });
     }
 

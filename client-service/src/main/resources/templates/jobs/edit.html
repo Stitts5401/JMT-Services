@@ -142,115 +142,263 @@
                     <!-- Outer tabs contents START -->
                     <div class="tab-content mb-0" id="tour-pills-tabContent">
 
-                        <!-- Overview START -->
+                        <!-- Project Overview START -->
                         <div class="tab-pane fade show active" id="tour-pills-tab1" role="tabpanel"
                              aria-labelledby="tour-pills-tab-1">
                             <div class="card bg-transparent p-0">
-                                <!-- Card header -->
+                                <!-- Card Header -->
                                 <div class="card-header bg-transparent border-bottom p-0 pb-3">
-                                    <h3 class="mb-0">Overview</h3>
+                                    <h3 class="mb-0">Project Overview</h3>
                                 </div>
-
-                                <!-- Card body START -->
+                                <!-- Card Body START -->
                                 <div class="card-body p-0 pt-3">
-                                    <p class="mb-4">Bali, also known as the land of gods has plenty to offer to
-                                        travelers from across the globe. As it so contrasted oh estimating instrument.
-                                        Size like body some one had. Are conduct viewing boy minutes warrant the
-                                        expense? Tolerably behavior may admit daughters offending her ask own. Praise
-                                        effect wishes change way and any wanted. Lively use looked latter regard had. Do
-                                        he it part more last in. We understand that theory is important to build a solid
-                                        foundation, we understand that theory alone isn’t going to get the job done so
-                                        that’s why this is packed with practical hands-on examples that you can follow
-                                        step by step.</p>
+                                    <div class="card card-body border bg-transparent m-2 px-3 py-1">
+                                        <span class="h6 my-2 me-1 card-title">Project Info</span>
+                                        <p class="mb-4" th:text="${job.getProjectInfo().description}"></p>
+                                    </div>
+                                    <!-- Project Info -->
+                                    <div class="list-group list-group-borderless mb-4">
+                                        <!-- Location and Accessibility Details Flex Container -->
+                                        <div class="d-flex flex-column flex-lg-row justify-content-start">
+                                            <!-- Location Details -->
+                                            <div class="mb-3 mb-lg-0">
+                                                <div class="card card-body border bg-transparent m-2 px-3 py-1">
+                                                    <span class="h6 my-2 me-1 card-title">Location</span>
+                                                    <div>
+                                                        <span class="h6 fw-light mb-0 text-primary-emphasis">Street:</span>
+                                                        <i class="h6 fw-light mb-0"
+                                                           th:text="${job.getProjectInfo().getLocationDetails().street}"></i>
+                                                        <br>
+                                                        <span class="h6 fw-light mb-0 text-primary-emphasis">City:</span>
+                                                        <i class="h6 fw-light mb-0"
+                                                           th:text="${job.getProjectInfo().getLocationDetails().city}"></i>
+                                                        <br>
+                                                        <span class="h6 fw-light mb-0 text-primary-emphasis">State:</span>
+                                                        <i class="h6 fw-light mb-0"
+                                                           th:text="${job.getProjectInfo().getLocationDetails().state}"></i>
+                                                        <br>
+                                                        <span class="h6 fw-light mb-0 text-primary-emphasis">Zipcode:</span>
+                                                        <i class="h6 fw-light mb-0"
+                                                           th:text="${job.getProjectInfo().getLocationDetails().zipcode}"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- Accessibility Details -->
+                                            <div>
+                                                <div class="card card-body border bg-transparent m-2 px-3 py-1">
+                                                    <span class="h6 my-2 me-1 card-title">Accessibility</span>
+                                                    <i class="h6 fw-light mb-0"
+                                                       th:text="${job.getProjectInfo().locationDetails.accessibility}"></i>
+                                                </div>
+                                            </div>
+                                            <!-- Project Timeline -->
+                                            <div>
+                                                <div class="card card-body border bg-transparent m-2 px-3 py-1">
+                                                    <span class="h6 my-2 me-1 card-title">Start Date</span>
+                                                    <div class="">
+                                                        <i class="h6 fw-light mb-0"
+                                                           th:text="${job.getProjectInfo().projectTimeline.startDate}"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="card card-body border bg-transparent m-2 px-3 py-1">
+                                                    <span class="h6 my-2 me-1 card-title">End Date</span>
+                                                    <div class="">
+                                                        <i class="h6 fw-light mb-0"
+                                                           th:text="${job.getProjectInfo().projectTimeline.endDate}"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                    <!-- List -->
-                                    <h5>Tour Info</h5>
-                                    <ul class="list-group list-group-borderless mb-4">
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">Place Covered:</span>
-                                            <span class="h6 fw-light mb-0">Bali - Ubud</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">Duration:</span>
-                                            <span class="h6 fw-light mb-0">5 Days, 4 Nights</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">Start Point:</span>
-                                            <span class="h6 fw-light mb-0">Ngurah International Airport</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">End Point:</span>
-                                            <span class="h6 fw-light mb-0">Ngurah International Airport</span>
-                                        </li>
-                                    </ul>
-
-                                    <!-- List -->
-                                    <h5>Tour Highlights</h5>
-                                    <ul class="list-group list-group-borderless mb-4">
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Experience a delightful tropical
-                                            getaway with a luxurious stay and witness the picture-perfect beaches,
-                                            charming waterfalls and so much more
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Dependent on so extremely delivered
-                                            by. Yet ﻿no jokes worse her why. Bed one supposing breakfast day fulfilled
-                                            off depending questions.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Whatever boy her exertion his
-                                            extended. Ecstatic followed handsome drawings entirely Mrs one yet outweigh.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Meant balls it if up doubt small
-                                            purse. Required his you put the outlived answered position. A pleasure
-                                            exertion if believed provided to.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>All led out world this music while
-                                            asked. Paid mind even sons does he door no. Attended overcame repeated it is
-                                            perceived Marianne in.
-                                        </li>
-                                    </ul>
-
-                                    <!-- List -->
-                                    <h5>More About The Beautiful Bali with Malaysia Tour</h5>
-                                    <ul class="list-group list-group-borderless mb-0">
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Guidelines issued
-                                            by the State-Government are to be followed. Social distancing to be
-                                            maintained. Frequent hand sanitization and use of mask recommended.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>No purse as fully
-                                            me or point. Kindness owns whatever betrayed her moreover procured replying
-                                            for and.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>International /
-                                            Domestic flights are not included in the package.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Started several
-                                            mistakes joy say painful removed reached end. State burst think end are its.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Yet remarkably
-                                            appearance gets him his projection. Diverted endeavor bed peculiar men the
-                                            not desirous.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Acuteness
-                                            abilities ask can offending furnished fulfilled sex. The difference in the
-                                            cost shall be borne by the client in case of any amendment in the package
-                                            due to an increase in the number of guests
-                                        </li>
-                                    </ul>
+                                        <!-- Work Breakdown -->
+                                        <span class="h6 my-2 me-1">Work Breakdown:</span>
+                                        <div style="padding-left: 50px;" class="list-group-item"
+                                             th:each="work : ${job.getProjectInfo().workBreakdown}">
+                                            <div class="card-hover-shadow card-grid card-grid-sm card-grid row-cols-auto">
+                                                <div class="card card-body border bg-transparent"
+                                                     style="padding: 1em; display: inline-block;">
+                                                    <span class="h6 mb-0 me-1 text-primary-emphasis"
+                                                          th:text="${work.taskDescription}"></span><br>
+                                                    <div style="padding-left: 1em">
+                                                        <i class="fa-regular text-primary fa-clock me-n2 me-1"></i>
+                                                        <i class="h6 fw-light mx-sm-2"
+                                                           th:text="${work.duration} + ' Hrs'"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Materials and Equipment -->
+                                        <span class="h6 my-2 me-1">Material Equipment:</span>
+                                        <div style="padding-left: 50px;" class="list-group-item"
+                                             th:each="material : ${job.getProjectInfo().getMaterialsEquipment()}">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <span class="h6 mb-0 me-1 text-primary-emphasis"
+                                                      th:text="${material.materialName}"></span>
+                                                <i class="fa-solid text-primary fa-xmark fa-sm me-2"></i>
+                                                <span class="h6 fw-light mb-0" th:text="${material.quantity} "></span>
+                                                <span class="h6 fw-light mb-0" th:text="${material.units}"></span>
+                                                <div style="padding-left: 1em">
+                                                    <i class="h6 fw-light mb-0">Needed Equipment: </i>
+                                                    <span class="h6 fw-light mb-0"
+                                                          th:text="${material.equipmentNeeded}"></span><br>
+                                                    <i class="h6 fw-light mb-0">Provider: </i>
+                                                    <span class="h6 fw-light mb-0"
+                                                          th:text="${material.provider}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Labor Requirements -->
+                                        <span class="h6 my-2 me-1">Labor Requirements:</span>
+                                        <div style="padding-left: 50px;" class="list-group-item"
+                                             th:each="labor : ${job.getProjectInfo().getLaborRequirements()}">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                            <span class="h6 mb-0 me-1 text-primary-emphasis"
+                                                  th:text="${labor.laborType}"></span>
+                                                <span class="h6 fw-light mb-0"
+                                                      th:text="'Estimated Man Hours: ' + ${labor.manHoursEstimated}"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Compliance Regulations -->
+                                        <span class="h6 my-2 me-1">Compliance Regulations</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <span class="h6 fw-light mb-0 me-1 d-block mt-2">Building Codes:</span><i
+                                                    class="fa-solid text-primary fa-arrow-right me-2"></i>
+                                                <span class="h7 fw-light mb-0 me-2"
+                                                      th:text="${job.getProjectInfo().complianceRegulations.buildingCodes}"></span>
+                                                <span class="h6 fw-light mb-0 me-1 d-block mt-2">Safety Standards:</span><i
+                                                    class="fa-solid text-primary fa-arrow-right me-2"></i>
+                                                <span class="h7 fw-light mb-4 me-2"
+                                                      th:text="${job.getProjectInfo().complianceRegulations.safetyStandards}"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Site Conditions -->
+                                        <span class="h6 my-2 me-1">Survey Results:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="bi bi-text-paragraph text-primary me-2"></i>
+                                                <span class="h7 fw-light mb-0"
+                                                      th:text="${job.getProjectInfo().siteConditions.surveyResults}"></span>
+                                                <br>
+                                                <span class="h6 fw-light mb-0">Challenges:</span>
+                                                <div style="padding-left: 1em;">
+                                                    <i class="fa-solid text-primary fa-exclamation me-2"></i>
+                                                    <span class="h7 fw-light mb-0"
+                                                          th:text="${job.getProjectInfo().siteConditions.challenges}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Quality Requirements -->
+                                        <span class="h6 my-2 me-1">Quality Requirements:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="fa-solid text-primary fa-file-shield"></i>
+                                                <span class="h7 fw-light mb-0 ms-2"
+                                                      th:text="${job.getProjectInfo().qualityRequirements.standards}"></span><br><br>
+                                                <span class="h6 fw-light mb-0">Inspection Procedures:</span><br>
+                                                <div style="padding-left: 1em;">
+                                                    <i class="fa-solid text-primary fa-magnifying-glass"></i>
+                                                    <span class="h7 fw-light mb-0 ms-2"
+                                                          th:text="${job.getProjectInfo().qualityRequirements.inspectionProcedures}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Budget Constraints -->
+                                        <span class="h6 my-2 me-1">Budget:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="h8 fw-light mb-0 ms-2">Limit <i
+                                                        class="fa-solid text-primary fa-arrow-right mx-1"></i></i>
+                                                <i class="fa-solid text-primary fa-dollar-sign"></i>
+                                                <span class="h7 fw-light mb-0"
+                                                      th:text="${job.getProjectInfo().budgetConstraints.budgetLimit}"></span>
+                                            </div>
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="h8 fw-light mb-0 ms-2">Cost Target <i
+                                                        class="fa-solid text-primary fa-arrow-right mx-1"></i></i>
+                                                <i class="fa-solid text-primary fa-dollar-sign"></i>
+                                                <span class="h7 fw-light mb-0"
+                                                      th:text="${job.getProjectInfo().budgetConstraints.costTargets}"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Risk Factors -->
+                                        <span class="h6 my-2 me-1">Risk Description:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="fa-solid text-primary fa-exclamation"></i>
+                                                <span class="h7 fw-light mb-0 ms-2"
+                                                      th:text="${job.getProjectInfo().riskFactors.riskDescription}"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Change Order Process -->
+                                        <span class="h6 my-2 me-1">Change process:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="fa-solid text-primary fa-pen-to-square"></i>
+                                                <span class="h7 fw-light mb-0 ms-2"
+                                                      th:text="${job.getProjectInfo().changeOrderProcess.changeProcedures}"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Payment Terms -->
+                                        <span class="h6 my-2 me-1">Payment Schedule:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <!-- Adjust 'me-3' to manage the space between the two elements -->
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="fa-solid text-primary fa-wallet mb-3"></i>
+                                                <span class="h7 fw-light"
+                                                      th:text="${job.getProjectInfo().paymentTerms.paymentSchedule}"></span><br>
+                                                <span class="h6 fw-light mb-0">Conditions:</span><br>
+                                                <div style="padding-left: 1em;">
+                                                    <i class="fa-solid text-primary fa-arrow-right me-2"></i>
+                                                    <span class="h7 fw-light"
+                                                          th:text="${job.getProjectInfo().paymentTerms.conditions}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Bonding Insurance -->
+                                        <span class="h6 my-2 me-1">Insurance:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                    <span class="h6 fw-light mb-0"
+                                                          th:text="${job.getProjectInfo().bondingInsurance.bondingRequirements}"></span>
+                                                <div style="padding-left: 1em;">
+                                                    <i class="fa-solid text-primary fa-arrow-right me-2"></i>
+                                                    <span class="h7 fw-light mb-0 me-4"
+                                                          th:text="${job.getProjectInfo().bondingInsurance.insuranceRequirements}"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Warranty Information -->
+                                        <span class="h6 my-2 me-1">Warranty Information:</span>
+                                        <div class="list-group-item" style="padding-left: 50px;">
+                                            <div class="card card-body border bg-transparent"
+                                                 style="padding: 1em; display: inline-block;">
+                                                <i class="fa fa-circle-exclamation text-primary mb-2 me-2"></i>
+                                                <span class="h6 fw-light mb-0"
+                                                      th:text="${job.getProjectInfo().warrantyInformation.warrantyDetails} ?: 'N/A'"></span>
+                                            </div>
+                                        </div>
+                                        <!-- Add additional list items for Confirmation Policies, Cancellation Policies, and Refund Policies -->
+                                    </div>
                                 </div>
-                                <!-- Card body END -->
+                                <!-- Card Body END -->
                             </div>
                         </div>
-                        <!-- Overview END -->
+                        <!-- Project Overview END -->
+
 
                         <!-- Activity START -->
                         <div class="tab-pane fade" id="tour-pills-tab2" role="tabpanel"
@@ -664,7 +812,8 @@
                                     <!-- Confirmation Policy -->
                                     <h5>Confirmation Policy:</h5>
                                     <div th:each="confirmationPolicy : ${job.getConfirmationPolicyInfos()}">
-                                        <p class="mb-2" th:text="${confirmationPolicy.getDetails()}" >Default confirmation policy details.</p>
+                                        <p class="mb-2" th:text="${confirmationPolicy.getDetails()}">Default
+                                            confirmation policy details.</p>
                                         <p>
 
                                         </p>
@@ -673,8 +822,11 @@
                                     <!-- Cancellation Policy -->
                                     <h5 class="mt-4">Cancellation Policy:</h5>
                                     <ul class="list-group list-group-borderless">
-                                        <li class="list-group-item" th:each="cancellationPolicy : ${job.getCancellationPolicyInfos()}">
-                                            <span class="h6 fw-normal me-1 mb-0" th:text="${cancellationPolicy.getDays()}"><i class="bi bi-dot"></i></span>
+                                        <li class="list-group-item"
+                                            th:each="cancellationPolicy : ${job.getCancellationPolicyInfos()}">
+                                            <span class="h6 fw-normal me-1 mb-0"
+                                                  th:text="${cancellationPolicy.getDays()}"><i
+                                                    class="bi bi-dot"></i></span>
                                             <span th:text="${cancellationPolicy.getDetails()}"></span>
                                         </li>
                                     </ul>
@@ -686,7 +838,8 @@
                                     <!-- Refund Policy -->
                                     <h5 class="mt-4">Refund Policy:</h5>
                                     <div th:each="refundPolicy : ${job.getRefundPolicyInfos()}">
-                                        <p class="mb-2" th:text="${refundPolicy.getDetails()}">Default refund policy details.</p>
+                                        <p class="mb-2" th:text="${refundPolicy.getDetails()}">Default refund policy
+                                            details.</p>
                                     </div>
                                 </div>
                                 <!-- Card body END -->

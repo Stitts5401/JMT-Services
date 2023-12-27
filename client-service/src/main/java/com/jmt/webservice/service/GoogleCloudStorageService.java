@@ -1,7 +1,7 @@
 package com.jmt.webservice.service;
 
 import com.google.cloud.storage.*;
-import com.jmt.webservice.model.JobInfo;
+import com.jmt.model.JobInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;

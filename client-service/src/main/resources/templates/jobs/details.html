@@ -160,109 +160,56 @@
                             <div class="card bg-transparent p-0">
                                 <!-- Card header -->
                                 <div class="card-header bg-transparent border-bottom p-0 pb-3">
-                                    <h3 class="mb-0">Overview</h3>
+                                    <h3 class="mb-0">Project Overview</h3>
                                 </div>
 
                                 <!-- Card body START -->
                                 <div class="card-body p-0 pt-3">
-                                    <p class="mb-4">Bali, also known as the land of gods has plenty to offer to
-                                        travelers from across the globe. As it so contrasted oh estimating instrument.
-                                        Size like body some one had. Are conduct viewing boy minutes warrant the
-                                        expense? Tolerably behavior may admit daughters offending her ask own. Praise
-                                        effect wishes change way and any wanted. Lively use looked latter regard had. Do
-                                        he it part more last in. We understand that theory is important to build a solid
-                                        foundation, we understand that theory alone isn’t going to get the job done so
-                                        that’s why this is packed with practical hands-on examples that you can follow
-                                        step by step.</p>
+                                    <p class="mb-4" th:text="${job.getProjectInfo().getDescription()}">Project description goes here...</p>
 
                                     <!-- List -->
-                                    <h5>Tour Info</h5>
+                                    <h5>Project Info</h5>
                                     <ul class="list-group list-group-borderless mb-4">
+                                        <!-- Location Details -->
                                         <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">Place Covered:</span>
-                                            <span class="h6 fw-light mb-0">Bali - Ubud</span>
+                                            <span class="h6 mb-0 me-1">Location:</span>
+                                            <span class="h6 fw-light mb-0" th:text="${job.getProjectInfo().getLocationDetails().getAddress()}">123 Main St, Pittsburgh, PA</span>
                                         </li>
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">Duration:</span>
-                                            <span class="h6 fw-light mb-0">5 Days, 4 Nights</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">Start Point:</span>
-                                            <span class="h6 fw-light mb-0">Ngurah International Airport</span>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <span class="h6 mb-0 me-1">End Point:</span>
-                                            <span class="h6 fw-light mb-0">Ngurah International Airport</span>
-                                        </li>
-                                    </ul>
 
-                                    <!-- List -->
-                                    <h5>Tour Highlights</h5>
-                                    <ul class="list-group list-group-borderless mb-4">
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Experience a delightful tropical
-                                            getaway with a luxurious stay and witness the picture-perfect beaches,
-                                            charming waterfalls and so much more
+                                        <!-- Project Timeline -->
+                                        <li class="list-group-item">
+                                            <span class="h6 mb-0 me-1">Timeline:</span>
+                                            <span class="h6 fw-light mb-0" th:text="${job.getProjectInfo().getProjectTimeline().getStartDate() + ' - ' + job.getProjectInfo().getProjectTimeline().getEndDate()}">2023-05-31 - 2023-11-30</span>
                                         </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Dependent on so extremely delivered
-                                            by. Yet ﻿no jokes worse her why. Bed one supposing breakfast day fulfilled
-                                            off depending questions.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Whatever boy her exertion his
-                                            extended. Ecstatic followed handsome drawings entirely Mrs one yet outweigh.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>Meant balls it if up doubt small
-                                            purse. Required his you put the outlived answered position. A pleasure
-                                            exertion if believed provided to.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="bi bi-arrow-right me-2"></i>All led out world this music while
-                                            asked. Paid mind even sons does he door no. Attended overcame repeated it is
-                                            perceived Marianne in.
-                                        </li>
-                                    </ul>
 
-                                    <!-- List -->
-                                    <h5>More About The Beautiful Bali with Malaysia Tour</h5>
-                                    <ul class="list-group list-group-borderless mb-0">
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Guidelines issued
-                                            by the State-Government are to be followed. Social distancing to be
-                                            maintained. Frequent hand sanitization and use of mask recommended.
+                                        <!-- Task Breakdown -->
+                                        <li class="list-group-item" th:each="task : ${job.getProjectInfo().getWorkBreakdown()}">
+                                            <span class="h6 mb-0 me-1" th:text="${task.getTaskDescription()}">Task Description</span>
+                                            <span class="h6 fw-light mb-0" th:text="${'Duration: ' + task.getDuration()}">Duration: 48h</span>
                                         </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>No purse as fully
-                                            me or point. Kindness owns whatever betrayed her moreover procured replying
-                                            for and.
+
+                                        <!-- Materials and Equipment -->
+                                        <li class="list-group-item" th:each="material : ${job.getProjectInfo().getMaterialsEquipment()}">
+                                            <span class="h6 mb-0 me-1" th:text="${material.getMaterialName() + ' - Quantity: ' + material.getQuantity()}">Concrete - Quantity: 500</span>
+                                            <span class="h6 fw-light mb-0" th:text="${'Provider: ' + material.getProvider()}">Provider: ABC Constructions</span>
                                         </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>International /
-                                            Domestic flights are not included in the package.
+
+                                        <!-- Compliance Regulations -->
+                                        <li class="list-group-item">
+                                            <span class="h6 mb-0 me-1">Building Codes:</span>
+                                            <span class="h6 fw-light mb-0" th:text="${job.getProjectInfo().getComplianceRegulations().getBuildingCodes()}">IBC 2018</span>
                                         </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Started several
-                                            mistakes joy say painful removed reached end. State burst think end are its.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Yet remarkably
-                                            appearance gets him his projection. Diverted endeavor bed peculiar men the
-                                            not desirous.
-                                        </li>
-                                        <li class="list-group-item h6 fw-light d-flex mb-0">
-                                            <i class="fa-solid fa-check-circle text-success me-2"></i>Acuteness
-                                            abilities ask can offending furnished fulfilled sex. The difference in the
-                                            cost shall be borne by the client in case of any amendment in the package
-                                            due to an increase in the number of guests
-                                        </li>
+
+                                        <!-- More details (assumed to be similar for other DTOs) -->
+                                        <!-- Add more list items for each property of the DTOs as needed -->
+
                                     </ul>
                                 </div>
                                 <!-- Card body END -->
                             </div>
                         </div>
                         <!-- Overview END -->
+
 
                         <!-- Activity START -->
                         <div class="tab-pane fade" id="tour-pills-tab2" role="tabpanel"

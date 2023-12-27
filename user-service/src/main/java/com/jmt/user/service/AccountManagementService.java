@@ -1,10 +1,8 @@
 package com.jmt.user.service;
 
-import com.jmt.user.model.PasswordChangeRequest;
+import com.jmt.model.PasswordChangeRequest;
 
 import reactor.core.publisher.Mono;
-
-import java.nio.ByteBuffer;
 
 public interface AccountManagementService {
     Mono<Void> updatePassword(PasswordChangeRequest passwordChangeRequest);

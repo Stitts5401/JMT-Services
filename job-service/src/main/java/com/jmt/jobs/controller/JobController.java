@@ -1,7 +1,7 @@
 package com.jmt.jobs.controller;
 
-import com.jmt.jobs.entity.Job;
-import com.jmt.jobs.model.JobInfo;
+import com.jmt.entity.Job;
+import com.jmt.model.JobInfo;
 import com.jmt.jobs.service.JobService;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
@@ -28,7 +28,9 @@ public class JobController {
         return jobService.removeImageById((String) jsonObject.get("guid"));
     }
     @GetMapping("/user/{userId}")
-    public Flux<Job> getJobsByUserId(@PathVariable Integer userId) {return jobService.getJobsByUserId(userId);}
+    public Flux<Job> getJobsByUserId(@PathVariable Integer userId) {
+        return jobService.getJobsByUserId(userId).log( );
+    }
     @GetMapping("/details/{jobId}")
     public Mono<JobInfo> getJobsById(@PathVariable Integer jobId) {
         return jobService.getJobById(jobId);

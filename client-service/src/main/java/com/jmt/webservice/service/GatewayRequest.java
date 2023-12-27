@@ -1,6 +1,6 @@
 package com.jmt.webservice.service;
 
-import com.jmt.webservice.model.JobInfo;
+import com.jmt.model.JobInfo;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;

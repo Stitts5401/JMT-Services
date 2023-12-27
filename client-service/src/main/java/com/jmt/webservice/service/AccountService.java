@@ -1,15 +1,11 @@
 package com.jmt.webservice.service;
 
-import com.google.cloud.storage.BlobInfo;
-import com.jmt.webservice.model.JobInfo;
-import com.jmt.webservice.model.PasswordChangeRequest;
+import com.jmt.model.JobInfo;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
-
-import java.nio.ByteBuffer;
 
 @Service
 @RequiredArgsConstructor
@@ -17,9 +13,9 @@ public class AccountService {
 
     private final GatewayRequest gatewayRequest;
 
-    public Mono<Void> updatePassword(OAuth2AuthenticationToken oauthToken, PasswordChangeRequest passwordChangeRequest) {
-        return gatewayRequest.post(oauthToken, "/user/management/update/password", passwordChangeRequest).then();
-    }
+//    public Mono<Void> updatePassword(OAuth2AuthenticationToken oauthToken, PasswordChangeRequest passwordChangeRequest) {
+//        return gatewayRequest.post(oauthToken, "/user/management/update/password", passwordChangeRequest).then();
+//    }
     public Mono<Void> updateEmail(OAuth2AuthenticationToken oauthToken, String updateEmailRequest) {
         return gatewayRequest.post(oauthToken, "/user/management/update/email", updateEmailRequest).then();
     }

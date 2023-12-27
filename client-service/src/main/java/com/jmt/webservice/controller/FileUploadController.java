@@ -34,6 +34,7 @@ public class FileUploadController {
                 .map(fileUrl -> {
                     // Success: Add the file URL to the model and redirect to the user account info page
                     model.addAttribute("fileUrl", fileUrl);
+
                     return "redirect:/account/info";
                 })
                 .onErrorResume(e -> {

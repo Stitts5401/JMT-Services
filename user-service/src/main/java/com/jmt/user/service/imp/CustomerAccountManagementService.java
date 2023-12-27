@@ -1,9 +1,9 @@
 package com.jmt.user.service.imp;
 
-import com.jmt.user.entity.Job;
-import com.jmt.user.model.JobInfo;
-import com.jmt.user.model.PasswordChangeRequest;
-import com.jmt.user.model.UserInfo;
+import com.jmt.entity.Job;
+import com.jmt.model.JobInfo;
+import com.jmt.model.PasswordChangeRequest;
+import com.jmt.model.UserInfo;
 import com.jmt.user.repository.UserRepository;
 import com.jmt.user.service.AccountManagementService;
 
@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.nio.ByteBuffer;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -95,14 +94,14 @@ public class CustomerAccountManagementService implements AccountManagementServic
                 .flatMap(user -> getJobs(user.getId())
                         .collectList()
                         .map(jobs -> new UserInfo(user, jobs, authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList())))
-                ).log();
+                ).doOnNext(userInfo -> System.out.println( "UserInformationFromEmail: " + userInfo.toString()));
     }
-    private Flux<JobInfo> getJobs(Integer userId) {
+    private Flux<Job> getJobs(Integer userId) {
         return WebClient.create()
                 .get()
                 .uri(url+ "/jobs/user/" + userId)
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .bodyToFlux(JobInfo.class).log();
+                .bodyToFlux(Job.class).log();
     }
 }

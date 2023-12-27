@@ -53,12 +53,16 @@
             // Assuming userInfo is a Thymeleaf object
 
             var userInfo = [[${userInfo}]];
+            var job = [[${job}]];
 
             if (userInfo){
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 console.log(localStorage.getItem('userInfo'));
             }
-
+            if (job){
+                localStorage.setItem('job', JSON.stringify(job));
+                console.log(localStorage.getItem('job'));
+            }
             var storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
             if (storedUserInfo) {
                 // Update elements with the class 'userName'

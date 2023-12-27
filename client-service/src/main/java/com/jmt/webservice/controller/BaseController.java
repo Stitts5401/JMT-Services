@@ -1,7 +1,5 @@
 package com.jmt.webservice.controller;
 
-import com.jmt.webservice.literal.NationalityData;
-import com.jmt.webservice.service.GoogleCloudStorageService;
 import com.jmt.webservice.service.UserInfoService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +8,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import reactor.core.publisher.Mono;
 
@@ -80,8 +77,6 @@ public class BaseController {
         return Mono.just("pricing");
     }
 }
-
-
 
 
 

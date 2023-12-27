@@ -1,6 +1,6 @@
 package com.jmt.webservice.literal;
 
-import java.util.Arrays;
+
 import java.util.List;
 
 public class JobCategories {

@@ -1,12 +1,11 @@
 package com.jmt.webservice.service;
-import com.jmt.webservice.model.JobImageDto;
-import com.jmt.webservice.model.JobInfo;
-import com.jmt.webservice.model.JobInfoPage;
+
+import com.jmt.model.JobImageDto;
+import com.jmt.model.JobInfo;
+import com.jmt.model.JobInfoPage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatusCode;
